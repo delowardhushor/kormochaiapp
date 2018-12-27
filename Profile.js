@@ -120,26 +120,32 @@ export default class Profile extends Component<Props> {
                 data={this.state.profileData.education}
                 extraData={this.state.watchChange}
                 renderItem={({item, index}) => 
-                <View>
-                    <Text>{item.institutionName}</Text>
-                    <Text>{item.degreeName}</Text>
-                    <Text>{item.subject}</Text>
-                    <Text>{item.result}</Text>
-                    <Text>{item.startDate}</Text>
-                    <Text>{item.endDate}</Text>
-                    <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+                <View style={{paddingHorizontal:20}}>
+                    <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.institutionName}</Text>
+                    <Text style={{fontSize:10, color:'#000'}}>{item.degreeName}</Text>
+                    <Text style={{fontSize:10, color:'#000'}}>{item.subject}</Text>
+                    <Text style={{fontSize:10, color:'#4CAF50', fontWeight:'900'}}>Result: {item.result}</Text>
+                    <View style={{flexDirection:'row', justifyContent:'center', alignItems:'center'}}>
+                        <Text style={{fontSize:10, color:'#000', fontWeight:'900'}}>{item.startDate}</Text>
+                        <Text> - </Text>
+                        <Text style={{fontSize:10, color:'#000', fontWeight:'900'}}>{item.present === true || item.endDate === '' ? 'present' : item.endDate}</Text>
+                    </View>
+                    <View style={{flexDirection:'row', justifyContent:'space-around', alignItems:'center'}}>
                         <View style={{width:'30%'}}>
                             <Button text="edit" style={{fontSize:10}} icon="edit" />
                         </View>
                         <View style={{width:'30%'}}>
-                            <Button text="delete" style={{fontSize:10}} icon="cross" />
+                            <Button text="delete" style={{fontSize:10}} icon="delete" />
                         </View>
                     </View>
-                    
                 </View>
-            
             }
             />
+            {(this.state.profileData.education.length == 0) &&
+            <View style={{height:40, alignItems:'center'}}>
+                <Text style={{fontSize:10, textAlign:'center', color: '#000'}}>No Education History</Text>
+            </View>
+            }
             <TextInput 
                 placeholder='Address' 
                 underlineColorAndroid="#ddd"

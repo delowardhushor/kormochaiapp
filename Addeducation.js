@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity, TextInput,Switch, ScrollView} from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableOpacity, TextInput,Switch, ScrollView, CheckBox, ToastAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Lan from './lan.json';
 import DatePicker from 'react-native-datepicker'
@@ -35,6 +35,16 @@ export default class Addeducation extends Component<Props> {
     console.log("home");
   }
 
+  selectEndDate(date){
+    this.setState({endDate:date});
+    this.setState({present:false});
+  }
+
+  selectPresent(){
+    this.setState({endDate:''});
+    this.setState({present:!this.state.present});
+  }
+
 //   cngProfileData(field, value){
 //     var profileData = this.state;
 //     profileData[field] = value;
@@ -42,8 +52,18 @@ export default class Addeducation extends Component<Props> {
 //   }
 
     addEducation(){
-        this.props.addEducation(this.state);
-        this.props.modelCls();
+        if(this.state.degreeName && this.state.institutionName && this.state.subject && this.state.startDate){
+            this.props.addEducation(this.state);
+            this.props.modelCls();
+        }else{
+            ToastAndroid.showWithGravityAndOffset(
+                'Fill Empty!',
+                ToastAndroid.LONG,
+                ToastAndroid.BOTTOM,
+                25,
+                50,
+            );
+        }
     }
 
   render() {
@@ -154,18 +174,14 @@ export default class Addeducation extends Component<Props> {
                         format="DD-MM-YYYY"
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
-                        onDateChange={(date) => {this.setState({endDate: date})}}
+                        onDateChange={(date) => {this.selectEndDate(date)}}
                     />
                 </View>
             </View>
             }
-            <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center',  justifyContent:'space-between'}}>
+            <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center',  justifyContent:'flex-start'}}>
                 <Text>IN Present</Text>
-                <Switch 
-                    value={this.state.present}
-                    onValueChange={()=> this.setState({present:!this.state.present})}
-                    tintColor="green"
-                />
+                <CheckBox onValueChange={() => this.selectPresent()} value={this.state.present} />
             </View>
             <View style={{flexDirection:'row', marginTop:10,justifyContent:'flex-end'}}>
                 <Button raised primary text="Add" onPress={() => {this.addEducation()}} />
