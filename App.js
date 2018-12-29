@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableOpacity, Modal, AsyncStorage} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Lan from './lan.json';
 import BottomNavigation, { FullTab ,Badge,ShiftingTab} from 'react-native-material-bottom-navigation';
 
-import { Toolbar } from 'react-native-material-ui';
+import { Toolbar, Button } from 'react-native-material-ui';
+import {getKey, setKey, resetKey} from './lib/lib';
 
 import Home from './Home';
 import Profile from './Profile';
 import Myjobs from './Myjobs';
 import Settings from './Settings';
+import Login from './Login';
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -17,7 +19,14 @@ export default class App extends Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab : 'Home',
+      activeTab : 'Login',
+      appStore : {
+        usertype :'',
+        userdata:[],
+        settings:[],
+        lan:'eng',
+      },
+      modelVisible:false,
     };
     //this.focusNextField = this.focusNextField.bind(this);
     //this.inputs = {};
@@ -67,45 +76,63 @@ export default class App extends Component<Props> {
     />
   )
 
-  componentWillMount(){
-    console.log(Lan);
-    console.log("sdsdsd");
+  async componentWillMount(){
+    var appStore = await getKey('appStore');
+    if(appStore !== null){
+      this.setState({appStore:appStore});
+      if(appStore.usertype !== ''){
+        this.setState({modelVisible:false});
+      }
+    }
+    console.log(appStore)
   }
 
-  _onPressButton(){
-    alert("sdsdsd")
+  updateAppstore = (field, data) => {
+    var appStore = JSON.parse(JSON.stringify(this.state.appStore));
+    appStore[field] = data;
+    this.setState({appStore:appStore});
   }
+
+  setUserType(data){
+    this.setState({usertype:data});
+    this.setState({modelVisible:false});
+    var appStore = JSON.parse(JSON.stringify(this.state.appStore));
+    appStore.usertype = data;
+    this.setState({appStore:appStore});
+    setKey('appStore', appStore);
+    this.setState({ activeTab: 'Login' });
+  }
+
   render() {
-    console.log(Lan)
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
-          <Toolbar
-            style={{ container: {'backgroundColor':'#4CAF50'}}}
-            // leftElement="menu"
-            centerElement="KORMO CHAI"
-            // searchable={{
-            //   autoFocus: true,
-            //   placeholder: 'Search',
-            // }}
-            rightElement={{
-                menu: {
-                    icon: "more-vert",
-                    labels: ["item 1", "item 2"]
-                }
-            }}
-            onRightElementPress={ (label) => { console.log(label) }}
-          />
-          {(this.state.activeTab === 'Home') && <Home />}
-          {(this.state.activeTab === 'Myjobs') && <Myjobs />}
-          {(this.state.activeTab === 'Profile') && <Profile />}
-          {(this.state.activeTab === 'Settings') && <Settings />}
+          {(this.state.activeTab === 'Home') && <Home appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
+          {(this.state.activeTab === 'Myjobs') && <Myjobs appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
+          {(this.state.activeTab === 'Profile') && <Profile appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
+          {(this.state.activeTab === 'Settings') && <Settings appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
+          {(this.state.activeTab === 'Login') && <Login appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
         </View>
         <BottomNavigation
           onTabPress={newTab => this.setState({ activeTab: newTab.key })}
           renderTab={this.renderTab}
           tabs={this.tabs}
         />
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modelVisible}
+          onRequestClose={() => {
+            console.log('Model Closed');
+          }}>
+          <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+            <View style={{width:'90%'}}>
+              <Button raised primary text="I am Employee" onPress={() => this.setUserType('employee')} />
+              <View style={{height:80}}></View>
+              <Button raised primary text="I am Emplyer" onPress={() => this.setUserType('employer')} />
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }

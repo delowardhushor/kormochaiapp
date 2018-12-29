@@ -3,7 +3,10 @@ import {Platform, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Lan from './lan.json';
 
-import BottomNavigation, { FullTab,Badge,ShiftingTab } from 'react-native-material-bottom-navigation'
+import BottomNavigation, { FullTab,Badge,ShiftingTab } from 'react-native-material-bottom-navigation';
+import { Button, Toolbar } from 'react-native-material-ui';
+import { resetKey } from './lib/lib.js';
+
 
 type Props = {};
 export default class Settings extends Component<Props> {
@@ -18,7 +21,14 @@ export default class Settings extends Component<Props> {
     console.log(Lan)
     return (
       <View>
-        <Text>This is Settings</Text>
+        <Toolbar
+          style={{ container: {'backgroundColor':'#4CAF50'}}}
+          // leftElement="menu"
+          centerElement="Settings"
+        />
+        <View>
+          <Button text="LOGOUT" onPress={() => resetKey('appStore')} />
+        </View>
       </View>
     );
   }

@@ -14,11 +14,15 @@ export default class Myjobs extends Component<Props> {
     console.log("home");
   }
 
+  componentWillReceiveProps(){
+
+  }
+
   render() {
     console.log(Lan)
     return (
       <View>
-        <Text>This is Myjobs</Text>
+        <Text>This is Myjobs {this.props.appStore.userType}</Text>
       </View>
     );
   }

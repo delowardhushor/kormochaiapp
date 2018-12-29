@@ -56,13 +56,7 @@ export default class Addeducation extends Component<Props> {
             this.props.addEducation(this.state);
             this.props.modelCls();
         }else{
-            ToastAndroid.showWithGravityAndOffset(
-                'Fill Empty!',
-                ToastAndroid.LONG,
-                ToastAndroid.BOTTOM,
-                25,
-                50,
-            );
+            ToastAndroid.show('Fill Empty!', 3000);
         }
     }
 
