@@ -6,6 +6,7 @@ import BottomNavigation, { FullTab ,Badge,ShiftingTab} from 'react-native-materi
 
 import { Toolbar, Button } from 'react-native-material-ui';
 import {getKey, setKey, resetKey} from './lib/lib';
+import axios from 'axios';
 
 import Home from './Home';
 import Profile from './Profile';
@@ -14,19 +15,24 @@ import Settings from './Settings';
 import Login from './Login';
 
 type Props = {};
+
+
 export default class App extends Component<Props> {
 
   constructor(props) {
     super(props);
     this.state = {
-      activeTab : 'Login',
       appStore : {
+        activeTab : 'Home',
+        baseUrl : 'http://192.168.0.102:8089/kormochai/public/api/',
         usertype :'',
         userdata:[],
         settings:[],
         lan:'eng',
+        jobs:[],
+        JobDetails:[],
       },
-      modelVisible:false,
+      modelVisible:true,
     };
     //this.focusNextField = this.focusNextField.bind(this);
     //this.inputs = {};
@@ -77,44 +83,66 @@ export default class App extends Component<Props> {
   )
 
   async componentWillMount(){
+    //resetKey('appStore');
     var appStore = await getKey('appStore');
     if(appStore !== null){
       this.setState({appStore:appStore});
       if(appStore.usertype !== ''){
         this.setState({modelVisible:false});
+        console.log(appStore)
       }
     }
-    console.log(appStore)
   }
 
-  updateAppstore = (field, data) => {
+  componentDidMount(){
+    //this.getJobs();
+  }
+
+  getJobs(){
+    axios.get(this.state.baseUrl+"jobs", {
+        'phone':this.state.phone
+    })
+    .then((res) => {
+        this.updateAppstore('jobs', res.data);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+    console.log(this.state)
+  }
+
+  changeActiveTab(tab){
     var appStore = JSON.parse(JSON.stringify(this.state.appStore));
-    appStore[field] = data;
-    this.setState({appStore:appStore});
+    appStore.activeTab = tab;
+    this.updateAppstore(appStore);
+    console.log(appStore, tab)
+  }
+
+  updateAppstore = (data) => {
+    this.setState({appStore:data});
+    setKey('appStore', data);
   }
 
   setUserType(data){
-    this.setState({usertype:data});
-    this.setState({modelVisible:false});
     var appStore = JSON.parse(JSON.stringify(this.state.appStore));
     appStore.usertype = data;
-    this.setState({appStore:appStore});
-    setKey('appStore', appStore);
-    this.setState({ activeTab: 'Login' });
+    appStore.activeTab = 'Login';
+    this.setState({modelVisible:false});
+    this.updateAppstore(appStore);
   }
 
   render() {
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
-          {(this.state.activeTab === 'Home') && <Home appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
-          {(this.state.activeTab === 'Myjobs') && <Myjobs appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
-          {(this.state.activeTab === 'Profile') && <Profile appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
-          {(this.state.activeTab === 'Settings') && <Settings appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
-          {(this.state.activeTab === 'Login') && <Login appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
+          {(this.state.appStore.activeTab === 'Home') && <Home appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
+          {(this.state.appStore.activeTab === 'Myjobs') && <Myjobs appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
+          {(this.state.appStore.activeTab === 'Profile') && <Profile appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
+          {(this.state.appStore.activeTab === 'Settings') && <Settings appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
+          {(this.state.appStore.activeTab === 'Login') && <Login appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
         </View>
         <BottomNavigation
-          onTabPress={newTab => this.setState({ activeTab: newTab.key })}
+          onTabPress={newTab => this.changeActiveTab(newTab.key)}
           renderTab={this.renderTab}
           tabs={this.tabs}
         />
@@ -127,9 +155,9 @@ export default class App extends Component<Props> {
           }}>
           <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
             <View style={{width:'90%'}}>
-              <Button raised primary text="I am Employee" onPress={() => this.setUserType('employee')} />
-              <View style={{height:80}}></View>
-              <Button raised primary text="I am Emplyer" onPress={() => this.setUserType('employer')} />
+              <Button raised primary text="I am Employee" onPress={() => this.setUserType('employees')} />
+              <View style={{height:20}}></View>
+              <Button raised primary text="I am Emplyer" onPress={() => this.setUserType('employers')} />
             </View>
           </View>
         </Modal>

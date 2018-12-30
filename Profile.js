@@ -40,7 +40,11 @@ export default class Profile extends Component<Props> {
     }
 
   componentWillMount(){
-    console.log("home");
+    if(this.props.appStore.userdata.length  === 0 ){
+        appStore = this.props.appStore;
+        appStore.activeTab = 'Login';
+        this.props.updateAppstore(appStore);
+    }
   }
 
   cngProfileData = (field, value) => {

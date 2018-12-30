@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TouchableOpacity, TextInput, ToastAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Lan from './lan.json';
+import axios from 'axios';
 
 import { Button } from 'react-native-material-ui';
 
@@ -11,6 +12,7 @@ export default class Login extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
+          activeSubPage : 'Signin',
           usertype : '',
           phone : '',
           password : '',
@@ -34,27 +36,87 @@ export default class Login extends Component<Props> {
 
   }
 
-  login(){
-    if(!this.state.phone || !this.state.password || !this.state.conpassword){
-        ToastAndroid.show('Fill Empty!' , 3000);
-    }else if(this.state.password !== this.state.conpassword){
-        ToastAndroid.show("Confirm Password didn't matched!", 3000);
+  cngPage(){
+    if(this.state.activeSubPage === 'Signin'){
+        this.setState({activeSubPage:'Signup'});
     }else{
-        // axios.post("", {
-        //     'phone':this.state.phone
-        // })
-        // .then((res) => {
-        //     console.log(res);
-        // })
-        // .catch((err) => {
-        //     console.log(err);
-        // })
-        console.log(this.state)
+        this.setState({activeSubPage:'Signin'});
+    }  
+  }
+
+  skipLogin(){
+    appStore = this.props.appStore;
+    appStore.activeTab = 'Home';
+    this.props.updateAppstore(appStore);
+  }
+
+
+
+  validateForm(){
+    if(!this.state.phone || !this.state.password){
+        ToastAndroid.show("Fill Empty",3000);
+    }else if(this.state.activeSubPage === 'Signup' && this.state.password != this.state.conpassword){
+        ToastAndroid.show("Confirm Password Didn't Matched",3000);
+    }else if(this.state.activeSubPage === 'Signin'){
+        this.signin();
+    }else{
+        this.signup();
     }
   }
 
+  signin(){
+    axios.post(this.props.appStore.baseUrl+this.props.appStore.usertype+"/login", {
+        'phone':this.state.phone,
+        'password':this.state.password,
+    })
+    .then((res) => {
+        if(res.data.success === true){
+            console.log(res);
+            ToastAndroid.show('Welcome! Thanks for Signup', 3000);
+            var userdata = res.data.data;
+            userdata.password = this.state.password;
+            var appStore = this.props.appStore;
+            appStore.usertype = userdata;
+            appStore.activeTab = 'Home';
+            this.props.updateAppstore(appStore);
+        }else{
+            ToastAndroid.show(res.data.msg, 3000);
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+        ToastAndroid.show("No Nwtwork Connection", 3000);
+    })
+  }
+
+  signup(){
+
+    axios.post(this.props.appStore.baseUrl+this.props.appStore.usertype, {
+        'phone':this.state.phone,
+        'password':this.state.password,
+    })
+    .then((res) => {
+        if(res.data.success === true){
+            console.log(res);
+            ToastAndroid.show('Welcome! Thanks for Signup', 3000);
+            var userdata = res.data.data;
+            userdata.password = this.state.password;
+            var appStore = this.props.appStore;
+            appStore.usertype = userdata;
+            appStore.activeTab = 'Home';
+            this.props.updateAppstore(appStore);
+        }else{
+            ToastAndroid.show(res.data.msg, 3000);
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+        ToastAndroid.show("No Network Connection", 3000);
+    })
+  }
+
   render() {
-    console.log(Lan)
+
     return (
       <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
         <View style={{width:'60%'}}>
@@ -72,7 +134,7 @@ export default class Login extends Component<Props> {
                         onSubmitEditing={() => {
                             this.focusNextField('password');
                         }}
-                        onChangeText={(name) => this.setState({name})}
+                        onChangeText={(phone) => this.setState({phone:phone})}
                         returnKeyType='next'
                         selectTextOnFocus={true}
                         autoCapitalize="none"
@@ -105,6 +167,7 @@ export default class Login extends Component<Props> {
                     />
                 </View>
             </View>
+            {(this.state.activeSubPage == 'Signup') &&
             <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
                 <View style={{flex:1, justifyContent:'center'}}>
                     <Text><Icon name='lock' color='#4CAF50' size={22} /></Text>
@@ -129,7 +192,13 @@ export default class Login extends Component<Props> {
                     />
                 </View>
             </View>
-            <Button raised text="LOGIN" onPress={() => this.login()} />
+            }
+            <View style={{height:40}}></View>
+            <Button raised primary text={this.state.activeSubPage} onPress={() => this.validateForm()} />
+            <View style={{height:40}}></View>
+            <Button raised text={this.state.activeSubPage === 'Signin' ? 'Signup' : 'Signin'} onPress={() => this.cngPage()} />
+            <View style={{height:40}}></View>
+            <Button text="Skip" onPress={() => this.skipLogin()} />
         </View>
       </View>
     );
