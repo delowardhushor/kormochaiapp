@@ -13,17 +13,17 @@ export default class AddJobs extends Component<Props> {
         super(props);
         this.state = {
             companyName:'',
-            educaton:'',
+            education:'',
             interview:true,
             interviewDate:'',
             jobDate:'',
             location:'',
             responsibility:'',
             salary:'',
-            salaryType:'',
+            salaryType:'monthly',
             jobType:'',
             officeHour:'',
-            jobPeriod:'',
+            jobPeriod:'fulltime',
         };
         this.focusNextField = this.focusNextField.bind(this);
         this.inputs = {};
@@ -80,7 +80,7 @@ export default class AddJobs extends Component<Props> {
             onLeftElementPress={ () => { this.props.clsAddJobs() }}
           />
           <ScrollView style={{width:'90%', paddingTop:20}}>
-            <TextInput 
+            <TextInput
                 placeholder='Institution Name' 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
@@ -97,7 +97,7 @@ export default class AddJobs extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
-            <TextInput 
+            <TextInput
                 placeholder='Location' 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
@@ -114,14 +114,14 @@ export default class AddJobs extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
-            <View style={{flexDirection:'row', height:40, alignItems:'center'}}>
-                <Text style={{marginRight:15}}>Job Period</Text>
-                <CheckBox onValueChange={() => this.setState({jobPeriod:'fulltime'})} value={this.state.profileData.gender === 'fulltime' ? true : false} />
-                <Text style={{marginRight:15}}>Full Time</Text> 
-                <CheckBox onValueChange={() => this.setState({jobPeriod:'parttime'})} value={this.state.profileData.gender === 'parttime' ? true : false} /> 
-                <Text style={{marginRight:15}}>Part Time</Text> 
+            <View style={{flexDirection:'row', height:40, alignItems:'center', marginTop:10}}>
+                <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>Job Period</Text>
+                <CheckBox onValueChange={() => this.setState({jobPeriod:'fulltime'})} value={this.state.jobPeriod === 'fulltime' ? true : false} />
+                <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>Full Time</Text> 
+                <CheckBox onValueChange={() => this.setState({jobPeriod:'parttime'})} value={this.state.jobPeriod === 'parttime' ? true : false} /> 
+                <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>Part Time</Text> 
             </View>
-            <TextInput 
+            <TextInput
                 placeholder='Office Hour' 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
@@ -130,7 +130,7 @@ export default class AddJobs extends Component<Props> {
                 onSubmitEditing={() => {
                     this.focusNextField('salary');
                 }}
-                value={this.state.subject}
+                value={this.state.officeHour}
                 onChangeText={(officeHour) => this.setState({officeHour})}
                 returnKeyType='next'
                 selectTextOnFocus={true}
@@ -138,16 +138,16 @@ export default class AddJobs extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
-            <TextInput 
+            <TextInput
                 placeholder='Salary' 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
                     this.inputs['salary'] = input;
                 }}
                 onSubmitEditing={() => {
-                    this.focusNextField('educaton');
+                    this.focusNextField('education');
                 }}
-                value={this.state.subject}
+                value={this.state.salary}
                 onChangeText={(salary) => this.setState({salary})}
                 returnKeyType='next'
                 selectTextOnFocus={true}
@@ -155,23 +155,25 @@ export default class AddJobs extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
-            <View style={{flexDirection:'row', height:40, alignItems:'center'}}>
-                <Text style={{marginRight:15}}>Salary Period</Text>
-                <CheckBox onValueChange={() => this.setState({salaryType:'monthly'})} value={this.state.profileData.gender === 'monthly' ? true : false} />
-                <Text style={{marginRight:15}}>Monthly</Text> 
-                <CheckBox onValueChange={() => this.setState({salaryType:'weekly'})} value={this.state.profileData.gender === 'weekly' ? true : false} /> 
-                <Text style={{marginRight:15}}>Weekly</Text> 
-                <CheckBox onValueChange={() => this.setState({salaryType:'daily'})} value={this.state.profileData.gender === 'daily' ? true : false} /> 
-                <Text>Daily</Text>
+            <View style={{height:40, marginTop:10}}>
+                <Text style={styles.inputForm}>Salary Period</Text>
+                <View style={{flexDirection:'row', alignItems:'center', marginTop:10}}>
+                    <CheckBox onValueChange={() => this.setState({salaryType:'monthly'})} value={this.state.salaryType === 'monthly' ? true : false} />
+                    <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>Monthly</Text> 
+                    <CheckBox onValueChange={() => this.setState({salaryType:'weekly'})} value={this.state.salaryType === 'weekly' ? true : false} /> 
+                    <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>Weekly</Text> 
+                    <CheckBox onValueChange={() => this.setState({salaryType:'daily'})} value={this.state.salaryType === 'daily' ? true : false} /> 
+                    <Text>Daily</Text>
+                </View>
             </View>
-            <View style={{flexDirection:'row', height:40, alignItems:'center'}}>
-                <Text style={{marginRight:15}}>Interview needed</Text>
+            <View style={{flexDirection:'row', height:40, alignItems:'center', marginTop:30}}>
+                <Text style={[styles.inputForm, {marginRight:15, width:'auto'}]}>Interview needed</Text>
                 <CheckBox onValueChange={() => this.setState({interview:!this.state.interview})} value={this.state.interview} />
             </View>
-            {(!this.state.interview) &&
+            {(this.state.interview) &&
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:'space-between'}}>
                 <View>
-                    <Text>Interview Date</Text>
+                    <Text style={[styles.inputForm, {width:'auto'}]} >Interview Date</Text>
                 </View>
                 <View>
                     <DatePicker
@@ -188,7 +190,7 @@ export default class AddJobs extends Component<Props> {
             }
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:'space-between'}}>
                 <View>
-                    <Text>Job Date</Text>
+                    <Text style={[styles.inputForm, {width:'auto'}]} >Job Date</Text>
                 </View>
                 <View>
                     <DatePicker
@@ -202,24 +204,24 @@ export default class AddJobs extends Component<Props> {
                     />
                 </View>
             </View>
-            <TextInput 
+            <TextInput
                 placeholder='Education Requirment' 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
-                    this.inputs['educaton'] = input;
+                    this.inputs['education'] = input;
                 }}
                 onSubmitEditing={() => {
                     this.focusNextField('responsibility');
                 }}
-                value={this.state.result}
-                onChangeText={(educaton) => this.setState({educaton:educaton})}
+                value={this.state.education}
+                onChangeText={(education) => this.setState({education:education})}
                 returnKeyType='next'
                 selectTextOnFocus={true}
                 autoCapitalize="none"
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
-            <TextInput 
+            <TextInput
                 placeholder='Job Responsibility' 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
@@ -228,17 +230,19 @@ export default class AddJobs extends Component<Props> {
                 onSubmitEditing={() => {
                     this.addJob();
                 }}
-                value={this.state.result}
+                value={this.state.responsibility}
                 onChangeText={(responsibility) => this.setState({responsibility:responsibility})}
                 returnKeyType='next'
                 selectTextOnFocus={true}
                 autoCapitalize="none"
                 blurOnSubmit={false}
-                style={styles.inputForm}
+                style={[styles.inputForm, {minHeight:50}]}
+                multiline={true}
             />
             <View style={{flexDirection:'row', marginTop:10,justifyContent:'flex-end'}}>
                 <Button raised primary text="Add" onPress={() => {this.addJob()}} />
             </View>
+            <View style={{height:100}}></View>
             </ScrollView>
       </View>
     );
@@ -247,7 +251,12 @@ export default class AddJobs extends Component<Props> {
 
 const styles = StyleSheet.create({
     inputForm:{
-        fontSize:16,
+        fontSize:12,
         width:'100%',
+        color:'#000'
+    },
+    input:{
+        fontSize:12,
+        color:'#000',
     }
 });
