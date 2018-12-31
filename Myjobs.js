@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TouchableOpacity, FlatList, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
+import ionicons from 'react-native-vector-icons/dist/Ionicons';
 import Lan from './lan.json';
 import JobDetails from './JobDetails';
+import AddJobs from './AddJobs';
 
 import { Button, Toolbar } from 'react-native-material-ui';
 
@@ -15,6 +17,7 @@ export default class Myjobs extends Component<Props> {
         this.state = {
           watchChange:false,
           modelVisible:false,
+          addModelVisible:false,
           jobs:[{
               "id": 1,
               "employers_id": "1",
@@ -69,6 +72,10 @@ export default class Myjobs extends Component<Props> {
     this.setState({modelVisible:false});
   }
 
+  clsAddJobs = () => {
+    this.setState({addModelVisible:false});
+  }
+
   render() {
     console.log(this.state.jobs)
     return (
@@ -77,17 +84,8 @@ export default class Myjobs extends Component<Props> {
           style={{ container: {'backgroundColor':'#4CAF50'}}}
           // leftElement="menu"
           centerElement="KORMO CHAI"
-          searchable={{
-            autoFocus: true,
-            placeholder: 'Search',
-          }}
-          rightElement={{
-              menu: {
-                  icon: "more-vert",
-                  labels: ["item 1", "item 2"]
-              }
-          }}
-          onRightElementPress={ (label) => { console.log(label) }}
+          rightElement="add-circle"
+          onRightElementPress={() => this.setState({addModelVisible:true})}
         />
         <Text style={{marginTop:10, textAlign:'center', color:'#000'}}>SCROLL FOR JOBS <Icon name="angle-double-down" /></Text>
         <View style={{alignItems:'center'}}>
@@ -123,6 +121,15 @@ export default class Myjobs extends Component<Props> {
             console.log('Model Closed');
           }}>
           <JobDetails clsJobDetails={this.clsJobDetails} appStore={this.props.appStore} updateAppstore={this.props.updateAppstore} />
+        </Modal>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.addModelVisible}
+          onRequestClose={() => {
+            console.log('Model Closed');
+          }}>
+          <AddJobs clsAddJobs={this.clsAddJobs} appStore={this.props.appStore} updateAppstore={this.props.updateAppstore} />
         </Modal>
       </View>
     );
