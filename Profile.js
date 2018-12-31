@@ -3,7 +3,7 @@ import {Platform, StyleSheet, Text, TextInput,CheckBox, View,ScrollView,Modal,Fl
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Lan from './lan.json';
 
-import { Button } from 'react-native-material-ui';
+import { Button, Toolbar } from 'react-native-material-ui';
 
 import Addededucation from './Addeducation';
 
@@ -71,7 +71,11 @@ export default class Profile extends Component<Props> {
     console.log(Lan)
     return (
       <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
-        <Text>This is Profile</Text>
+        <Toolbar
+          style={{ container: {'backgroundColor':'#4CAF50'}}}
+          // leftElement="menu"
+          centerElement='Your Profile'
+        />
         <ScrollView style={{width:'90%'}}>
             <TextInput 
                 placeholder='Name' 

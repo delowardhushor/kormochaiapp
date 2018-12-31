@@ -24,7 +24,7 @@ export default class App extends Component<Props> {
     this.state = {
       appStore : {
         activeTab : 'Home',
-        baseUrl : 'http://192.168.0.102:8089/kormochai/public/api/',
+        baseUrl : 'https://delowarhossaintb.000webhostapp.com/api/',
         usertype :'',
         userdata:[],
         settings:[],

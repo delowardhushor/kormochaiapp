@@ -95,6 +95,7 @@ export default class Home extends Component<Props> {
             data={this.state.jobs}
             extraData={this.state.watchChange}
             style={{width:'90%'}}
+            keyExtractor={(item, index) => 'key'+index}
             renderItem={({item, index}) => 
             <View style={{borderBottomColor:'#ddd', borderBottomWidth:1, paddingVertical:20}}>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>

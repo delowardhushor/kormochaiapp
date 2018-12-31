@@ -54,7 +54,11 @@ export default class Myjobs extends Component<Props> {
     }
 
   componentWillMount(){
-    console.log(this.state.jobs);
+    if(this.props.appStore.userdata.length  === 0 ){
+        appStore = this.props.appStore;
+        appStore.activeTab = 'Login';
+        this.props.updateAppstore(appStore);
+    }
   }
 
   componentWillReceiveProps(){
@@ -77,14 +81,15 @@ export default class Myjobs extends Component<Props> {
   }
 
   render() {
-    console.log(this.state.jobs)
+    let {usertype, userdata} = this.props.appStore;
     return (
       <View>
         <Toolbar
           style={{ container: {'backgroundColor':'#4CAF50'}}}
           // leftElement="menu"
-          centerElement="KORMO CHAI"
-          rightElement="add-circle"
+          centerElement={usertype === 'employers' ? 'Job You Posted' : 'Job You Applied'}
+          rightElement=""
+          rightElement={usertype === 'employers' ? 'add-circle' : ''}
           onRightElementPress={() => this.setState({addModelVisible:true})}
         />
         <Text style={{marginTop:10, textAlign:'center', color:'#000'}}>SCROLL FOR JOBS <Icon name="angle-double-down" /></Text>
@@ -93,6 +98,7 @@ export default class Myjobs extends Component<Props> {
             data={this.state.jobs}
             extraData={this.state.watchChange}
             style={{width:'90%'}}
+            keyExtractor={(item, index) => item.key}
             renderItem={({item, index}) => 
             <View style={{borderBottomColor:'#ddd', borderBottomWidth:1, paddingVertical:20}}>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
