@@ -72,6 +72,12 @@ export default class Myjobs extends Component<Props> {
     this.setState({modelVisible:true});
   }
 
+  toProfile = () => {
+    var appStore = this.props.appStore;
+    appStore.activeTab = 'Profile';
+    this.props.updateAppstore(appStore);
+  }
+
   clsJobDetails = () => {
     this.setState({modelVisible:false});
   }
@@ -88,17 +94,18 @@ export default class Myjobs extends Component<Props> {
           style={{ container: {'backgroundColor':'#4CAF50'}}}
           // leftElement="menu"
           centerElement={usertype === 'employers' ? 'Job You Posted' : 'Job You Applied'}
-          rightElement=""
           rightElement={usertype === 'employers' ? 'add-circle' : ''}
           onRightElementPress={() => this.setState({addModelVisible:true})}
         />
-        <Text style={{marginTop:10, textAlign:'center', color:'#000'}}>SCROLL FOR JOBS <Icon name="angle-double-down" /></Text>
         <View style={{alignItems:'center'}}>
+          {(this.props.appStore.myJobs.length == 0) &&
+          <Text style={styles.noPostText}>No Job {usertype == 'employess' ? 'Applied' : 'Posted'} Yet</Text>
+          }
           <FlatList
-            data={this.state.jobs}
+            data={this.props.appStore.myJobs}
             extraData={this.state.watchChange}
             style={{width:'90%'}}
-            keyExtractor={(item, index) => item.key}
+            keyExtractor={(item, index) => 'key'+index}
             renderItem={({item, index}) => 
             <View style={{borderBottomColor:'#ddd', borderBottomWidth:1, paddingVertical:20}}>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
@@ -143,5 +150,10 @@ export default class Myjobs extends Component<Props> {
 }
 
 const styles = StyleSheet.create({
-  
+  noPostText:{
+    fontSize:12,
+    fontWeight:'bold',
+    color:'#000',
+    marginTop:20,
+  }
 });

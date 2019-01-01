@@ -91,9 +91,11 @@ export default class JobDetails extends Component<Props> {
               <Text style={[styles.label, {width:'100%', fontSize:16, color:'grey'}]}>Job Responsibility:</Text>
               <Text style={[styles.value, {width:"100%", marginTop:10}]}>{JobDetails.job_responsibility}</Text>
             </View>
+            {(this.props.appStore.usertype === 'employees') &&
             <View style={{width:'100%', marginTop:20}}>
               <Button primary raised onPress={() => this.apply()} text="APPLY" />
             </View>
+            }
           </ScrollView>
         </View>
       </View>

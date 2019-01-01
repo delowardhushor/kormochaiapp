@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, TextInput,CheckBox, View,ScrollView,Modal,FlatList, TouchableOpacity} from 'react-native';
+import {Platform, StyleSheet, Text, TextInput,CheckBox, View,ScrollView,Modal,FlatList,ToastAndroid,ActivityIndicator, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Lan from './lan.json';
 
 import { Button, Toolbar } from 'react-native-material-ui';
 
 import Addededucation from './Addeducation';
+import axios from 'axios';
 
 type Props = {};
 export default class Profile extends Component<Props> {
@@ -13,6 +14,7 @@ export default class Profile extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
+            refreshing:false,
             underlineColor: '#ddd',
             date:"2016-05-15",
             modalVisible:false,
@@ -44,6 +46,21 @@ export default class Profile extends Component<Props> {
         appStore = this.props.appStore;
         appStore.activeTab = 'Login';
         this.props.updateAppstore(appStore);
+    }else{
+        let {userdata} = this.props.appStore;
+        var profileData = this.state.profileData;
+        profileData.name = userdata.name;
+        profileData.address = userdata.address;
+        profileData.area = userdata.area;
+        if(userdata.education){
+            profileData.education = userdata.education;
+        }
+        profileData.post = userdata.post;
+        profileData.district = userdata.district;
+        profileData.age = userdata.age;
+        profileData.gender = userdata.gender;
+        profileData.thana = userdata.thana;
+        this.setState({profileData:profileData});
     }
   }
 
@@ -55,20 +72,59 @@ export default class Profile extends Component<Props> {
   }
 
   addEducation = (value) => {
-    console.log(profileData);
     var profileData = this.state.profileData;
     profileData.education.push(value);
     this.setState({profileData:profileData});
     this.setState({watchChange:!this.state.watchChange});
-    console.log(profileData);
   }
 
   modelCls = () =>{
       this.setState({modalVisible:false});
   }
 
+  save(){
+    this.setState({refreshing:true});
+      axios.post(this.props.appStore.baseUrl+'employees/update',{
+        id:this.props.appStore.userdata.id,
+        name:this.state.profileData.name,
+        address:this.state.profileData.address,
+        area:this.state.profileData.area,
+        education:JSON.stringify(this.state.profileData.education),
+        thana:this.state.profileData.thana,
+        post:this.state.profileData.post,
+        district:this.state.profileData.district,
+        age:this.state.profileData.age,
+        gender:this.state.profileData.gender,
+      }).then((res)=>{
+        console.log(res);
+        if(res.data.success === true){
+            this.setState({refreshing:false});
+            ToastAndroid.show("Profile Updated", 3000);
+            appStore = this.props.appStore;
+            appStore.userdata.name = this.state.profileData.name;
+            appStore.userdata.address = this.state.profileData.address;
+            appStore.userdata.age = this.state.profileData.age;
+            appStore.userdata.education = this.state.profileData.education;
+            appStore.userdata.thana = this.state.profileData.thana;
+            appStore.userdata.area = this.state.profileData.area;
+            appStore.userdata.post = this.state.profileData.post;
+            appStore.userdata.gender = this.state.profileData.gender;
+            appStore.userdata.district = this.state.profileData.district;
+            this.props.updateAppstore(appStore);
+        }else{
+            this.setState({refreshing:false});
+        }
+      })
+      .catch((err)=>{
+        console.log(err)
+        this.setState({refreshing:false});
+        ToastAndroid.show("No Network Connection", 3000);
+        
+      });
+  }
+
   render() {
-    console.log(Lan)
+    let {userdata} = this.props.appStore;
     return (
       <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
         <Toolbar
@@ -84,7 +140,7 @@ export default class Profile extends Component<Props> {
                     this.inputs['name'] = input;
                 }}
                 onSubmitEditing={() => {
-                    this.focusNextField('mobile');
+                    this.focusNextField('age');
                 }}
                 value={this.state.profileData.name}
                 onChangeText={(name) => this.cngProfileData('name', name)}
@@ -92,7 +148,7 @@ export default class Profile extends Component<Props> {
                 selectTextOnFocus={true}
                 autoCapitalize="none"
                 blurOnSubmit={false}
-                style={styles.inputForm}
+                style={[styles.inputForm, {marginTop:10}]}
             />
             <TextInput 
                 placeholder='Age' 
@@ -101,10 +157,10 @@ export default class Profile extends Component<Props> {
                     this.inputs['age'] = input;
                 }}
                 onSubmitEditing={() => {
-                    this.focusNextField('mobile');
+                    this.focusNextField('address');
                 }}
                 value={this.state.profileData.age}
-                onChangeText={(name) => this.cngProfileData('name', name)}
+                onChangeText={(age) => this.cngProfileData('age', age)}
                 returnKeyType='next'
                 selectTextOnFocus={true}
                 autoCapitalize="none"
@@ -127,6 +183,7 @@ export default class Profile extends Component<Props> {
             <FlatList
                 data={this.state.profileData.education}
                 extraData={this.state.watchChange}
+                keyExtractor={(item, index) => 'key'+index}
                 renderItem={({item, index}) => 
                 <View style={{paddingHorizontal:20}}>
                     <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.institutionName}</Text>
@@ -163,6 +220,8 @@ export default class Profile extends Component<Props> {
                 onSubmitEditing={() => {
                     this.focusNextField('area');
                 }}
+                value={this.state.profileData.address}
+                onChangeText={(address) => this.cngProfileData('address', address)}
                 returnKeyType='next'
                 selectTextOnFocus={true}
                 autoCapitalize="none"
@@ -178,6 +237,8 @@ export default class Profile extends Component<Props> {
                 onSubmitEditing={() => {
                     this.focusNextField('post');
                 }}
+                value={this.state.profileData.area}
+                onChangeText={(area) => this.cngProfileData('area', area)}
                 returnKeyType='next'
                 selectTextOnFocus={true}
                 autoCapitalize="none"
@@ -193,6 +254,8 @@ export default class Profile extends Component<Props> {
                 onSubmitEditing={() => {
                     this.focusNextField('thana');
                 }}
+                value={this.state.profileData.post}
+                onChangeText={(post) => this.cngProfileData('post', post)}
                 returnKeyType='next'
                 selectTextOnFocus={true}
                 autoCapitalize="none"
@@ -208,6 +271,8 @@ export default class Profile extends Component<Props> {
                 onSubmitEditing={() => {
                     this.focusNextField('district');
                 }}
+                value={this.state.profileData.thana}
+                onChangeText={(thana) => this.cngProfileData('thana', thana)}
                 returnKeyType='next'
                 selectTextOnFocus={true}
                 autoCapitalize="none"
@@ -218,11 +283,13 @@ export default class Profile extends Component<Props> {
                 placeholder='District' 
                 underlineColorAndroid="#ddd"
                 ref={ input => {
-                    this.inputs['dsitrict'] = input;
+                    this.inputs['district'] = input;
                 }}
                 onSubmitEditing={() => {
-                    this.focusNextField('district');
+                    this.save()
                 }}
+                value={this.state.profileData.district}
+                onChangeText={(district) => this.cngProfileData('district', district)}
                 returnKeyType='done'
                 selectTextOnFocus={true}
                 autoCapitalize="none"
@@ -230,7 +297,7 @@ export default class Profile extends Component<Props> {
                 style={styles.inputForm}
             />
             <View style={{flexDirection:'row', marginTop:10}}>
-                <Button raised primary text="Save" />
+                <Button raised primary text="Save" onPress={() => this.save()} />
             </View>
             <View style={{height:50}}>
             </View>
@@ -244,6 +311,14 @@ export default class Profile extends Component<Props> {
           }}>
           <Addededucation modelCls={this.modelCls} addEducation={this.addEducation} />
         </Modal>
+        <Modal
+            transparent={true}
+            visible={this.state.refreshing}
+            onRequestClose={() => {
+                console.log('Model Closed')
+            }}>
+            <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><ActivityIndicator size="large" color="#00ff00" /></View>
+        </Modal>
       </View>
     );
   }
@@ -251,7 +326,8 @@ export default class Profile extends Component<Props> {
 
 const styles = StyleSheet.create({
     inputForm:{
-        fontSize:16,
+        fontSize:12,
         width:'100%',
+        color:'#000',
     }
 });

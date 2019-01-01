@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity, TextInput,Switch, ScrollView, CheckBox, ToastAndroid} from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableOpacity, TextInput,Switch,ActivityIndicator, ScrollView, CheckBox, ToastAndroid, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Lan from './lan.json';
 import DatePicker from 'react-native-datepicker'
 
 import { Toolbar, Button } from 'react-native-material-ui';
+import axios from 'axios';
 
 type Props = {};
 export default class AddJobs extends Component<Props> {
@@ -12,6 +13,8 @@ export default class AddJobs extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
+            refreshing:false,
+            jobTitle:'',
             companyName:'',
             education:'',
             interview:true,
@@ -21,7 +24,6 @@ export default class AddJobs extends Component<Props> {
             responsibility:'',
             salary:'',
             salaryType:'monthly',
-            jobType:'',
             officeHour:'',
             jobPeriod:'fulltime',
         };
@@ -51,7 +53,39 @@ export default class AddJobs extends Component<Props> {
   }
 
   addJob(){
-      console.log(this.state);
+      this.setState({refreshing:true});
+      axios.post(this.props.appStore.baseUrl+"jobs",{
+        job_title:this.state.jobTitle,
+        employers_id:this.props.appStore.userdata.id,
+        company_name:this.state.companyName,
+        education:this.state.education,
+        interview:true,
+        interview_date:this.state.interviewDate,
+        job_date:this.state.jobDate,
+        location:this.state.location,
+        job_responsibility:this.state.responsibility,
+        salary:this.state.salary,
+        salary_type:this.state.salaryType,
+        office_hour:this.state.officeHour,
+        job_type:this.state.jobPeriod,
+        category:"Finance",
+      })
+      .then((res)=>{
+        if(res.data.success === true){
+            this.setState({refreshing:false});
+            ToastAndroid.show("Job Post Succeessfully", 3000);
+            var appStore = this.props.appStore;
+            appStore.jobs.push(res.data.Jobs);
+            this.props.updateAppstore(appStore);
+            this.props.clsAddJobs();
+        }else{
+            this.setState({refreshing:false});
+        }
+      })    
+      .catch((err)=>{
+        this.setState({refreshing:false});
+        ToastAndroid.show("No Network Connection", 3000)
+      })
   }
 
 //   cngProfileData(field, value){
@@ -80,6 +114,23 @@ export default class AddJobs extends Component<Props> {
             onLeftElementPress={ () => { this.props.clsAddJobs() }}
           />
           <ScrollView style={{width:'90%', paddingTop:20}}>
+            <TextInput
+                placeholder='Job Title' 
+                underlineColorAndroid="#ddd" 
+                ref={ input => {
+                    this.inputs['jobTitle'] = input;
+                }}
+                onSubmitEditing={() => {
+                    this.focusNextField('companyName');
+                }}
+                value={this.state.jobTitle}
+                onChangeText={(jobTitle) => this.setState({jobTitle})}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
             <TextInput
                 placeholder='Institution Name' 
                 underlineColorAndroid="#ddd" 
@@ -244,6 +295,14 @@ export default class AddJobs extends Component<Props> {
             </View>
             <View style={{height:100}}></View>
             </ScrollView>
+            <Modal
+                transparent={true}
+                visible={this.state.refreshing}
+                onRequestClose={() => {
+                    console.log('Model Closed')
+                }}>
+                <View style={{flex:1,justifyContent:'center',alignItems:'center'}}><ActivityIndicator size="large" color="#00ff00" /></View>
+            </Modal>
       </View>
     );
   }

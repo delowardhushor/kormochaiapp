@@ -69,21 +69,25 @@ export default class Login extends Component<Props> {
 
   signin(){
     this.setState({refreshing:true});
+
     axios.post(this.props.appStore.baseUrl+this.props.appStore.usertype+"/login", {
         'phone':this.state.phone,
         'password':this.state.password,
     })
     .then((res) => {
         if(res.data.success === true){
-            console.log(res)
-            // this.setState({refreshing:false});
-            // ToastAndroid.show('Welcome!', 3000);
-            // var userdata = res.data.data;
-            // userdata.password = this.state.password;
-            // var appStore = this.props.appStore;
-            // appStore.userdata = userdata;
-            // appStore.activeTab = 'Home';
-            // this.props.updateAppstore(appStore);
+
+            this.setState({refreshing:false});
+            ToastAndroid.show('Welcome!', 3000);
+            var userdata = res.data.data;
+            userdata.password = this.state.password;
+            if(userdata.education){
+                userdata.education = JSON.parse(userdata.education);
+            }
+            var appStore = this.props.appStore;
+            appStore.userdata = userdata;
+            appStore.activeTab = 'Home';
+            this.props.updateAppstore(appStore);
             
         }else{
             this.setState({refreshing:false});

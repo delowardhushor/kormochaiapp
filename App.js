@@ -30,6 +30,7 @@ export default class App extends Component<Props> {
         settings:[],
         lan:'eng',
         jobs:[],
+        myjobs:[],
         JobDetails:[],
       },
       modelVisible:true,
@@ -51,13 +52,6 @@ export default class App extends Component<Props> {
       icon: 'briefcase',
       label: 'My Jobs',
       barColor: '#B71C1C',
-      pressColor: 'rgba(255, 255, 255, 0.16)'
-    },
-    {
-      key: 'Profile',
-      icon: 'user',
-      label: 'Profile',
-      barColor: '#1565C0',
       pressColor: 'rgba(255, 255, 255, 0.16)'
     },
     {
@@ -92,18 +86,27 @@ export default class App extends Component<Props> {
         console.log(appStore)
       }
     }
-  }
 
-  componentDidMount(){
-    //this.getJobs();
+    this.getJobs();
+    setInterval(() =>{
+      this.getJobs();
+    }, 10000);
   }
 
   getJobs(){
-    axios.get(this.state.baseUrl+"jobs", {
-        'phone':this.state.phone
+    axios.post(this.state.appStore.baseUrl+"intervalJob",{
+      usertype:this.state.appStore.usertype,
+      id:this.state.appStore.userdata.length == 0 ? '' : this.state.appStore.userdata.id,
     })
     .then((res) => {
-        this.updateAppstore('jobs', res.data);
+      console.log(res);
+      if(res.data.success === true){
+        var appStore = JSON.parse(JSON.stringify(this.state.appStore));
+        appStore.jobs = res.data.jobs;
+        appStore.myJobs = res.data.myJobs;
+        this.updateAppstore(appStore);
+      }
+      
     })
     .catch((err) => {
         console.log(err);
@@ -131,6 +134,10 @@ export default class App extends Component<Props> {
     this.updateAppstore(appStore);
   }
 
+  setmodelVisible = () => {
+    this.setState({modelVisible:true});
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -138,8 +145,8 @@ export default class App extends Component<Props> {
           {(this.state.appStore.activeTab === 'Home') && <Home appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
           {(this.state.appStore.activeTab === 'Myjobs') && <Myjobs appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
           {(this.state.appStore.activeTab === 'Profile') && <Profile appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
-          {(this.state.appStore.activeTab === 'Settings') && <Settings appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
-          {(this.state.appStore.activeTab === 'Login') && <Login appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
+          {(this.state.appStore.activeTab === 'Settings') && <Settings appStore={this.state.appStore} updateAppstore={this.updateAppstore} setmodelVisible={this.setmodelVisible} />}
+          {(this.state.appStore.activeTab === 'Login') && <Login appStore={this.state.appStore} updateAppstore={this.updateAppstore}  />}
         </View>
         <BottomNavigation
           onTabPress={newTab => this.changeActiveTab(newTab.key)}

@@ -141,7 +141,7 @@ export default class Addeducation extends Component<Props> {
             />
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:'space-between'}}>
                 <View>
-                    <Text>Start Date</Text>
+                    <Text style={[styles.inputForm, {width:'auto'}]}>Start Date</Text>
                 </View>
                 <View>
                     <DatePicker
@@ -158,7 +158,7 @@ export default class Addeducation extends Component<Props> {
             {(!this.state.present) &&
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:'space-between'}}>
                 <View>
-                    <Text>End Date</Text>
+                    <Text style={[styles.inputForm, {width:'auto'}]}>End Date</Text>
                 </View>
                 <View>
                     <DatePicker
@@ -174,7 +174,7 @@ export default class Addeducation extends Component<Props> {
             </View>
             }
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center',  justifyContent:'flex-start'}}>
-                <Text>IN Present</Text>
+                <Text style={[styles.inputForm, {width:'auto'}]}>IN Present</Text>
                 <CheckBox onValueChange={() => this.selectPresent()} value={this.state.present} />
             </View>
             <View style={{flexDirection:'row', marginTop:10,justifyContent:'flex-end'}}>
@@ -188,7 +188,8 @@ export default class Addeducation extends Component<Props> {
 
 const styles = StyleSheet.create({
     inputForm:{
-        fontSize:16,
+        fontSize:12,
         width:'100%',
+        color:'#000',
     }
 });

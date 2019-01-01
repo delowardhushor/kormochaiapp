@@ -15,43 +15,11 @@ export default class Home extends Component<Props> {
         this.state = {
           watchChange:false,
           modelVisible:false,
-          jobs:[{
-              "id": 1,
-              "employers_id": "1",
-              "company_name": "Server Oasis",
-              "job_title": "WEB DEVELOPER",
-              "education": "Graduation in any Discipline",
-              "salary": 12000,
-              "office_hour": "9:00 AM - 5:00 PM",
-              "location": "Dhaka",
-              "job_responsibility": "1. asdsaldsdljaldsk,",
-              "interview": "true",
-              "interview_date": "12/12/12",
-              "job_date": "30/12/18",
-              "job_type": "Full Time",
-              "Employees": []
-              },
-              {
-              "id": 2,
-              "employers_id": "1",
-              "company_name": "Server Oasis",
-              "job_title": "ACCOUNTANT",
-              "education": "Graduation in CSE",
-              "salary": 13000,
-              "office_hour": "fwefwefwefwefewfe",
-              "location": "Gazipur",
-              "job_responsibility": "wefewf",
-              "interview": "false",
-              "interview_date": "",
-              "job_date": "wefwef",
-              "job_type": "wefwef",
-              "Employees": []
-              }],
         };
     }
 
   componentWillMount(){
-    console.log(this.state.jobs);
+
   }
 
   componentWillReceiveProps(){
@@ -65,12 +33,17 @@ export default class Home extends Component<Props> {
     this.setState({modelVisible:true});
   }
 
+  toProfile = () => {
+    var appStore = this.props.appStore;
+    appStore.activeTab = 'Profile';
+    this.props.updateAppstore(appStore);
+  }
+
   clsJobDetails = () => {
     this.setState({modelVisible:false});
   }
 
   render() {
-    console.log(this.state.jobs)
     return (
       <View>
         <Toolbar
@@ -81,18 +54,13 @@ export default class Home extends Component<Props> {
             autoFocus: true,
             placeholder: 'Search',
           }}
-          rightElement={{
-              menu: {
-                  icon: "more-vert",
-                  labels: ["item 1", "item 2"]
-              }
-          }}
-          onRightElementPress={ (label) => { console.log(label) }}
+          rightElement={this.props.appStore.usertype == 'employees' ? "account-box" : "" }
+          onRightElementPress={ () => { this.toProfile() }}
         />
         <Text style={{marginTop:10, textAlign:'center', color:'#000'}}>SCROLL FOR JOBS <Icon name="angle-double-down" /></Text>
         <View style={{alignItems:'center'}}>
           <FlatList
-            data={this.state.jobs}
+            data={this.props.appStore.jobs}
             extraData={this.state.watchChange}
             style={{width:'90%'}}
             keyExtractor={(item, index) => 'key'+index}
