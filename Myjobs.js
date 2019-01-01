@@ -99,7 +99,7 @@ export default class Myjobs extends Component<Props> {
         />
         <View style={{alignItems:'center'}}>
           {(this.props.appStore.myJobs.length == 0) &&
-          <Text style={styles.noPostText}>No Job {usertype == 'employess' ? 'Applied' : 'Posted'} Yet</Text>
+          <Text style={styles.noPostText}>No Job {usertype == 'employees' ? 'Applied' : 'Posted'} Yet</Text>
           }
           <FlatList
             data={this.props.appStore.myJobs}
