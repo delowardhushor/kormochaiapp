@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity, TextInput,Switch,ActivityIndicator, ScrollView, CheckBox, ToastAndroid, Modal} from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableOpacity, TextInput,Switch,ActivityIndicator,Picker,FlatList, ScrollView, CheckBox, ToastAndroid, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Lan from './lan.json';
 import DatePicker from 'react-native-datepicker'
@@ -26,6 +26,7 @@ export default class AddJobs extends Component<Props> {
             salaryType:'monthly',
             officeHour:'',
             jobPeriod:'fulltime',
+            cat:'',
         };
         this.focusNextField = this.focusNextField.bind(this);
         this.inputs = {};
@@ -68,7 +69,7 @@ export default class AddJobs extends Component<Props> {
         salary_type:this.state.salaryType,
         office_hour:this.state.officeHour,
         job_type:this.state.jobPeriod,
-        category:"Finance",
+        category:this.state.cat,
       })
       .then((res)=>{
         if(res.data.success === true){
@@ -105,6 +106,14 @@ export default class AddJobs extends Component<Props> {
 
   render() {
 
+    const Cats = this.props.appStore.cats.map((item, index) => {
+        return <Picker.Item key={index} label={item.cat} value={item.cat} />
+    });
+
+    const Locations = this.props.appStore.locations.map((item, index) => {
+        return <Picker.Item key={index} label={item.location} value={item.location} />
+    });
+
     return (
       <View style={{flex:1, alignItems:'center', justifyContent:'center', height:'100%'}}>
         <Toolbar
@@ -131,6 +140,25 @@ export default class AddJobs extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
+            
+            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', height:40, alignItems:'center', marginTop:10}}>
+                <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>Category:</Text>
+                <Picker
+                    selectedValue={this.state.cat}
+                    style={{ height: 50, width: 100 }}
+                    onValueChange={(itemValue, itemIndex) => this.setState({cat: itemValue})}>
+                    {Cats}
+                </Picker>
+            </View>
+            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', height:40, alignItems:'center', marginTop:10}}>
+                <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>Location:</Text>
+                <Picker
+                    selectedValue={this.state.location}
+                    style={{ height: 50, width: 100 }}
+                    onValueChange={(itemValue, itemIndex) => this.setState({location: itemValue})}>
+                    {Locations}
+                </Picker>
+            </View>
             <TextInput
                 placeholder='Institution Name' 
                 underlineColorAndroid="#ddd" 
@@ -214,7 +242,7 @@ export default class AddJobs extends Component<Props> {
                     <CheckBox onValueChange={() => this.setState({salaryType:'weekly'})} value={this.state.salaryType === 'weekly' ? true : false} /> 
                     <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>Weekly</Text> 
                     <CheckBox onValueChange={() => this.setState({salaryType:'daily'})} value={this.state.salaryType === 'daily' ? true : false} /> 
-                    <Text>Daily</Text>
+                    <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>Daily</Text>
                 </View>
             </View>
             <View style={{flexDirection:'row', height:40, alignItems:'center', marginTop:30}}>
@@ -291,7 +319,7 @@ export default class AddJobs extends Component<Props> {
                 multiline={true}
             />
             <View style={{flexDirection:'row', marginTop:10,justifyContent:'flex-end'}}>
-                <Button raised primary text="Add" onPress={() => {this.addJob()}} />
+                <Button raised primary text="Post" onPress={() => {this.addJob()}} />
             </View>
             <View style={{height:100}}></View>
             </ScrollView>

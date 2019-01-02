@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TouchableOpacity, Modal, AsyncStorage} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import Lan from './lan.json';
+import language from './lan.json';
 import BottomNavigation, { FullTab ,Badge,ShiftingTab} from 'react-native-material-bottom-navigation';
 
 import { Toolbar, Button } from 'react-native-material-ui';
@@ -13,6 +13,7 @@ import Profile from './Profile';
 import Myjobs from './Myjobs';
 import Settings from './Settings';
 import Login from './Login';
+import Educative from './Educative';
 
 type Props = {};
 
@@ -30,6 +31,8 @@ export default class App extends Component<Props> {
         settings:[],
         lan:'eng',
         jobs:[],
+        locations:[],
+        cats:[],
         myjobs:[],
         JobDetails:[],
       },
@@ -38,30 +41,6 @@ export default class App extends Component<Props> {
     //this.focusNextField = this.focusNextField.bind(this);
     //this.inputs = {};
   }
-
-  tabs = [
-    {
-      key: 'Home',
-      icon: 'home',
-      label: 'Home',
-      barColor: '#4CAF50',
-      pressColor: 'rgba(255, 255, 255, 0.16)'
-    },
-    {
-      key: 'Myjobs',
-      icon: 'briefcase',
-      label: 'My Jobs',
-      barColor: '#B71C1C',
-      pressColor: 'rgba(255, 255, 255, 0.16)'
-    },
-    {
-      key: 'Settings',
-      icon: 'cogs',
-      label: 'Settings',
-      barColor: '#F06292',
-      pressColor: 'rgba(255, 255, 255, 0.16)'
-    }
-  ];
 
   renderIcon = icon => ({ isActive }) => (
     <Icon size={24} color="white" name={icon} />
@@ -104,6 +83,8 @@ export default class App extends Component<Props> {
         var appStore = JSON.parse(JSON.stringify(this.state.appStore));
         appStore.jobs = res.data.jobs;
         appStore.myJobs = res.data.myJobs;
+        appStore.locations = res.data.locations;
+        appStore.cats = res.data.cats;
         this.updateAppstore(appStore);
       }
       
@@ -139,6 +120,38 @@ export default class App extends Component<Props> {
   }
 
   render() {
+    let{lan} = this.state.appStore;
+    tabs = [
+      {
+        key: 'Home',
+        icon: 'home',
+        label: language.home[lan],
+        barColor: '#4CAF50',
+        pressColor: 'rgba(255, 255, 255, 0.16)'
+      },
+      {
+        key: 'Myjobs',
+        icon: 'briefcase',
+        label: language.myJobs[lan],
+        barColor: '#B71C1C',
+        pressColor: 'rgba(255, 255, 255, 0.16)'
+      },
+      {
+        key: 'Educative',
+        icon: 'university',
+        label: language.educative[lan],
+        barColor: '#B71C1C',
+        pressColor: 'rgba(255, 255, 255, 0.16)'
+      },
+      {
+        key: 'Settings',
+        icon: 'cogs',
+        label: language.settings[lan],
+        barColor: '#F06292',
+        pressColor: 'rgba(255, 255, 255, 0.16)'
+      }
+    ];
+
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
@@ -147,11 +160,13 @@ export default class App extends Component<Props> {
           {(this.state.appStore.activeTab === 'Profile') && <Profile appStore={this.state.appStore} updateAppstore={this.updateAppstore} />}
           {(this.state.appStore.activeTab === 'Settings') && <Settings appStore={this.state.appStore} updateAppstore={this.updateAppstore} setmodelVisible={this.setmodelVisible} />}
           {(this.state.appStore.activeTab === 'Login') && <Login appStore={this.state.appStore} updateAppstore={this.updateAppstore}  />}
+          {(this.state.appStore.activeTab === 'Educative') && <Educative appStore={this.state.appStore} updateAppstore={this.updateAppstore}  />}
+
         </View>
         <BottomNavigation
           onTabPress={newTab => this.changeActiveTab(newTab.key)}
           renderTab={this.renderTab}
-          tabs={this.tabs}
+          tabs={tabs}
         />
         <Modal
           animationType="slide"

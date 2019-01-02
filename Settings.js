@@ -76,19 +76,21 @@ export default class Settings extends Component<Props> {
         <View>
         <View style={{alignItems:'center', marginTop:10}}>
           <ScrollView style={{width:'90%'}}>
-            <View style={{flex:1, alignItems:'center', flexDirection:'row', justifyContent:'space-between', marginBottom:10}}>
+            <View style={{flex:1, alignItems:'center', flexDirection:'row', justifyContent:'space-between', marginBottom:30}}>
               <Text style={styles.cngLanText}>{language.changeLan[lan]}</Text>
               <Switch
               style={{marginTop:20}}
               onValueChange = {() => this.changeLan()}
               value = {this.props.appStore.lan === 'eng' ? true : false}/>
             </View>
+            {(this.props.appStore.userdata.length == 0) &&
             <View style={{flex:1, alignItems:'center', flexDirection:'row', justifyContent:'space-between', marginBottom:30}}>
               <Text style={[styles.cngLanText, {width:'60%'}]}>{this.props.appStore.usertype === 'employees' ? language.openAsEmployee[lan] : language.openAsEmployer[lan]}</Text>
               <View style={{width:'40%', marginTop:25}}>
                 <Button raised primary text={language.change[lan]} onPress={() => this.cngUsertype()} />
               </View>
             </View>
+            }
             {(this.props.appStore.userdata.length == 0) &&
             <Button raised text={language.singin[lan]} onPress={() => this.toLogin()} />
             }

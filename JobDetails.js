@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity, FlatList, ScrollView} from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableOpacity, FlatList,ToastAndroid, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Lan from './lan.json';
 
 import { Button, Toolbar } from 'react-native-material-ui';
+import axios from 'axios';
 
 
 type Props = {};
@@ -24,15 +25,18 @@ export default class JobDetails extends Component<Props> {
 
   }
 
-  jobDetails(details){
-    var appStore = this.props.appStore;
-    appStore.jobDetails = details;
-    appStore.activeTab = 'JobDetails';
-    this.props.updateAppstore(appStore);
-  }
-
   apply(){
-    alert("success");
+    axios.post(this.props.appStore.baseUrl+'applications',{
+      job_id:this.props.appStore.JobDetails,
+      employees_id:this.props.appStore.userdata.id,
+    })
+    .then((res)=>{
+      ToastAndroid.show("Application Success", 3000);
+      this.props.clsJobDetails();
+    })
+    .catch((err)=>{
+      ToastAndroid.show("No Network Connection", 3000);
+    })
   }
 
   render() {
@@ -49,7 +53,7 @@ export default class JobDetails extends Component<Props> {
           <ScrollView style={{width:'90%'}}>
             <View style={{flexDirection:"column",alignItems:'center', justifyContent:'space-between'}}>
               <Text style={[styles.text, {fontSize:22,marginTop:20, }]} >{JobDetails.job_title}</Text>
-              <Text style={[styles.text, {fontSize:18,marginTop:10, }]} >{JobDetails.salary} / month{JobDetails.salary_type}</Text>
+              <Text style={[styles.text, {fontSize:18,marginTop:10, }]} >{JobDetails.salary} / {JobDetails.salary_type}</Text>
             </View>
             <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
               <Text style={styles.label}>Company Name:</Text>
@@ -81,7 +85,7 @@ export default class JobDetails extends Component<Props> {
             <View style={styles.hr}></View>
 
             <View style={{width:'100%', marginTop:10}}>
-              <Text style={[styles.label, {width:'100%', fontSize:16, color:'grey'}]}>Educational Requriment:</Text>
+              <Text style={[styles.label, {width:'100%', fontSize:16, color:'grey'}]}>Job Requriment:</Text>
               <Text style={[styles.value, {width:"100%", marginTop:10}]}>{JobDetails.education}</Text>
             </View>
 

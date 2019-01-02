@@ -18,38 +18,6 @@ export default class Myjobs extends Component<Props> {
           watchChange:false,
           modelVisible:false,
           addModelVisible:false,
-          jobs:[{
-              "id": 1,
-              "employers_id": "1",
-              "company_name": "Server Oasis",
-              "job_title": "WEB DEVELOPER",
-              "education": "Graduation in any Discipline",
-              "salary": 12000,
-              "office_hour": "9:00 AM - 5:00 PM",
-              "location": "Dhaka",
-              "job_responsibility": "1. asdsaldsdljaldsk,",
-              "interview": "true",
-              "interview_date": "12/12/12",
-              "job_date": "30/12/18",
-              "job_type": "Full Time",
-              "Employees": []
-              },
-              {
-              "id": 2,
-              "employers_id": "1",
-              "company_name": "Server Oasis",
-              "job_title": "ACCOUNTANT",
-              "education": "Graduation in CSE",
-              "salary": 13000,
-              "office_hour": "fwefwefwefwefewfe",
-              "location": "Gazipur",
-              "job_responsibility": "wefewf",
-              "interview": "false",
-              "interview_date": "",
-              "job_date": "wefwef",
-              "job_type": "wefwef",
-              "Employees": []
-              }],
         };
     }
 
@@ -110,7 +78,7 @@ export default class Myjobs extends Component<Props> {
             <View style={{borderBottomColor:'#ddd', borderBottomWidth:1, paddingVertical:20}}>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
                 <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.job_title}</Text>
-                <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.salary}/Month{item.salary_type}</Text>
+                <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.salary}/{item.salary_type}</Text>
               </View>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
                 <View>
@@ -119,7 +87,7 @@ export default class Myjobs extends Component<Props> {
                   <Text style={{fontSize:12, color:'#000'}}>{item.education}</Text>
                 </View>
                 <TouchableOpacity style={{backgroundColor:'#4CAF50', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
-                  <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' /> Details</Text>
+                  <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' />Details</Text>
                 </TouchableOpacity>
               </View>
             </View>

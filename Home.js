@@ -68,7 +68,7 @@ export default class Home extends Component<Props> {
             <View style={{borderBottomColor:'#ddd', borderBottomWidth:1, paddingVertical:20}}>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
                 <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.job_title}</Text>
-                <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.salary}/Month{item.salary_type}</Text>
+                <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.salary}/{item.salary_type}</Text>
               </View>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
                 <View>

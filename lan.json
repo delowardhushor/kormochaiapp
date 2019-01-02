@@ -34,5 +34,21 @@
     "signout":{
         "ban":"সাইন আউট করুন",
         "eng":"Signout"
+    },
+    "home":{
+        "ban":"সকল চাকরি",
+        "eng":"All JOBS"
+    },
+    "myJobs":{
+        "ban":"আমার চাকরি",
+        "eng":"MY JOBS"
+    },
+    "settings":{
+        "ban":"সেটিংস",
+        "eng":"SETTINGS"
+    },
+    "educative":{
+        "ban":"শিক্ষণীয়",
+        "eng":"EDUCATIVE"
     }
 }
