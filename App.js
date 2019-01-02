@@ -32,6 +32,7 @@ export default class App extends Component<Props> {
         lan:'eng',
         jobs:[],
         locations:[],
+        educatives:[],
         cats:[],
         myjobs:[],
         JobDetails:[],
@@ -85,6 +86,7 @@ export default class App extends Component<Props> {
         appStore.myJobs = res.data.myJobs;
         appStore.locations = res.data.locations;
         appStore.cats = res.data.cats;
+        appStore.educatives = res.data.educatives;
         this.updateAppstore(appStore);
       }
       
