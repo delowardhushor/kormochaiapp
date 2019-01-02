@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TouchableOpacity, ScrollView, ToastAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import Lan from './lan.json';
+import language from './lan.json';
 
 import BottomNavigation, { FullTab,Badge,ShiftingTab } from 'react-native-material-bottom-navigation';
 import { Button, Toolbar } from 'react-native-material-ui';
@@ -34,6 +34,21 @@ export default class Settings extends Component<Props> {
     this.props.updateAppstore(appStore);
   }
 
+  toLogin(){
+    var appStore = this.props.appStore;
+    appStore.activeTab = 'Login';
+    this.props.updateAppstore(appStore);
+  }
+
+  cngUsertype(){
+    this.props.setmodelVisible();
+    var appStore = this.props.appStore;
+    appStore.userdata = [];
+    appStore.usertype = '';
+    appStore.activeTab = 'Home';
+    this.props.updateAppstore(appStore);
+  }
+
   changeLan(){
     var appStore = this.props.appStore;
     if(appStore.lan == 'eng'){
@@ -44,13 +59,16 @@ export default class Settings extends Component<Props> {
     this.props.updateAppstore(appStore);
   }
 
+  language(name){
+    return lan.name[this.props.appStore.lan];
+  }
+
   render() {
-    console.log(Lan)
+    let {lan} = this.props.appStore;
     return (
       <View>
         <Toolbar
           style={{ container: {'backgroundColor':'#4CAF50'}}}
-          // leftElement="menu"
           centerElement="Settings"
           rightElement={this.props.appStore.usertype == 'employees' ? "account-box" : "" }
           onRightElementPress={ () => { this.toProfile() }}
@@ -58,14 +76,25 @@ export default class Settings extends Component<Props> {
         <View>
         <View style={{alignItems:'center', marginTop:10}}>
           <ScrollView style={{width:'90%'}}>
-            <View style={{flex:1, alignItems:'center', flexDirection:'row', justifyContent:'space-between', marginBottom:30}}>
-              <Text style={styles.cngLanText}>Change Language {this.props.appStore.lan === 'eng' ? 'English' : 'Bangla'} to {this.props.appStore.lan === 'eng' ? 'Bangla' : "English"} </Text>
+            <View style={{flex:1, alignItems:'center', flexDirection:'row', justifyContent:'space-between', marginBottom:10}}>
+              <Text style={styles.cngLanText}>{language.changeLan[lan]}</Text>
               <Switch
               style={{marginTop:20}}
               onValueChange = {() => this.changeLan()}
               value = {this.props.appStore.lan === 'eng' ? true : false}/>
             </View>
-            <Button raised text="LOGOUT" onPress={() => this.logout()} />
+            <View style={{flex:1, alignItems:'center', flexDirection:'row', justifyContent:'space-between', marginBottom:30}}>
+              <Text style={[styles.cngLanText, {width:'60%'}]}>{this.props.appStore.usertype === 'employees' ? language.openAsEmployee[lan] : language.openAsEmployer[lan]}</Text>
+              <View style={{width:'40%', marginTop:25}}>
+                <Button raised primary text={language.change[lan]} onPress={() => this.cngUsertype()} />
+              </View>
+            </View>
+            {(this.props.appStore.userdata.length == 0) &&
+            <Button raised text={language.singin[lan]} onPress={() => this.toLogin()} />
+            }
+            {(this.props.appStore.userdata.length !== 0) &&
+            <Button raised text={language.signout[lan]} onPress={() => this.logout()} />
+            }
           </ScrollView>
         </View>
         </View>

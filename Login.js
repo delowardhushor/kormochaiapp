@@ -240,7 +240,7 @@ export default class Login extends Component<Props> {
             <View style={{height:40}}></View>
             <Button raised text={this.state.activeSubPage === 'Signin' ? 'Signup' : 'Signin'} onPress={() => this.cngPage()} />
             <View style={{height:40}}></View>
-            <Button text="Skip" onPress={() => this.skipLogin()} />
+            <Button accent text="Continue As Guest" onPress={() => this.skipLogin()} />
             <View style={{height:50}}></View>
         </ScrollView>
         <Modal

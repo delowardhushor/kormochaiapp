@@ -1,8 +1,38 @@
 {
-    "ban" : {
-        "Is" : "আমি কর্মচারী"
+    "iAmEmployee" : {
+        "ban" : "চাকরি গ্রহীতা",
+        "eng" : "I am Employee"
     },
-    "eng" : {
-        "Is" : "I am Employee"
+    "iAmEmployer":{
+        "ban":"চাকরি দাতা",
+        "eng":"I am Employer"
+    } ,
+    "openAsEmployee":{
+        "ban":"আপনি চাকরি গ্রহীতা হিসেবে এপ টি ওপেন করেছেন",
+        "eng":"You Opend the App As Employee"
+    },
+    "openAsEmployer":{
+        "ban":"আপনি চাকরি দাতা হিসেবে এপ টি ওপেন করেছেন",
+        "eng":"You Opend the App As Employer"
+    },
+    "change":{
+        "ban":"পরিবর্তন করুন",
+        "eng":"change"
+    },
+    "changeLan":{
+        "ban":"ভাষা বাংলা থেকে ইংলিশ এ পরিবর্তন করুন",
+        "eng":"Change language English to bangla"
+    },
+    "singin":{
+        "ban":"সাইন ইন করুন",
+        "eng":"Signin"
+    },
+    "signup":{
+        "ban":"সাইন আপ করুন",
+        "eng":"Signup"
+    },
+    "signout":{
+        "ban":"সাইন আউট করুন",
+        "eng":"Signout"
     }
 }
