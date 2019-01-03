@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity, FlatList, Modal} from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableOpacity, FlatList, Modal, Picker} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import Lan from './lan.json';
 import JobDetails from './JobDetails';
@@ -15,6 +15,10 @@ export default class Home extends Component<Props> {
         this.state = {
           watchChange:false,
           modelVisible:false,
+          search:false,
+          category:'',
+          location:'',
+          searchedJobs:[],
         };
     }
 
@@ -43,7 +47,41 @@ export default class Home extends Component<Props> {
     this.setState({modelVisible:false});
   }
 
+  search(location, category){
+    this.setState({location:location});
+    this.setState({category:category});
+    var searchedJobs = [];
+    var jobs = JSON.parse(JSON.stringify(this.props.appStore.jobs));
+    if(location === ''){
+      searchedJobs = jobs;
+    }else{
+      for(var i = 0; jobs.length > i; i++){
+        var storelocation = jobs[i].location.toLowerCase();
+        var storecategory = jobs[i].category.toLowerCase();
+        if(storelocation.indexOf(location.toLowerCase()) !== -1 && storecategory.indexOf(category.toLowerCase()) !== -1){
+          searchedJobs.push(jobs[i]);
+        }
+      }
+    }
+    this.setState({searchedJobs:searchedJobs});
+    this.setState({search:true});
+    this.setState({watchChange:!this.state.watchChange});
+  }
+
+  clsSearch(){
+    this.setState({search:false});
+    this.setState({watchChange:!this.state.watchChange});
+  }
+
   render() {
+    const Cats = this.props.appStore.cats.map((item, index) => {
+        return <Picker.Item key={index} label={item.cat} value={item.cat} />
+    });
+
+    const Locations = this.props.appStore.locations.map((item, index) => {
+        return <Picker.Item key={index} label={item.location} value={item.location} />
+    });
+    
     return (
       <View>
         <Toolbar
@@ -52,20 +90,37 @@ export default class Home extends Component<Props> {
           centerElement="KORMO CHAI"
           searchable={{
             autoFocus: true,
-            placeholder: 'Search',
+            placeholder: 'Search By Location',
+            onChangeText:(text) => this.search(text),
+            onSearchClosed:() => this.clsSearch()
           }}
           rightElement={this.props.appStore.usertype == 'employees' ? "account-box" : "" }
           onRightElementPress={ () => { this.toProfile() }}
         />
-        <Text style={{marginTop:10, textAlign:'center', color:'#000'}}>SCROLL FOR JOBS <Icon name="angle-double-down" /></Text>
+        <View style={{flexDirection:'row', alignItems:'center', justifyContent:'center', height:40, alignItems:'center', marginTop:10}}>
+          <Picker
+              selectedValue={this.state.category}
+              style={{ height: 40, width: '45%' }}
+              onValueChange={(itemValue, itemIndex) => this.search(this.state.location ,itemValue)}>
+              <Picker.Item label="Any Category" value='' />
+              {Cats}
+          </Picker>
+          <Picker
+              selectedValue={this.state.location}
+              style={{ height: 40, width: "45%" }}
+              onValueChange={(itemValue, itemIndex) => this.search(itemValue, this.state.category)}>
+              <Picker.Item label="Any Location" value='' />
+              {Locations}
+          </Picker>
+        </View>
         <View style={{alignItems:'center'}}>
           <FlatList
-            data={this.props.appStore.jobs}
+            data={this.state.search === true ? this.state.searchedJobs : this.props.appStore.jobs}
             extraData={this.state.watchChange}
             style={{width:'90%'}}
             keyExtractor={(item, index) => 'key'+index}
             renderItem={({item, index}) => 
-            <View style={{borderBottomColor:'#ddd', borderBottomWidth:1, paddingVertical:20}}>
+            <View style={{borderBottomColor:'#ddd', borderBottomWidth:1, paddingVertical:15}}>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
                 <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.job_title}</Text>
                 <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.salary}/{item.salary_type}</Text>

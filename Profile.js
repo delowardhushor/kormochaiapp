@@ -18,6 +18,7 @@ export default class Profile extends Component<Props> {
             underlineColor: '#ddd',
             date:"2016-05-15",
             modalVisible:false,
+            updateEducation:[],
             profileData:{
                 name:'',
                 address:'',
@@ -68,7 +69,6 @@ export default class Profile extends Component<Props> {
     var profileData = this.state.profileData;
     profileData[field] = value;
     this.setState({profileData:profileData});
-    
   }
 
   addEducation = (value) => {
@@ -79,7 +79,7 @@ export default class Profile extends Component<Props> {
   }
 
   modelCls = () =>{
-      this.setState({modalVisible:false});
+    this.setState({modalVisible:false});
   }
 
   save(){
@@ -123,6 +123,33 @@ export default class Profile extends Component<Props> {
       });
   }
 
+  setAddEdu = () => {
+    this.setState({updateEducation:null})
+    this.setState({modalVisible:true})
+  }
+
+  setUpdateEdu(item, index){
+      item.itemIndex = index;
+      this.setState({updateEducation:item});
+      this.setState({modalVisible:true});
+  }
+
+  saveUpdateEducation = (data, index) =>{
+    var profileData = JSON.parse(JSON.stringify(this.state.profileData));
+    profileData.education[index] = data;
+    this.setState({profileData:profileData});
+    this.setState({watchChange:!this.state.watchChange});
+    ToastAndroid.show("Updated! Press Save to Store", 3000);
+  }
+
+  dltEdu(index){
+    var profileData = JSON.parse(JSON.stringify(this.state.profileData));
+    profileData.education.splice(index, 1);
+    this.setState({profileData:profileData});
+    this.setState({watchChange:!this.state.watchChange});
+    ToastAndroid.show("Deleted! Press Save to Store", 3000)
+  }
+
   render() {
     let {userdata} = this.props.appStore;
     return (
@@ -130,9 +157,10 @@ export default class Profile extends Component<Props> {
         <Toolbar
           style={{ container: {'backgroundColor':'#4CAF50'}}}
           // leftElement="menu"
-          centerElement='Your Profile'
+          centerElement={userdata.name !== null ? userdata.name : 'Your Profile'}
         />
-        <ScrollView style={{width:'90%'}}>
+        <Text style={{textAlign:'center',fontWeight:'900', fontSize:16, color:'#000', marginVertical:10}}>REFER CODE: {userdata.refer_code}</Text>
+        <ScrollView style={{width:'90%'}} keyboardShouldPersistTaps={'always'} >
             <TextInput 
                 placeholder='Name' 
                 underlineColorAndroid="#ddd" 
@@ -148,7 +176,7 @@ export default class Profile extends Component<Props> {
                 selectTextOnFocus={true}
                 autoCapitalize="none"
                 blurOnSubmit={false}
-                style={[styles.inputForm, {marginTop:10}]}
+                style={[styles.inputForm]}
             />
             <TextInput 
                 placeholder='Age' 
@@ -178,14 +206,14 @@ export default class Profile extends Component<Props> {
             </View>
             <View style={{flexDirection:'row', height:40, marginTop:10,marginBottom:10, alignItems:'center', justifyContent:'space-between'}}>
                 <Text style={{marginRight:15}}>Education</Text>
-                <Button raised primary text="Add" onPress={() => {this.setState({modalVisible:true})}} />
+                <Button raised primary text="Add" onPress={() => this.setAddEdu()} />
             </View>
             <FlatList
                 data={this.state.profileData.education}
                 extraData={this.state.watchChange}
                 keyExtractor={(item, index) => 'key'+index}
                 renderItem={({item, index}) => 
-                <View style={{paddingHorizontal:20}}>
+                <View style={{paddingHorizontal:20, paddingVertical:10}}>
                     <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.institutionName}</Text>
                     <Text style={{fontSize:10, color:'#000'}}>{item.degreeName}</Text>
                     <Text style={{fontSize:10, color:'#000'}}>{item.subject}</Text>
@@ -197,10 +225,10 @@ export default class Profile extends Component<Props> {
                     </View>
                     <View style={{flexDirection:'row', justifyContent:'space-around', alignItems:'center'}}>
                         <View style={{width:'30%'}}>
-                            <Button text="edit" style={{fontSize:10}} icon="edit" />
+                            <Button text="edit" style={{fontSize:10}} icon="edit" onPress={() => this.setUpdateEdu(item, index)} />
                         </View>
                         <View style={{width:'30%'}}>
-                            <Button text="delete" style={{fontSize:10}} icon="delete" />
+                            <Button accent text="delete" style={{fontSize:10}} icon="delete" onPress={() => this.dltEdu(index)} />
                         </View>
                     </View>
                 </View>
@@ -309,7 +337,7 @@ export default class Profile extends Component<Props> {
           onRequestClose={() => {
             console.log('Model Closed')
           }}>
-          <Addededucation modelCls={this.modelCls} addEducation={this.addEducation} />
+          <Addededucation modelCls={this.modelCls} addEducation={this.addEducation} updateEducation={this.state.updateEducation} saveUpdateEducation={this.saveUpdateEducation} />
         </Modal>
         <Modal
             transparent={true}

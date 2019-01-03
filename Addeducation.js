@@ -12,6 +12,7 @@ export default class Addeducation extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
+            update:false,
             institutionName:'',
             degreeName:'',
             subject:'',
@@ -32,7 +33,19 @@ export default class Addeducation extends Component<Props> {
   
 
   componentWillMount(){
-    console.log("home");
+    let {updateEducation} = this.props;
+      if(updateEducation !==  null){
+        this.setState({update:true});
+        this.setState({institutionName:updateEducation.institutionName});
+        this.setState({degreeName:updateEducation.degreeName});
+        this.setState({subject:updateEducation.subject});
+        this.setState({result:updateEducation.result});
+        this.setState({present:updateEducation.present});
+        this.setState({startDate:updateEducation.startDate});
+        this.setState({endDate:updateEducation.endDate});
+      }else{
+        this.setState({update:false});
+      }
   }
 
   selectEndDate(date){
@@ -53,7 +66,11 @@ export default class Addeducation extends Component<Props> {
 
     addEducation(){
         if(this.state.degreeName && this.state.institutionName && this.state.subject && this.state.startDate){
-            this.props.addEducation(this.state);
+            if(this.state.update === true){
+                this.props.saveUpdateEducation(this.state, this.props.updateEducation.itemIndex);
+            }else{
+                this.props.addEducation(this.state);
+            }
             this.props.modelCls();
         }else{
             ToastAndroid.show('Fill Empty!', 3000);
@@ -178,7 +195,7 @@ export default class Addeducation extends Component<Props> {
                 <CheckBox onValueChange={() => this.selectPresent()} value={this.state.present} />
             </View>
             <View style={{flexDirection:'row', marginTop:10,justifyContent:'flex-end'}}>
-                <Button raised primary text="Add" onPress={() => {this.addEducation()}} />
+                <Button raised primary text="Save" onPress={() => {this.addEducation()}} />
             </View>
             </ScrollView>
       </View>

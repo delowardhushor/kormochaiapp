@@ -13,12 +13,12 @@ type Props = {};
 export default class Myjobs extends Component<Props> {
 
   constructor(props) {
-        super(props);
-        this.state = {
-          watchChange:false,
-          modelVisible:false,
-          addModelVisible:false,
-        };
+      super(props);
+      this.state = {
+        watchChange:false,
+        modelVisible:false,
+        addModelVisible:false,
+      };
     }
 
   componentWillMount(){
@@ -87,7 +87,7 @@ export default class Myjobs extends Component<Props> {
                   <Text style={{fontSize:12, color:'#000'}}>{item.education}</Text>
                 </View>
                 <TouchableOpacity style={{backgroundColor:'#4CAF50', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
-                  <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' />Details</Text>
+                  <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' /> Details</Text>
                 </TouchableOpacity>
               </View>
             </View>

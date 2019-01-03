@@ -14,11 +14,24 @@ export default class JobDetails extends Component<Props> {
         super(props);
         this.state = {
           watchChange:false,
+          applied:false,
         };
     }
 
   componentWillMount(){
-    console.log(this.state.jobs);
+    this.chkApplied();
+  }
+
+  chkApplied(){
+    let {myJobs, JobDetails} = this.props.appStore;
+    var applied = false;
+    for(var i = 0; myJobs.length > i; i++){
+      if(myJobs[i].id ==  JobDetails.id){
+        applied = true;
+        break;
+      }
+    }
+    this.setState({applied:applied});
   }
 
   componentWillReceiveProps(){
@@ -26,17 +39,21 @@ export default class JobDetails extends Component<Props> {
   }
 
   apply(){
-    axios.post(this.props.appStore.baseUrl+'applications',{
-      job_id:this.props.appStore.JobDetails,
-      employees_id:this.props.appStore.userdata.id,
-    })
-    .then((res)=>{
-      ToastAndroid.show("Application Success", 3000);
-      this.props.clsJobDetails();
-    })
-    .catch((err)=>{
-      ToastAndroid.show("No Network Connection", 3000);
-    })
+    if(this.state.applied ===  true){
+      ToastAndroid.show("Applied Allready", 3000);
+    }else{
+      axios.post(this.props.appStore.baseUrl+'applications',{
+        job_id:this.props.appStore.JobDetails.id,
+        employees_id:this.props.appStore.userdata.id,
+      })
+      .then((res)=>{
+        ToastAndroid.show("Application Success", 3000);
+        this.props.clsJobDetails();
+      })
+      .catch((err)=>{
+        ToastAndroid.show("No Network Connection", 3000);
+      })
+    }
   }
 
   render() {
@@ -97,7 +114,7 @@ export default class JobDetails extends Component<Props> {
             </View>
             {(this.props.appStore.usertype === 'employees') &&
             <View style={{width:'100%', marginTop:20}}>
-              <Button primary raised onPress={() => this.apply()} text="APPLY" />
+              <Button primary raised onPress={() => this.apply()} text={this.state.applied === true ? 'Applied Before' : 'Apply'} />
             </View>
             }
           </ScrollView>

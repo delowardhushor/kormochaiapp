@@ -86,7 +86,11 @@ export default class Login extends Component<Props> {
             }
             var appStore = this.props.appStore;
             appStore.userdata = userdata;
-            appStore.activeTab = 'Home';
+            if(appStore.usertype === 'employees'){
+                appStore.activeTab = 'Profile';
+            }else{
+                appStore.activeTab = 'Home';
+            }
             this.props.updateAppstore(appStore);
             
         }else{
@@ -134,7 +138,7 @@ export default class Login extends Component<Props> {
 
     return (
       <View style={{justifyContent:'center', alignItems:'center'}}>
-        <ScrollView style={{width:'60%'}}>
+        <ScrollView style={{width:'60%'}} keyboardShouldPersistTaps={'always'}>
             <View style={{height:100}}></View>
             <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
                 <View style={{flex:1, justifyContent:'center'}}>

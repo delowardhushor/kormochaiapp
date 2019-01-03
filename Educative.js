@@ -13,6 +13,11 @@ export default class Educative extends Component {
       };
   }
 
+  toProfile = () => {
+    var appStore = this.props.appStore;
+    appStore.activeTab = 'Profile';
+    this.props.updateAppstore(appStore);
+  }
 
   setActiveEducatives(item){
     this.setState({activeEducatives:item});
@@ -29,8 +34,9 @@ export default class Educative extends Component {
         <View>
           <Toolbar
             style={{ container: {'backgroundColor':'#4CAF50'}}}
-            centerElement={this.state.activeEducatives.title}
-            onRightElementPress={ () => { this.props.clsModel() }}
+            centerElement="Educatives"
+            rightElement={this.props.appStore.usertype == 'employees' ? "account-box" : "" }
+            onRightElementPress={ () => { this.toProfile() }}
           />
             <FlatList
                 data={this.props.appStore.educatives}

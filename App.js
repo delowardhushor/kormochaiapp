@@ -37,10 +37,8 @@ export default class App extends Component<Props> {
         myjobs:[],
         JobDetails:[],
       },
-      modelVisible:true,
+      modelVisible:false,
     };
-    //this.focusNextField = this.focusNextField.bind(this);
-    //this.inputs = {};
   }
 
   renderIcon = icon => ({ isActive }) => (
@@ -61,9 +59,8 @@ export default class App extends Component<Props> {
     var appStore = await getKey('appStore');
     if(appStore !== null){
       this.setState({appStore:appStore});
-      if(appStore.usertype !== ''){
-        this.setState({modelVisible:false});
-        console.log(appStore)
+      if(appStore.usertype == ''){
+        this.setState({modelVisible:true});
       }
     }
 
