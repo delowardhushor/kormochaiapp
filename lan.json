@@ -23,7 +23,7 @@
         "ban":"ভাষা বাংলা থেকে ইংলিশ এ পরিবর্তন করুন",
         "eng":"Change language English to bangla"
     },
-    "singin":{
+    "signin":{
         "ban":"সাইন ইন করুন",
         "eng":"Signin"
     },
@@ -50,5 +50,253 @@
     "educative":{
         "ban":"শিক্ষণীয়",
         "eng":"EDUCATIVE"
-    }
+    },
+    "kormochai":{
+        "ban":"কর্মচাই",
+        "eng":"KORMOCHAI"
+    },
+    "anycat":{
+        "ban":"যেকোনো ক্যাটাগরি",
+        "eng":"Any Category",
+    },
+    "anyloc":{
+        "ban":"যেকোনো লোকেশন",
+        "eng":"Any Location"
+    },
+    "cat":{
+        "ban":"ক্যাটাগরি",
+        "eng":"Category",
+    },
+    "loc":{
+        "ban":"লোকেশন",
+        "eng":"Location"
+    },
+    "details":{
+        "ban":"বিস্তারিত",
+        "eng":"Details"
+    },
+    "weekly":{
+        "ban":"সাপ্তাহিক",
+        "eng":"Weekly"
+    },
+    "daily":{
+        "ban":"দৈনিক",
+        "eng":"Daily"
+    },
+    "monthly":{
+        "ban":"মাসিক",
+        "eng":"Monthly"
+    },
+    "comName":{
+        "ban":"কোম্পানির নাম",
+        "eng":"Company Name"
+    },
+    "jobTitle":{
+        "ban":"জব টাইটেল",
+        "eng":"Job Title"
+    },
+    "salary":{
+        "ban":"বেতন",
+        "eng":"Salary"
+    },
+    "salaryType":{
+        "ban":"বেতন ধরন",
+        "eng":"Salary Type"
+    },
+    "location":{
+        "ban":"লোকেশন",
+        "eng":"Location"
+    },
+    "jobHour":{
+        "ban":"অফিস সময়",
+        "eng":"Job Hour"
+    },
+    "jobType":{
+        "ban":"কাজের ধরণ",
+        "eng":"Job Type"
+    },
+    "intDate":{
+        "ban":"ইন্টারভিউ ডেট",
+        "eng":"Interview Date"
+    },
+    "jobDate":{
+        "ban":"জব ডেট",
+        "eng":"Job Date"
+    },
+    "eduQua":{
+        "ban":"শিক্ষাগত যোগ্যতা",
+        "eng":"Educational Requirment"
+    },
+    "jobRes":{
+        "ban":"জব দায়িত্ব",
+        "eng":"Job Responsibility"
+    },
+    "needInt":{
+        "ban":"ইন্টারভিউ দিতে হবে",
+        "eng":"Interview Needed"
+    },
+    "noneedInt":{
+        "ban":"ইন্টারভিউ দিতে হবে না",
+        "eng":"No Interview Needed"
+    },
+    "apply":{
+        "ban":"আবেদন করুন",
+        "eng":"Apply"
+    },
+    "applied":{
+        "ban":"আবেদন করা হয়ে গেছে",
+        "eng":"All Ready Applied"
+    },
+    "applySuc":{
+        "ban":"আবেদন সফল",
+        "eng":"Application Success"
+    },
+    "noNet":{
+        "ban":"নেটওয়ার্ক কানেকশন নেই",
+        "eng":"No Network Connection"
+    },
+    "phone":{
+        "ban":"ফোন",
+        "eng":"Phone"
+    },
+    "pass":{
+        "ban":"পাসওয়ার্ড",
+        "eng":"Password"
+    },
+    "refCode":{
+        "ban":"রেফের কোড",
+        "eng":"Refer Code"
+    },
+    "conPass":{
+        "ban":"কন্ফার্ম পাসওয়ার্ড",
+        "eng":"Confirm Password"
+    },
+    "conGus":{
+        "ban":"আমি একজন গেস্ট",
+        "eng":"Continue As A Guest"
+    },
+    "name":{
+        "ban":"নাম",
+        "eng":"Name"
+    },
+    "age":{
+        "ban":"বয়স",
+        "eng":"Age"
+    },
+    "gender":{
+        "ban":"লিঙ্গ",
+        "eng":"Gender"
+    },
+    "male":{
+        "ban":"পুরুষ",
+        "eng":"Male"
+    },
+    "female":{
+        "ban":"মহিলা",
+        "eng":"Female"
+    },
+    "other":{
+        "ban":"অন্নান্ন",
+        "eng":"Others"
+    },
+    "update":{
+        "ban":"আপডেট ",
+        "eng":"Update"
+    },
+    "delete":{
+        "ban":"ডিলিট",
+        "eng":"Delete"
+    },
+    "address":{
+        "ban":"ঠিকানা",
+        "eng":"Address"
+    },
+    "area":{
+        "ban":"আমি একজন গেস্ট",
+        "eng":"Area"
+    },
+    "district":{
+        "ban":"আমি একজন গেস্ট",
+        "eng":"District"
+    },
+    "thana":{
+        "ban":"থানা",
+        "eng":"Thana"
+    },
+    "post":{
+        "ban":"পোস্ট",
+        "eng":"Post"
+    },
+    "save":{
+        "ban":"সেভ",
+        "eng":"save"
+    },
+    "jobYouApplied":{
+        "ban":"আবেদনকৃত জব",
+        "eng":"Job you Applied"
+    },
+    "jobYouPost":{
+        "ban":"পোস্টকৃত জব",
+        "eng":"Job you Posted"
+    },
+    "nojobYouApplied":{
+        "ban":"আবেদনকৃত কোনো জব নাই ",
+        "eng":"No Job Applied"
+    },
+    "nojobYouPost":{
+        "ban":"পোস্টকৃত কোনো জব নাই ",
+        "eng":"Job you Posted"
+    },
+    "addEdu":{
+        "ban":"শিক্ষা যোগ করুন",
+        "eng":"Add Education"
+    },
+    "upEdu":{
+        "ban":"শিক্ষা আপডেট করুন",
+        "eng":"Update Education"
+    },
+    "insName":{
+        "ban":"প্রতিষ্ঠানের নাম",
+        "eng":"Institution Name"
+    },
+    "sub":{
+        "ban":"বিষয়",
+        "eng":"Subject"
+    },
+    "degName":{
+        "ban":"কোর্স নাম",
+        "eng":"Course Name"
+    },
+    "result":{
+        "ban":"রেজাল্ট",
+        "eng":"Result"
+    },
+    "startDate":{
+        "ban":"শুরুর তারিখ",
+        "eng":"Start Date"
+    },
+    "endDate":{
+        "ban":"সমাপ্তির তারিখ",
+        "eng":"End Date"
+    },
+    "present":{
+        "ban":"বর্তমান",
+        "eng":"In Present"
+    },
+    "add":{
+        "ban":"অ্যাড করুন",
+        "eng":"Add"
+    },
+    "addJob":{
+        "ban":"জব পোস্ট করুন",
+        "eng":"Post Job"
+    },
+    "part":{
+        "ban":"পার্টটাইম",
+        "eng":"Part Time"
+    },
+    "full":{
+        "ban":"ফুলটটাইম",
+        "eng":"Full Time"
+    },
 }

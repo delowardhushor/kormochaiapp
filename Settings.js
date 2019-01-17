@@ -69,7 +69,7 @@ export default class Settings extends Component<Props> {
       <View>
         <Toolbar
           style={{ container: {'backgroundColor':'#4CAF50'}}}
-          centerElement="Settings"
+          centerElement={language.settings[lan]}
           rightElement={this.props.appStore.usertype == 'employees' ? "account-box" : "" }
           onRightElementPress={ () => { this.toProfile() }}
         />
@@ -92,7 +92,7 @@ export default class Settings extends Component<Props> {
             </View>
             }
             {(this.props.appStore.userdata.length == 0) &&
-            <Button raised text={language.singin[lan]} onPress={() => this.toLogin()} />
+            <Button raised text={language.signin[lan]} onPress={() => this.toLogin()} />
             }
             {(this.props.appStore.userdata.length !== 0) &&
             <Button raised text={language.signout[lan]} onPress={() => this.logout()} />

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TouchableOpacity, TextInput,Switch,ActivityIndicator,Picker,FlatList, ScrollView, CheckBox, ToastAndroid, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import Lan from './lan.json';
+import language from './lan.json';
 import DatePicker from 'react-native-datepicker'
 
 import { Toolbar, Button } from 'react-native-material-ui';
@@ -106,6 +106,8 @@ export default class AddJobs extends Component<Props> {
 
   render() {
 
+    let {lan} = this.props.appStore;
+
     const Cats = this.props.appStore.cats.map((item, index) => {
         return <Picker.Item key={index} label={item.cat} value={item.cat} />
     });
@@ -119,12 +121,12 @@ export default class AddJobs extends Component<Props> {
         <Toolbar
             style={{ container: {'backgroundColor':'#4CAF50'}}}
             leftElement="chevron-left"
-            centerElement="POST JOB"
+            centerElement={language.addJob[lan]}
             onLeftElementPress={ () => { this.props.clsAddJobs() }}
           />
           <ScrollView style={{width:'90%', paddingTop:20}}>
             <TextInput
-                placeholder='Job Title' 
+                placeholder={language.jobTitle[lan]}
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
                     this.inputs['jobTitle'] = input;
@@ -142,7 +144,7 @@ export default class AddJobs extends Component<Props> {
             />
             
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', height:40, alignItems:'center', marginTop:10}}>
-                <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>Category:</Text>
+                <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>{language.cat[lan]}:</Text>
                 <Picker
                     selectedValue={this.state.cat}
                     style={{ height: 50, width: 100 }}
@@ -151,7 +153,7 @@ export default class AddJobs extends Component<Props> {
                 </Picker>
             </View>
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', height:40, alignItems:'center', marginTop:10}}>
-                <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>Location:</Text>
+                <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>{language.cat[lan]}:</Text>
                 <Picker
                     selectedValue={this.state.location}
                     style={{ height: 50, width: 100 }}
@@ -160,7 +162,7 @@ export default class AddJobs extends Component<Props> {
                 </Picker>
             </View>
             <TextInput
-                placeholder='Institution Name' 
+                placeholder={language.insName[lan]}
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
                     this.inputs['companyName'] = input;
@@ -176,32 +178,15 @@ export default class AddJobs extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
-            <TextInput
-                placeholder='Location' 
-                underlineColorAndroid="#ddd" 
-                ref={ input => {
-                    this.inputs['location'] = input;
-                }}
-                onSubmitEditing={() => {
-                    this.focusNextField('officeHour');
-                }}
-                value={this.state.location}
-                onChangeText={(location) => this.setState({location})}
-                returnKeyType='next'
-                selectTextOnFocus={true}
-                autoCapitalize="none"
-                blurOnSubmit={false}
-                style={styles.inputForm}
-            />
             <View style={{flexDirection:'row', height:40, alignItems:'center', marginTop:10}}>
-                <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>Job Period</Text>
+                <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>{language.jobType[lan]}</Text>
                 <CheckBox onValueChange={() => this.setState({jobPeriod:'fulltime'})} value={this.state.jobPeriod === 'fulltime' ? true : false} />
-                <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>Full Time</Text> 
+                <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>{language.full[lan]}</Text> 
                 <CheckBox onValueChange={() => this.setState({jobPeriod:'parttime'})} value={this.state.jobPeriod === 'parttime' ? true : false} /> 
-                <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>Part Time</Text> 
+                <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>{language.part[lan]}</Text> 
             </View>
             <TextInput
-                placeholder='Office Hour' 
+                placeholder={language.jobHour[lan]} 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
                     this.inputs['officeHour'] = input;
@@ -218,7 +203,7 @@ export default class AddJobs extends Component<Props> {
                 style={styles.inputForm}
             />
             <TextInput
-                placeholder='Salary' 
+                placeholder={language.salary[lan]} 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
                     this.inputs['salary'] = input;
@@ -235,24 +220,24 @@ export default class AddJobs extends Component<Props> {
                 style={styles.inputForm}
             />
             <View style={{height:40, marginTop:10}}>
-                <Text style={styles.inputForm}>Salary Period</Text>
+                <Text style={styles.inputForm}>{language.salaryType[lan]}</Text>
                 <View style={{flexDirection:'row', alignItems:'center', marginTop:10}}>
                     <CheckBox onValueChange={() => this.setState({salaryType:'monthly'})} value={this.state.salaryType === 'monthly' ? true : false} />
-                    <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>Monthly</Text> 
+                    <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>{language.monthly[lan]}</Text> 
                     <CheckBox onValueChange={() => this.setState({salaryType:'weekly'})} value={this.state.salaryType === 'weekly' ? true : false} /> 
-                    <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>Weekly</Text> 
+                    <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>{language.weekly[lan]}</Text> 
                     <CheckBox onValueChange={() => this.setState({salaryType:'daily'})} value={this.state.salaryType === 'daily' ? true : false} /> 
-                    <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>Daily</Text>
+                    <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>{language.daily[lan]}</Text>
                 </View>
             </View>
             <View style={{flexDirection:'row', height:40, alignItems:'center', marginTop:30}}>
-                <Text style={[styles.inputForm, {marginRight:15, width:'auto'}]}>Interview needed</Text>
+                <Text style={[styles.inputForm, {marginRight:15, width:'auto'}]}>{language.needInt[lan]}</Text>
                 <CheckBox onValueChange={() => this.setState({interview:!this.state.interview})} value={this.state.interview} />
             </View>
             {(this.state.interview) &&
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:'space-between'}}>
                 <View>
-                    <Text style={[styles.inputForm, {width:'auto'}]} >Interview Date</Text>
+                    <Text style={[styles.inputForm, {width:'auto'}]} >{language.endDate[lan]}</Text>
                 </View>
                 <View>
                     <DatePicker
@@ -269,7 +254,7 @@ export default class AddJobs extends Component<Props> {
             }
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:'space-between'}}>
                 <View>
-                    <Text style={[styles.inputForm, {width:'auto'}]} >Job Date</Text>
+                    <Text style={[styles.inputForm, {width:'auto'}]} >{language.jobDate[lan]}</Text>
                 </View>
                 <View>
                     <DatePicker
@@ -284,7 +269,7 @@ export default class AddJobs extends Component<Props> {
                 </View>
             </View>
             <TextInput
-                placeholder='Education Requirment' 
+                placeholder={language.eduQua[lan]} 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
                     this.inputs['education'] = input;
@@ -301,7 +286,7 @@ export default class AddJobs extends Component<Props> {
                 style={styles.inputForm}
             />
             <TextInput
-                placeholder='Job Responsibility' 
+                placeholder={language.jobRes[lan]} 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
                     this.inputs['responsibility'] = input;
@@ -319,7 +304,7 @@ export default class AddJobs extends Component<Props> {
                 multiline={true}
             />
             <View style={{flexDirection:'row', marginTop:10,justifyContent:'flex-end'}}>
-                <Button raised primary text="Post" onPress={() => {this.addJob()}} />
+                <Button raised primary text={language.add[lan]} onPress={() => {this.addJob()}} />
             </View>
             <View style={{height:100}}></View>
             </ScrollView>

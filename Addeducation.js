@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TouchableOpacity, TextInput,Switch, ScrollView, CheckBox, ToastAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import Lan from './lan.json';
+import language from './lan.json';
 import DatePicker from 'react-native-datepicker'
 
 import { Toolbar, Button } from 'react-native-material-ui';
@@ -78,18 +78,18 @@ export default class Addeducation extends Component<Props> {
     }
 
   render() {
-    console.log(Lan)
+    let {lan} = this.props.appStore;
     return (
       <View style={{flex:1, alignItems:'center', justifyContent:'center', height:'100%'}}>
         <Toolbar
             style={{ container: {'backgroundColor':'#4CAF50'}}}
             leftElement="chevron-left"
-            centerElement="ADD EDUCATION"
+            centerElement={this.state.update === true ? language.upEdu[lan] : language.addEdu[lan] }
             onLeftElementPress={ () => { this.props.modelCls() }}
           />
           <ScrollView style={{width:'90%', paddingTop:20}}>
           <TextInput 
-                placeholder='Institution Name' 
+                placeholder={language.insName[lan]} 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
                     this.inputs['institutionName'] = input;
@@ -106,7 +106,7 @@ export default class Addeducation extends Component<Props> {
                 style={styles.inputForm}
             />
             <TextInput 
-                placeholder='Course Name' 
+                placeholder={language.degName[lan]} 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
                     this.inputs['degreeName'] = input;
@@ -123,7 +123,7 @@ export default class Addeducation extends Component<Props> {
                 style={styles.inputForm}
             />
             <TextInput 
-                placeholder='Subject' 
+                placeholder={language.sub[lan]} 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
                     this.inputs['subject'] = input;
@@ -140,7 +140,7 @@ export default class Addeducation extends Component<Props> {
                 style={styles.inputForm}
             />
             <TextInput 
-                placeholder='Result' 
+                placeholder={language.result[lan]}
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
                     this.inputs['result'] = input;
@@ -158,7 +158,7 @@ export default class Addeducation extends Component<Props> {
             />
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:'space-between'}}>
                 <View>
-                    <Text style={[styles.inputForm, {width:'auto'}]}>Start Date</Text>
+                    <Text style={[styles.inputForm, {width:'auto'}]}>{language.startDate[lan]}</Text>
                 </View>
                 <View>
                     <DatePicker
@@ -175,7 +175,7 @@ export default class Addeducation extends Component<Props> {
             {(!this.state.present) &&
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:'space-between'}}>
                 <View>
-                    <Text style={[styles.inputForm, {width:'auto'}]}>End Date</Text>
+                    <Text style={[styles.inputForm, {width:'auto'}]}>{language.endDate[lan]}</Text>
                 </View>
                 <View>
                     <DatePicker
@@ -191,11 +191,11 @@ export default class Addeducation extends Component<Props> {
             </View>
             }
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center',  justifyContent:'flex-start'}}>
-                <Text style={[styles.inputForm, {width:'auto'}]}>IN Present</Text>
+                <Text style={[styles.inputForm, {width:'auto'}]}>{language.present[lan]}</Text>
                 <CheckBox onValueChange={() => this.selectPresent()} value={this.state.present} />
             </View>
             <View style={{flexDirection:'row', marginTop:10,justifyContent:'flex-end'}}>
-                <Button raised primary text="Save" onPress={() => {this.addEducation()}} />
+                <Button raised primary text={language.save[lan]} onPress={() => {this.addEducation()}} />
             </View>
             </ScrollView>
       </View>

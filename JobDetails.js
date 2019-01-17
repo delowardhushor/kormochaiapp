@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TouchableOpacity, FlatList,ToastAndroid, ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import Lan from './lan.json';
+import language from './lan.json';
 
 import { Button, Toolbar } from 'react-native-material-ui';
 import axios from 'axios';
@@ -40,31 +40,31 @@ export default class JobDetails extends Component<Props> {
 
   apply(){
     if(this.state.applied ===  true){
-      ToastAndroid.show("Applied Allready", 3000);
+      ToastAndroid.show(language.applied[this.props.appStore.lan], 3000);
     }else{
       axios.post(this.props.appStore.baseUrl+'applications',{
         job_id:this.props.appStore.JobDetails.id,
         employees_id:this.props.appStore.userdata.id,
       })
       .then((res)=>{
-        ToastAndroid.show("Application Success", 3000);
+        ToastAndroid.show(language.applySuc[this.props.appStore.lan], 3000);
         this.props.clsJobDetails();
       })
       .catch((err)=>{
-        ToastAndroid.show("No Network Connection", 3000);
+        ToastAndroid.show(language.noNet[this.props.appStore.lan], 3000);
       })
     }
   }
 
   render() {
-    let {JobDetails} = this.props.appStore;
+    let {JobDetails, lan} = this.props.appStore;
     return (
       <View>
         <Toolbar
           style={{ container: {'backgroundColor':'#4CAF50'}}}
           leftElement="chevron-left"
           onLeftElementPress={ () => { this.props.clsJobDetails() }}
-          centerElement={JobDetails.job_title+" Details"}
+          centerElement={JobDetails.job_title+" "+language.details[lan]}
         />
         <View style={{alignItems:'center'}}>
           <ScrollView style={{width:'90%'}}>
@@ -72,49 +72,50 @@ export default class JobDetails extends Component<Props> {
               <Text style={[styles.text, {fontSize:22,marginTop:20, }]} >{JobDetails.job_title}</Text>
               <Text style={[styles.text, {fontSize:18,marginTop:10, }]} >{JobDetails.salary} / {JobDetails.salary_type}</Text>
             </View>
+            <Text style={[styles.text, {fontSize:14, marginTop:10}]}>({JobDetails.interview == true ? language.needInt[lan] : language.noneedInt[lan]})</Text>
             <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
-              <Text style={styles.label}>Company Name:</Text>
+              <Text style={styles.label}>{language.comName[lan]}:</Text>
               <Text style={styles.value}>{JobDetails.company_name}</Text>
             </View>
             <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
-              <Text style={styles.label}>Location:</Text>
+              <Text style={styles.label}>{language.location[lan]}:</Text>
               <Text style={styles.value}>{JobDetails.location}</Text>
             </View>
             <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
-              <Text style={styles.label}>Job Hour :</Text>
+              <Text style={styles.label}>{language.jobHour[lan]}:</Text>
               <Text style={styles.value}>{JobDetails.office_hour}</Text>
             </View>
             <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
-              <Text style={styles.label}>Job type:</Text>
+              <Text style={styles.label}>{language.jobType[lan]}:</Text>
               <Text style={styles.value}>{JobDetails.job_type}</Text>
             </View>
-            {(JobDetails.interview == 'true') &&
+            {(JobDetails.interview == true) &&
             <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
-              <Text style={styles.label}>Interview {"Date"}:</Text>
+              <Text style={styles.label}>{language.intDate[lan]}:</Text>
               <Text style={styles.value}>{JobDetails.interview_date}</Text>
             </View>
             }
             <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
-              <Text style={styles.label}>Starting Date:</Text>
+              <Text style={styles.label}>{language.jobDate[lan]}:</Text>
               <Text style={styles.value}>{JobDetails.job_date}</Text>
             </View>
 
             <View style={styles.hr}></View>
 
             <View style={{width:'100%', marginTop:10}}>
-              <Text style={[styles.label, {width:'100%', fontSize:16, color:'grey'}]}>Job Requriment:</Text>
+              <Text style={[styles.label, {width:'100%', fontSize:16, color:'grey'}]}>{language.eduQua[lan]}:</Text>
               <Text style={[styles.value, {width:"100%", marginTop:10}]}>{JobDetails.education}</Text>
             </View>
 
             <View style={styles.hr}></View>
 
             <View style={{width:'100%', marginTop:10}}>
-              <Text style={[styles.label, {width:'100%', fontSize:16, color:'grey'}]}>Job Responsibility:</Text>
+              <Text style={[styles.label, {width:'100%', fontSize:16, color:'grey'}]}>{language.jobRes[lan]}:</Text>
               <Text style={[styles.value, {width:"100%", marginTop:10}]}>{JobDetails.job_responsibility}</Text>
             </View>
             {(this.props.appStore.usertype === 'employees') &&
             <View style={{width:'100%', marginTop:20}}>
-              <Button primary raised onPress={() => this.apply()} text={this.state.applied === true ? 'Applied Before' : 'Apply'} />
+              <Button primary raised onPress={() => this.apply()} text={this.state.applied === true ? language.applied[lan] : language.apply[lan]} />
             </View>
             }
           </ScrollView>

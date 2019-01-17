@@ -34,7 +34,7 @@ export default class App extends Component<Props> {
         locations:[],
         educatives:[],
         cats:[],
-        myjobs:[],
+        myJobs:[],
         JobDetails:[],
       },
       modelVisible:false,
@@ -176,9 +176,9 @@ export default class App extends Component<Props> {
           }}>
           <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
             <View style={{width:'90%'}}>
-              <Button raised primary text="I am Employee" onPress={() => this.setUserType('employees')} />
+              <Button raised primary text={language.iAmEmployee[lan]} onPress={() => this.setUserType('employees')} />
               <View style={{height:20}}></View>
-              <Button raised primary text="I am Emplyer" onPress={() => this.setUserType('employers')} />
+              <Button raised primary text={language.iAmEmployer[lan]}  onPress={() => this.setUserType('employers')} />
             </View>
           </View>
         </Modal>

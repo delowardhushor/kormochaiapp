@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TouchableOpacity, FlatList, Modal, Picker} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import Lan from './lan.json';
+import language from './lan.json';
 import JobDetails from './JobDetails';
 
 import { Button, Toolbar } from 'react-native-material-ui';
@@ -82,18 +82,14 @@ export default class Home extends Component<Props> {
         return <Picker.Item key={index} label={item.location} value={item.location} />
     });
     
+    let{lan} = this.props.appStore;
+
     return (
       <View>
         <Toolbar
           style={{ container: {'backgroundColor':'#4CAF50'}}}
           // leftElement="menu"
-          centerElement="KORMO CHAI"
-          searchable={{
-            autoFocus: true,
-            placeholder: 'Search By Location',
-            onChangeText:(text) => this.search(text),
-            onSearchClosed:() => this.clsSearch()
-          }}
+          centerElement={language.kormochai[lan]}
           rightElement={this.props.appStore.usertype == 'employees' ? "account-box" : "" }
           onRightElementPress={ () => { this.toProfile() }}
         />
@@ -102,14 +98,14 @@ export default class Home extends Component<Props> {
               selectedValue={this.state.category}
               style={{ height: 40, width: '45%' }}
               onValueChange={(itemValue, itemIndex) => this.search(this.state.location ,itemValue)}>
-              <Picker.Item label="Any Category" value='' />
+              <Picker.Item label={language.anyloc[lan]} value='' />
               {Cats}
           </Picker>
           <Picker
               selectedValue={this.state.location}
               style={{ height: 40, width: "45%" }}
               onValueChange={(itemValue, itemIndex) => this.search(itemValue, this.state.category)}>
-              <Picker.Item label="Any Location" value='' />
+              <Picker.Item label={language.anycat[lan]} value='' />
               {Locations}
           </Picker>
         </View>
@@ -132,7 +128,7 @@ export default class Home extends Component<Props> {
                   <Text style={{fontSize:12, color:'#000'}}>{item.education}</Text>
                 </View>
                 <TouchableOpacity style={{backgroundColor:'#4CAF50', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
-                  <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' /> Details</Text>
+                  <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' /> {language.details[lan]}</Text>
                 </TouchableOpacity>
               </View>
             </View>

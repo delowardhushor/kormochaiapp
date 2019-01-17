@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, TextInput,CheckBox, View,ScrollView,Modal,FlatList,ToastAndroid,ActivityIndicator, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import Lan from './lan.json';
+import language from './lan.json';
 
 import { Button, Toolbar } from 'react-native-material-ui';
 
@@ -151,18 +151,18 @@ export default class Profile extends Component<Props> {
   }
 
   render() {
-    let {userdata} = this.props.appStore;
+    let {userdata, lan} = this.props.appStore;
     return (
       <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
         <Toolbar
           style={{ container: {'backgroundColor':'#4CAF50'}}}
           // leftElement="menu"
-          centerElement={userdata.name !== null ? userdata.name : 'Your Profile'}
+          centerElement={userdata.name !== '' ? userdata.name : 'Your Profile'}
         />
-        <Text style={{textAlign:'center',fontWeight:'900', fontSize:16, color:'#000', marginVertical:10}}>REFER CODE: {userdata.refer_code}</Text>
+        <Text style={{textAlign:'center',fontWeight:'900', fontSize:16, color:'#000', marginVertical:10}}>{language.refCode[lan]}: {userdata.refer_code}</Text>
         <ScrollView style={{width:'90%'}} keyboardShouldPersistTaps={'always'} >
             <TextInput 
-                placeholder='Name' 
+                placeholder={language.name[lan]} 
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
                     this.inputs['name'] = input;
@@ -179,7 +179,7 @@ export default class Profile extends Component<Props> {
                 style={[styles.inputForm]}
             />
             <TextInput 
-                placeholder='Age' 
+                placeholder={language.age[lan]}
                 underlineColorAndroid="#ddd"
                 ref={ input => {
                     this.inputs['age'] = input;
@@ -196,16 +196,16 @@ export default class Profile extends Component<Props> {
                 style={styles.inputForm}
             />
             <View style={{flexDirection:'row', height:40, alignItems:'center'}}>
-                <Text style={{marginRight:15}}>Gender</Text>
+                <Text style={{marginRight:15}}>{language.gender[lan]}</Text>
                 <CheckBox onValueChange={() => this.cngProfileData('gender', 'Male')} value={this.state.profileData.gender === 'Male' ? true : false} />
-                <Text style={{marginRight:15}}>Male</Text> 
+                <Text style={{marginRight:15}}>{language.male[lan]}</Text> 
                 <CheckBox onValueChange={() => this.cngProfileData('gender', 'Female')} value={this.state.profileData.gender === 'Female' ? true : false} /> 
-                <Text style={{marginRight:15}}>Female</Text> 
+                <Text style={{marginRight:15}}>{language.female[lan]}</Text> 
                 <CheckBox onValueChange={() => this.cngProfileData('gender', 'Other')} value={this.state.profileData.gender === 'Other' ? true : false} /> 
-                <Text>Other</Text>
+                <Text>{language.other[lan]}</Text>
             </View>
             <View style={{flexDirection:'row', height:40, marginTop:10,marginBottom:10, alignItems:'center', justifyContent:'space-between'}}>
-                <Text style={{marginRight:15}}>Education</Text>
+                <Text style={{marginRight:15}}>{language.eduQua[lan]}</Text>
                 <Button raised primary text="Add" onPress={() => this.setAddEdu()} />
             </View>
             <FlatList
@@ -225,10 +225,10 @@ export default class Profile extends Component<Props> {
                     </View>
                     <View style={{flexDirection:'row', justifyContent:'space-around', alignItems:'center'}}>
                         <View style={{width:'30%'}}>
-                            <Button text="edit" style={{fontSize:10}} icon="edit" onPress={() => this.setUpdateEdu(item, index)} />
+                            <Button text={language.update[lan]} style={{fontSize:10}} icon="edit" onPress={() => this.setUpdateEdu(item, index)} />
                         </View>
                         <View style={{width:'30%'}}>
-                            <Button accent text="delete" style={{fontSize:10}} icon="delete" onPress={() => this.dltEdu(index)} />
+                            <Button accent text={language.delete[lan]} style={{fontSize:10}} icon="delete" onPress={() => this.dltEdu(index)} />
                         </View>
                     </View>
                 </View>
@@ -240,7 +240,7 @@ export default class Profile extends Component<Props> {
             </View>
             }
             <TextInput 
-                placeholder='Address' 
+                placeholder={language.address[lan]} 
                 underlineColorAndroid="#ddd"
                 ref={ input => {
                     this.inputs['address'] = input;
@@ -257,7 +257,7 @@ export default class Profile extends Component<Props> {
                 style={styles.inputForm}
             />
             <TextInput 
-                placeholder='Area' 
+                placeholder={language.area[lan]} 
                 underlineColorAndroid="#ddd"
                 ref={ input => {
                     this.inputs['area'] = input;
@@ -274,7 +274,7 @@ export default class Profile extends Component<Props> {
                 style={styles.inputForm}
             />
             <TextInput 
-                placeholder='Post' 
+                placeholder={language.post[lan]}
                 underlineColorAndroid="#ddd"
                 ref={ input => {
                     this.inputs['post'] = input;
@@ -291,7 +291,7 @@ export default class Profile extends Component<Props> {
                 style={styles.inputForm}
             />
             <TextInput 
-                placeholder='Thana' 
+                placeholder={language.thana[lan]}
                 underlineColorAndroid="#ddd"
                 ref={ input => {
                     this.inputs['thana'] = input;
@@ -308,7 +308,7 @@ export default class Profile extends Component<Props> {
                 style={styles.inputForm}
             />
             <TextInput 
-                placeholder='District' 
+                placeholder={language.district[lan]} 
                 underlineColorAndroid="#ddd"
                 ref={ input => {
                     this.inputs['district'] = input;
@@ -325,7 +325,7 @@ export default class Profile extends Component<Props> {
                 style={styles.inputForm}
             />
             <View style={{flexDirection:'row', marginTop:10}}>
-                <Button raised primary text="Save" onPress={() => this.save()} />
+                <Button raised primary text={language.save[lan]} onPress={() => this.save()} />
             </View>
             <View style={{height:50}}>
             </View>
@@ -337,7 +337,7 @@ export default class Profile extends Component<Props> {
           onRequestClose={() => {
             console.log('Model Closed')
           }}>
-          <Addededucation modelCls={this.modelCls} addEducation={this.addEducation} updateEducation={this.state.updateEducation} saveUpdateEducation={this.saveUpdateEducation} />
+          <Addededucation appStore={this.props.appStore} modelCls={this.modelCls} addEducation={this.addEducation} updateEducation={this.state.updateEducation} saveUpdateEducation={this.saveUpdateEducation} />
         </Modal>
         <Modal
             transparent={true}

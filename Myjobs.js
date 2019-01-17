@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, TouchableOpacity, FlatList, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import ionicons from 'react-native-vector-icons/dist/Ionicons';
-import Lan from './lan.json';
+import language from './lan.json';
 import JobDetails from './JobDetails';
 import AddJobs from './AddJobs';
 
@@ -55,19 +55,19 @@ export default class Myjobs extends Component<Props> {
   }
 
   render() {
-    let {usertype, userdata} = this.props.appStore;
+    let {usertype, userdata, lan} = this.props.appStore;
     return (
       <View>
         <Toolbar
           style={{ container: {'backgroundColor':'#4CAF50'}}}
           // leftElement="menu"
-          centerElement={usertype === 'employers' ? 'Job You Posted' : 'Job You Applied'}
+          centerElement={usertype === 'employers' ? language.jobYouPost[lan] : language.jobYouApplied[lan]}
           rightElement={usertype === 'employers' ? 'add-circle' : ''}
           onRightElementPress={() => this.setState({addModelVisible:true})}
         />
         <View style={{alignItems:'center'}}>
           {(this.props.appStore.myJobs.length == 0) &&
-          <Text style={styles.noPostText}>No Job {usertype == 'employees' ? 'Applied' : 'Posted'} Yet</Text>
+          <Text style={styles.noPostText}>{usertype == 'employees' ? language.nojobYouApplied[lan] : language.nojobYouPost[lan]} </Text>
           }
           <FlatList
             data={this.props.appStore.myJobs}
@@ -87,7 +87,7 @@ export default class Myjobs extends Component<Props> {
                   <Text style={{fontSize:12, color:'#000'}}>{item.education}</Text>
                 </View>
                 <TouchableOpacity style={{backgroundColor:'#4CAF50', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
-                  <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' /> Details</Text>
+                  <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' /> {language.details[lan]}</Text>
                 </TouchableOpacity>
               </View>
             </View>

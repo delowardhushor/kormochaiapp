@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { WebView, Modal,View, FlatList, Text, Dimensions , Image, TouchableOpacity} from 'react-native';
 import { Button, Toolbar } from 'react-native-material-ui';
 
+import language from './lan.json';
 
 export default class Educative extends Component {
 
@@ -29,16 +30,18 @@ export default class Educative extends Component {
   }
 
   render() {
+    let {lan} = this.props.appStore;
     return (
       <View>
         <View>
           <Toolbar
             style={{ container: {'backgroundColor':'#4CAF50'}}}
-            centerElement="Educatives"
+            centerElement={language.educative[lan]}
             rightElement={this.props.appStore.usertype == 'employees' ? "account-box" : "" }
             onRightElementPress={ () => { this.toProfile() }}
           />
             <FlatList
+                style={{height:Dimensions.get('window').height-100}}
                 data={this.props.appStore.educatives}
                 extraData={this.state.watchChange}
                 keyExtractor={(item, index) => 'key'+index}

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text,Deminsion, View, TouchableOpacity, TextInput,ActivityIndicator,Modal, ToastAndroid,ScrollView} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
-import Lan from './lan.json';
+import language from './lan.json';
 import axios from 'axios';
 
 import { Button } from 'react-native-material-ui';
@@ -135,18 +135,18 @@ export default class Login extends Component<Props> {
   }
 
   render() {
-
+    let {lan} = this.props.appStore;
     return (
       <View style={{justifyContent:'center', alignItems:'center'}}>
         <ScrollView style={{width:'60%'}} keyboardShouldPersistTaps={'always'}>
             <View style={{height:100}}></View>
             <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
                 <View style={{flex:1, justifyContent:'center'}}>
-                    <Text><Icon name='phone' color='#4CAF50' size={22} /></Text>
+                    <Text><Icon name='phone' color='#000' size={22} /></Text>
                 </View>
                 <View style={{flex:9}}>
                     <TextInput 
-                        placeholder='Phone' 
+                        placeholder={language.phone[lan]} 
                         underlineColorAndroid="#ddd" 
                         ref={ input => {
                             this.inputs['phone'] = input;
@@ -165,11 +165,11 @@ export default class Login extends Component<Props> {
             </View>
             <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
                 <View style={{flex:1, justifyContent:'center'}}>
-                    <Text><Icon name='lock' color='#4CAF50' size={22} /></Text>
+                    <Text><Icon name='lock' color='#000' size={22} /></Text>
                 </View>
                 <View style={{flex:9}}>
                     <TextInput 
-                        placeholder='Password' 
+                        placeholder={language.pass[lan]}  
                         underlineColorAndroid="#ddd"
                         ref={ input => {
                             this.inputs['password'] = input;
@@ -190,11 +190,11 @@ export default class Login extends Component<Props> {
             {(this.state.activeSubPage == 'Signup') &&
             <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
                 <View style={{flex:1, justifyContent:'center'}}>
-                    <Text><Icon name='lock' color='#4CAF50' size={22} /></Text>
+                    <Text><Icon name='lock' color='#000' size={22} /></Text>
                 </View>
                 <View style={{flex:9}}>
                     <TextInput 
-                        placeholder='Confirm Password' 
+                        placeholder={language.conPass[lan]}  
                         underlineColorAndroid="#ddd"
                         ref={ input => {
                             this.inputs['conpassword'] = input;
@@ -216,11 +216,11 @@ export default class Login extends Component<Props> {
             {(this.state.activeSubPage == 'Signup' && this.props.appStore.usertype == 'employees') &&
             <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
                 <View style={{flex:1, justifyContent:'center'}}>
-                    <Text><Icon name='info' color='#4CAF50' size={22} /></Text>
+                    <Text><Icon name='info' color='#000' size={22} /></Text>
                 </View>
                 <View style={{flex:9}}>
                     <TextInput 
-                        placeholder='Refer Code' 
+                        placeholder={language.refCode[lan]} 
                         underlineColorAndroid="#ddd"
                         ref={ input => {
                             this.inputs['refer'] = input;
@@ -240,11 +240,11 @@ export default class Login extends Component<Props> {
             </View>
             }
             <View style={{height:40}}></View>
-            <Button raised primary text={this.state.activeSubPage} onPress={() => this.validateForm()} />
+            <Button raised primary text={this.state.activeSubPage === 'Signin' ? language.signin[lan] : language.signup[lan]} onPress={() => this.validateForm()} />
             <View style={{height:40}}></View>
-            <Button raised text={this.state.activeSubPage === 'Signin' ? 'Signup' : 'Signin'} onPress={() => this.cngPage()} />
+            <Button raised text={this.state.activeSubPage === 'Signin' ? language.signup[lan] : language.signin[lan]} onPress={() => this.cngPage()} />
             <View style={{height:40}}></View>
-            <Button accent text="Continue As Guest" onPress={() => this.skipLogin()} />
+            <Button accent text={language.conGus[lan]} onPress={() => this.skipLogin()} />
             <View style={{height:50}}></View>
         </ScrollView>
         <Modal
