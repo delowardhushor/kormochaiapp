@@ -5,6 +5,8 @@ import ionicons from 'react-native-vector-icons/dist/Ionicons';
 import language from './lan.json';
 import JobDetails from './JobDetails';
 import AddJobs from './AddJobs';
+import AddClientServices from './AddClientServices';
+import AddServices from './AddServices';
 
 import { Button, Toolbar } from 'react-native-material-ui';
 
@@ -62,13 +64,14 @@ export default class Myjobs extends Component<Props> {
           style={{ container: {'backgroundColor':'#4CAF50'}}}
           // leftElement="menu"
           centerElement={usertype === 'employers' ? language.jobYouPost[lan] : language.jobYouApplied[lan]}
-          rightElement={usertype === 'employers' ? 'add-circle' : ''}
+          rightElement={usertype !== 'employees' ? 'add-circle' : ''}
           onRightElementPress={() => this.setState({addModelVisible:true})}
         />
         <View style={{alignItems:'center'}}>
           {(this.props.appStore.myJobs.length == 0) &&
           <Text style={styles.noPostText}>{usertype == 'employees' ? language.nojobYouApplied[lan] : language.nojobYouPost[lan]} </Text>
           }
+          {(this.props.appStore.usertype == 'employees' || this.props.appStore.usertype == 'employers' ) &&
           <FlatList
             data={this.props.appStore.myJobs}
             extraData={this.state.watchChange}
@@ -93,6 +96,7 @@ export default class Myjobs extends Component<Props> {
             </View>
           }
           />
+          }
         </View>
         <Modal
           animationType="slide"
@@ -110,8 +114,16 @@ export default class Myjobs extends Component<Props> {
           onRequestClose={() => {
             console.log('Model Closed');
           }}>
+          {(this.props.appStore.usertype == 'employers') &&
           <AddJobs clsAddJobs={this.clsAddJobs} appStore={this.props.appStore} updateAppstore={this.props.updateAppstore} />
-        </Modal>
+          }
+          {(this.props.appStore.usertype == 'partners') &&
+          <AddServices clsAddJobs={this.clsAddJobs} appStore={this.props.appStore} updateAppstore={this.props.updateAppstore} />
+          }
+          {(this.props.appStore.usertype == 'clients') &&
+          <AddClientServices clsAddJobs={this.clsAddJobs} appStore={this.props.appStore} updateAppstore={this.props.updateAppstore} />
+          }
+          </Modal>
       </View>
     );
   }

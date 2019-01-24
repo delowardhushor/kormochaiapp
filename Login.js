@@ -139,7 +139,7 @@ export default class Login extends Component<Props> {
     return (
       <View style={{justifyContent:'center', alignItems:'center'}}>
         <ScrollView style={{width:'60%'}} keyboardShouldPersistTaps={'always'}>
-            <View style={{height:100}}></View>
+            <View style={{height:50}}></View>
             <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
                 <View style={{flex:1, justifyContent:'center'}}>
                     <Text><Icon name='phone' color='#000' size={22} /></Text>
@@ -213,7 +213,7 @@ export default class Login extends Component<Props> {
                 </View>
             </View>
             }
-            {(this.state.activeSubPage == 'Signup' && this.props.appStore.usertype == 'employees') &&
+            {(this.state.activeSubPage == 'Signup') &&
             <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
                 <View style={{flex:1, justifyContent:'center'}}>
                     <Text><Icon name='info' color='#000' size={22} /></Text>

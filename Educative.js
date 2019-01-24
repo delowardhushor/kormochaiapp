@@ -48,8 +48,8 @@ export default class Educative extends Component {
                 renderItem={({item, index}) => 
                 <TouchableOpacity style={{marginBottom:30, alignItems:'center', justifyContent:'center', width:'100%'}} onPress={()=> this.setActiveEducatives(item)}>
                   <Image
-                    style={{width: Dimensions.get('window').width, height: 150}}
-                    source={{uri: item.thumble}}
+                    style={{width: Dimensions.get('window').width-20, height: 150, marginVertical:10, borderRadius:10}}
+                    source={{uri: "https://delowarhossaintb.000webhostapp.com/img/"+item.thumble}}
                   />
                   <Text style={{fontSize:12, width:'90%', color:"#000", fontWeight:'900', marginTop:10}}>{item.title}</Text>
                 </TouchableOpacity>

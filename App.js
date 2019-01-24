@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity, Modal, AsyncStorage} from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableOpacity, Modal, AsyncStorage, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import language from './lan.json';
 import BottomNavigation, { FullTab ,Badge,ShiftingTab} from 'react-native-material-bottom-navigation';
@@ -34,6 +34,8 @@ export default class App extends Component<Props> {
         locations:[],
         educatives:[],
         cats:[],
+        clicats:[],
+        parcats:[],
         myJobs:[],
         JobDetails:[],
       },
@@ -83,6 +85,8 @@ export default class App extends Component<Props> {
         appStore.myJobs = res.data.myJobs;
         appStore.locations = res.data.locations;
         appStore.cats = res.data.cats;
+        appStore.clicats = res.data.clicats;
+        appStore.parcats = res.data.parcats;
         appStore.educatives = res.data.educatives;
         this.updateAppstore(appStore);
       }
@@ -176,9 +180,14 @@ export default class App extends Component<Props> {
           }}>
           <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
             <View style={{width:'90%'}}>
+              <Image source={{uri: 'https://delowarhossaintb.000webhostapp.com/img/logo.png'}} />
               <Button raised primary text={language.iAmEmployee[lan]} onPress={() => this.setUserType('employees')} />
               <View style={{height:20}}></View>
               <Button raised primary text={language.iAmEmployer[lan]}  onPress={() => this.setUserType('employers')} />
+              <View style={{height:20}}></View>
+              <Button raised primary text={'Customers'}  onPress={() => this.setUserType('clients')} />
+              <View style={{height:20}}></View>
+              <Button raised primary text={'Service Provider'}  onPress={() => this.setUserType('partners')} />
             </View>
           </View>
         </Modal>
