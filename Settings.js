@@ -63,6 +63,18 @@ export default class Settings extends Component<Props> {
     return lan.name[this.props.appStore.lan];
   }
 
+  renderUserMsg = () => {
+    if(this.props.appStore.usertype == 'employees'){
+      return language.openAsEmployee[this.props.appStore.lan];
+    }else if(this.props.appStore.usertype == 'employers'){
+      return language.openAsEmployer[this.props.appStore.lan];
+    }else if(this.props.appStore.usertype == 'clients'){
+      return language.openAsCli[this.props.appStore.lan];
+    }else if(this.props.appStore.usertype == 'partners'){
+      return language.openAsPar[this.props.appStore.lan];
+    }
+  }
+
   render() {
     let {lan} = this.props.appStore;
     return (
@@ -85,7 +97,7 @@ export default class Settings extends Component<Props> {
             </View>
             {(this.props.appStore.userdata.length == 0) &&
             <View style={{flex:1, alignItems:'center', flexDirection:'row', justifyContent:'space-between', marginBottom:30}}>
-              <Text style={[styles.cngLanText, {width:'60%'}]}>Open App as {this.props.appStore.usertype}</Text>
+              <Text style={[styles.cngLanText, {width:'60%'}]}>{this.renderUserMsg()}</Text>
               <View style={{width:'40%', marginTop:25}}>
                 <Button raised primary text={language.change[lan]} onPress={() => this.cngUsertype()} />
               </View>

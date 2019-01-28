@@ -19,6 +19,8 @@ export default class Login extends Component<Props> {
           password : '',
           conpassword : '',
           refer : '',
+          pin:'',
+          conPin:'',
         };
         this.focusNextField = this.focusNextField.bind(this);
         this.inputs = {};
@@ -42,6 +44,7 @@ export default class Login extends Component<Props> {
     if(this.state.activeSubPage === 'Signin'){
         this.setState({activeSubPage:'Signup'});
     }else{
+        this.setState({pin:''});
         this.setState({activeSubPage:'Signin'});
     }  
   }
@@ -81,15 +84,15 @@ export default class Login extends Component<Props> {
             ToastAndroid.show('Welcome!', 3000);
             var userdata = res.data.data;
             userdata.password = this.state.password;
-            if(userdata.education){
-                userdata.education = JSON.parse(userdata.education);
-            }
+            // if(userdata.education){
+            //     userdata.education = JSON.parse(userdata.education);
+            // }
             var appStore = this.props.appStore;
             appStore.userdata = userdata;
             if(appStore.usertype === 'employees'){
                 appStore.activeTab = 'Profile';
             }else{
-                appStore.activeTab = 'Home';
+                appStore.activeTab = 'Myjobs';
             }
             this.props.updateAppstore(appStore);
             
@@ -106,6 +109,37 @@ export default class Login extends Component<Props> {
   }
 
   signup(){
+    
+    if(this.state.pin == ''){
+        this.setState({refreshing:false});
+        axios.post(this.props.appStore.baseUrl+this.props.appStore.usertype+"/exist", {
+            'phone':this.state.phone,
+        })
+        .then((res) => {
+            if(res.data.success === true){
+                this.setState({refreshing:false});
+                this.setState({pin:121212});
+                ToastAndroid.show('Pin Sent To Your Mobile', 3000);
+            }else{
+                this.setState({refreshing:false});
+                ToastAndroid.show("Account Exist", 3000);
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+            this.setState({refreshing:false});
+            ToastAndroid.show("No Network Connection", 3000);
+        })
+    }else if(this.state.pin != this.state.conPin){
+        console.log(this.state.pin, this.state.conPin);
+        alert(this.state.pin+"dfdfdf"+this.state.conPin)
+        ToastAndroid.show('Invalid Pin', 3000);
+    }else{
+        this.confirmedSignup();
+    }
+  }
+
+  confirmedSignup(){
     this.setState({refreshing:true});
     axios.post(this.props.appStore.baseUrl+this.props.appStore.usertype, {
         'phone':this.state.phone,
@@ -140,6 +174,7 @@ export default class Login extends Component<Props> {
       <View style={{justifyContent:'center', alignItems:'center'}}>
         <ScrollView style={{width:'60%'}} keyboardShouldPersistTaps={'always'}>
             <View style={{height:50}}></View>
+            {(this.state.pin == '') &&
             <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
                 <View style={{flex:1, justifyContent:'center'}}>
                     <Text><Icon name='phone' color='#000' size={22} /></Text>
@@ -147,13 +182,7 @@ export default class Login extends Component<Props> {
                 <View style={{flex:9}}>
                     <TextInput 
                         placeholder={language.phone[lan]} 
-                        underlineColorAndroid="#ddd" 
-                        ref={ input => {
-                            this.inputs['phone'] = input;
-                        }}
-                        onSubmitEditing={() => {
-                            this.focusNextField('password');
-                        }}
+                        underlineColorAndroid="#ddd"
                         onChangeText={(phone) => this.setState({phone:phone})}
                         returnKeyType='next'
                         selectTextOnFocus={true}
@@ -163,6 +192,8 @@ export default class Login extends Component<Props> {
                     />
                 </View>
             </View>
+            }
+            {(this.state.pin == '') &&
             <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
                 <View style={{flex:1, justifyContent:'center'}}>
                     <Text><Icon name='lock' color='#000' size={22} /></Text>
@@ -171,12 +202,6 @@ export default class Login extends Component<Props> {
                     <TextInput 
                         placeholder={language.pass[lan]}  
                         underlineColorAndroid="#ddd"
-                        ref={ input => {
-                            this.inputs['password'] = input;
-                        }}
-                        onSubmitEditing={() => {
-                            this.focusNextField('conpassword');
-                        }}
                         secureTextEntry={true}
                         onChangeText={(password) => this.setState({password:password})}
                         returnKeyType='done'
@@ -187,7 +212,8 @@ export default class Login extends Component<Props> {
                     />
                 </View>
             </View>
-            {(this.state.activeSubPage == 'Signup') &&
+            }
+            {(this.state.activeSubPage == 'Signup' && this.state.pin == '') &&
             <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
                 <View style={{flex:1, justifyContent:'center'}}>
                     <Text><Icon name='lock' color='#000' size={22} /></Text>
@@ -196,12 +222,6 @@ export default class Login extends Component<Props> {
                     <TextInput 
                         placeholder={language.conPass[lan]}  
                         underlineColorAndroid="#ddd"
-                        ref={ input => {
-                            this.inputs['conpassword'] = input;
-                        }}
-                        onSubmitEditing={() => {
-                            this.focusNextField('refer');
-                        }}
                         secureTextEntry={true}
                         onChangeText={(conpassword) => this.setState({conpassword:conpassword})}
                         returnKeyType='done'
@@ -213,7 +233,7 @@ export default class Login extends Component<Props> {
                 </View>
             </View>
             }
-            {(this.state.activeSubPage == 'Signup') &&
+            {(this.state.activeSubPage == 'Signup' && this.state.pin == '') &&
             <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
                 <View style={{flex:1, justifyContent:'center'}}>
                     <Text><Icon name='info' color='#000' size={22} /></Text>
@@ -222,14 +242,29 @@ export default class Login extends Component<Props> {
                     <TextInput 
                         placeholder={language.refCode[lan]} 
                         underlineColorAndroid="#ddd"
-                        ref={ input => {
-                            this.inputs['refer'] = input;
-                        }}
-                        onSubmitEditing={() => {
-                            this.login();
-                        }}
                         secureTextEntry={true}
                         onChangeText={(refer) => this.setState({refer:refer})}
+                        returnKeyType='done'
+                        selectTextOnFocus={true}
+                        autoCapitalize="none"
+                        blurOnSubmit={true}
+                        style={styles.inputForm}
+                    />
+                </View>
+            </View>
+            }
+
+            {(this.state.activeSubPage == 'Signup' && this.state.pin !== '') &&
+            <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
+                <View style={{flex:1, justifyContent:'center'}}>
+                    <Text><Icon name='lock' color='#000' size={22} /></Text>
+                </View>
+                <View style={{flex:9}}>
+                    <TextInput 
+                        placeholder={language.pin[lan]}  
+                        underlineColorAndroid="#ddd"
+                        value={this.state.conPin}
+                        onChangeText={(conPin) => this.setState({conPin:conPin})}
                         returnKeyType='done'
                         selectTextOnFocus={true}
                         autoCapitalize="none"

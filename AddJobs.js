@@ -20,13 +20,22 @@ export default class AddJobs extends Component<Props> {
             interview:true,
             interviewDate:'',
             jobDate:'',
-            location:'',
+            location:this.props.appStore.locations[0].location,
             responsibility:'',
             salary:'',
             salaryType:'monthly',
             officeHour:'',
             jobPeriod:'fulltime',
-            cat:'',
+            cat:this.props.appStore.cats[0].cat,
+
+            name:'',
+            mobile:'',
+            area:'',
+            thana:'',
+            zila:'',
+            house:'',
+            salaryDate:'',
+            employeeNumber:'',
         };
         this.focusNextField = this.focusNextField.bind(this);
         this.inputs = {};
@@ -54,6 +63,7 @@ export default class AddJobs extends Component<Props> {
   }
 
   addJob(){
+      console.log(this.state);
       this.setState({refreshing:true});
       axios.post(this.props.appStore.baseUrl+"jobs",{
         job_title:this.state.jobTitle,
@@ -70,14 +80,20 @@ export default class AddJobs extends Component<Props> {
         office_hour:this.state.officeHour,
         job_type:this.state.jobPeriod,
         category:this.state.cat,
+
+        name:this.state.name,
+        mobile:this.state.mobile,
+        area:this.state.area,
+        thana:this.state.thana,
+        zila:this.state.zila,
+        house:this.state.house,
+        salary_date:this.state.salaryDate,
+        employee_number:this.state.employeeNumber,
       })
       .then((res)=>{
         if(res.data.success === true){
             this.setState({refreshing:false});
             ToastAndroid.show("Job Post Succeessfully", 3000);
-            var appStore = this.props.appStore;
-            appStore.jobs.push(res.data.Jobs);
-            this.props.updateAppstore(appStore);
             this.props.clsAddJobs();
         }else{
             this.setState({refreshing:false});
@@ -85,7 +101,8 @@ export default class AddJobs extends Component<Props> {
       })    
       .catch((err)=>{
         this.setState({refreshing:false});
-        ToastAndroid.show("No Network Connection", 3000)
+        ToastAndroid.show("Fill Empty or Network Problem", 3000);
+        console.log(err);
       })
   }
 
@@ -125,15 +142,96 @@ export default class AddJobs extends Component<Props> {
             onLeftElementPress={ () => { this.props.clsAddJobs() }}
           />
           <ScrollView style={{width:'90%', paddingTop:20}}>
+
+            <TextInput
+                placeholder={language.name[lan]}
+                underlineColorAndroid="#ddd" 
+                value={this.state.name}
+                onChangeText={(name) => this.setState({name})}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
+
+            <TextInput
+                placeholder={language.phone[lan]}
+                underlineColorAndroid="#ddd" 
+                value={this.state.mobile}
+                onChangeText={(mobile) => this.setState({mobile})}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
+
+            <TextInput
+                placeholder={language.insName[lan]}
+                underlineColorAndroid="#ddd" 
+                value={this.state.companyName}
+                onChangeText={(companyName) => this.setState({companyName})}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
+
+            <Text style={[styles.inputForm, {marginTop:15, marginBottom:10}]}>Institution Address</Text>
+
+            <TextInput
+                placeholder="Area"
+                underlineColorAndroid="#ddd" 
+                value={this.state.area}
+                onChangeText={(area) => this.setState({area})}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
+
+            <TextInput
+                placeholder="Thana"
+                underlineColorAndroid="#ddd" 
+                value={this.state.thana}
+                onChangeText={(thana) => this.setState({thana})}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
+
+            <TextInput
+                placeholder={language.district[lan]}
+                underlineColorAndroid="#ddd" 
+                value={this.state.zila}
+                onChangeText={(zila) => this.setState({zila})}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
+
+            <TextInput
+                placeholder={language.house[lan]}
+                underlineColorAndroid="#ddd" 
+                value={this.state.house}
+                onChangeText={(house) => this.setState({house})}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
+
             <TextInput
                 placeholder={language.jobTitle[lan]}
                 underlineColorAndroid="#ddd" 
-                ref={ input => {
-                    this.inputs['jobTitle'] = input;
-                }}
-                onSubmitEditing={() => {
-                    this.focusNextField('companyName');
-                }}
                 value={this.state.jobTitle}
                 onChangeText={(jobTitle) => this.setState({jobTitle})}
                 returnKeyType='next'
@@ -153,7 +251,7 @@ export default class AddJobs extends Component<Props> {
                 </Picker>
             </View>
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', height:40, alignItems:'center', marginTop:10}}>
-                <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>{language.cat[lan]}:</Text>
+                <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>{language.location[lan]}:</Text>
                 <Picker
                     selectedValue={this.state.location}
                     style={{ height: 50, width: 100 }}
@@ -161,23 +259,20 @@ export default class AddJobs extends Component<Props> {
                     {Locations}
                 </Picker>
             </View>
+
             <TextInput
-                placeholder={language.insName[lan]}
+                placeholder={language.employeeNumber[lan]} 
                 underlineColorAndroid="#ddd" 
-                ref={ input => {
-                    this.inputs['companyName'] = input;
-                }}
-                onSubmitEditing={() => {
-                    this.focusNextField('location');
-                }}
-                value={this.state.companyName}
-                onChangeText={(companyName) => this.setState({companyName})}
+                value={this.state.employeeNumber}
+                onChangeText={(employeeNumber) => this.setState({employeeNumber:employeeNumber})}
                 returnKeyType='next'
                 selectTextOnFocus={true}
                 autoCapitalize="none"
                 blurOnSubmit={false}
-                style={styles.inputForm}
+                style={[styles.inputForm, {minHeight:50}]}
+                multiline={true}
             />
+            
             <View style={{flexDirection:'row', height:40, alignItems:'center', marginTop:10}}>
                 <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>{language.jobType[lan]}</Text>
                 <CheckBox onValueChange={() => this.setState({jobPeriod:'fulltime'})} value={this.state.jobPeriod === 'fulltime' ? true : false} />
@@ -219,7 +314,7 @@ export default class AddJobs extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
-            <View style={{height:40, marginTop:10}}>
+            <View style={{height:40, marginTop:10,marginBottom:20}}>
                 <Text style={styles.inputForm}>{language.salaryType[lan]}</Text>
                 <View style={{flexDirection:'row', alignItems:'center', marginTop:10}}>
                     <CheckBox onValueChange={() => this.setState({salaryType:'monthly'})} value={this.state.salaryType === 'monthly' ? true : false} />
@@ -230,14 +325,33 @@ export default class AddJobs extends Component<Props> {
                     <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>{language.daily[lan]}</Text>
                 </View>
             </View>
-            <View style={{flexDirection:'row', height:40, alignItems:'center', marginTop:30}}>
+
+            {(this.state.salaryType === 'monthly') &&
+            <TextInput
+                placeholder={language.salaryDate[lan]} 
+                underlineColorAndroid="#ddd" 
+                value={this.state.salaryDate}
+                onChangeText={(salaryDate) => this.setState({salaryDate})}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
+            }
+
+            <View style={{flexDirection:'row', height:40, alignItems:'center', marginTop:10}}>
                 <Text style={[styles.inputForm, {marginRight:15, width:'auto'}]}>{language.needInt[lan]}</Text>
-                <CheckBox onValueChange={() => this.setState({interview:!this.state.interview})} value={this.state.interview} />
+                <CheckBox onValueChange={() => this.setState({interview:true})} value={this.state.interview} />
+                <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>{language.yes[lan]}</Text>
+                <CheckBox onValueChange={() => this.setState({interview:false})} value={!this.state.interview} />
+                <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>{language.no[lan]}</Text>
             </View>
+
             {(this.state.interview) &&
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:'space-between'}}>
                 <View>
-                    <Text style={[styles.inputForm, {width:'auto'}]} >{language.endDate[lan]}</Text>
+                    <Text style={[styles.inputForm, {width:'auto'}]} >{language.intDate[lan]}</Text>
                 </View>
                 <View>
                     <DatePicker
@@ -290,9 +404,6 @@ export default class AddJobs extends Component<Props> {
                 underlineColorAndroid="#ddd" 
                 ref={ input => {
                     this.inputs['responsibility'] = input;
-                }}
-                onSubmitEditing={() => {
-                    this.addJob();
                 }}
                 value={this.state.responsibility}
                 onChangeText={(responsibility) => this.setState({responsibility:responsibility})}

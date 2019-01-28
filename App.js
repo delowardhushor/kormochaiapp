@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity, Modal, AsyncStorage, Image} from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableOpacity, ScrollView, Modal, AsyncStorage, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import language from './lan.json';
 import BottomNavigation, { FullTab ,Badge,ShiftingTab} from 'react-native-material-bottom-navigation';
@@ -20,6 +20,12 @@ type Props = {};
 
 export default class App extends Component<Props> {
 
+  Slide = [
+    "https://delowarhossaintb.000webhostapp.com/img/slide1.jpg",
+    "https://delowarhossaintb.000webhostapp.com/img/slide2.jpg",
+    "https://delowarhossaintb.000webhostapp.com/img/slide3.jpg",
+  ];
+
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +35,7 @@ export default class App extends Component<Props> {
         usertype :'',
         userdata:[],
         settings:[],
-        lan:'eng',
+        lan:'ban',
         jobs:[],
         locations:[],
         educatives:[],
@@ -38,8 +44,9 @@ export default class App extends Component<Props> {
         parcats:[],
         myJobs:[],
         JobDetails:[],
+        activeSlide:0,
       },
-      modelVisible:false,
+      modelVisible:true,
     };
   }
 
@@ -61,8 +68,8 @@ export default class App extends Component<Props> {
     var appStore = await getKey('appStore');
     if(appStore !== null){
       this.setState({appStore:appStore});
-      if(appStore.usertype == ''){
-        this.setState({modelVisible:true});
+      if(appStore.usertype !== ''){
+        this.setState({modelVisible:false});
       }
     }
 
@@ -70,6 +77,21 @@ export default class App extends Component<Props> {
     setInterval(() =>{
       this.getJobs();
     }, 10000);
+
+    this.slide();
+    setInterval(() =>{
+      this.slide();
+    }, 3000);
+  }
+
+  slide(){
+    var activeSlide = this.state.activeSlide;
+    if(activeSlide < this.Slide.length-1){
+      this.setState({activeSlide:activeSlide+1})
+    }else{
+      this.setState({activeSlide:0});
+      console.log("sdsdds")
+    }
   }
 
   getJobs(){
@@ -135,7 +157,7 @@ export default class App extends Component<Props> {
       {
         key: 'Myjobs',
         icon: 'briefcase',
-        label: language.myJobs[lan],
+        label: this.state.appStore.usertype == 'employees' || this.state.appStore.usertype == 'employers' ?  language.myJobs[lan] : language.mySer[lan],
         barColor: '#B71C1C',
         pressColor: 'rgba(255, 255, 255, 0.16)'
       },
@@ -154,6 +176,8 @@ export default class App extends Component<Props> {
         pressColor: 'rgba(255, 255, 255, 0.16)'
       }
     ];
+
+    console.log(this.state.activeSlide)
 
     return (
       <View style={{ flex: 1 }}>
@@ -179,16 +203,19 @@ export default class App extends Component<Props> {
             console.log('Model Closed');
           }}>
           <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-            <View style={{width:'90%'}}>
-              <Image source={{uri: 'https://delowarhossaintb.000webhostapp.com/img/logo.png'}} />
+            <ScrollView style={{width:'90%'}}>
+              <Image 
+                style={{width:'100%', height:200, marginVertical:50 }}  
+                source={{uri:this.Slide[this.state.activeSlide]}} 
+              />
               <Button raised primary text={language.iAmEmployee[lan]} onPress={() => this.setUserType('employees')} />
               <View style={{height:20}}></View>
               <Button raised primary text={language.iAmEmployer[lan]}  onPress={() => this.setUserType('employers')} />
               <View style={{height:20}}></View>
-              <Button raised primary text={'Customers'}  onPress={() => this.setUserType('clients')} />
+              <Button raised primary text={language.iAmCLi[lan]}  onPress={() => this.setUserType('clients')} />
               <View style={{height:20}}></View>
-              <Button raised primary text={'Service Provider'}  onPress={() => this.setUserType('partners')} />
-            </View>
+              <Button raised primary text={language.iAmPar[lan]}  onPress={() => this.setUserType('partners')} />
+            </ScrollView>
           </View>
         </Modal>
       </View>

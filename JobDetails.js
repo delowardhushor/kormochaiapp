@@ -83,6 +83,14 @@ export default class JobDetails extends Component<Props> {
             <Text style={styles.value}>{JobDetails.location}</Text>
           </View>
           <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
+            <Text style={styles.label}>{language.employeeNumber[lan]}:</Text>
+            <Text style={styles.value}>{JobDetails.employee_number}</Text>
+          </View>
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
+            <Text style={styles.label}>{language.salaryDate[lan]}:</Text>
+            <Text style={styles.value}>{JobDetails.salary_date}</Text>
+          </View>
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
             <Text style={styles.label}>{language.jobHour[lan]}:</Text>
             <Text style={styles.value}>{JobDetails.office_hour}</Text>
           </View>
@@ -119,6 +127,7 @@ export default class JobDetails extends Component<Props> {
             <Button primary raised onPress={() => this.apply()} text={this.state.applied === true ? language.applied[lan] : language.apply[lan]} />
           </View>
           }
+          <View style={{height:100}}></View>
         </ScrollView>
       </View>
     );

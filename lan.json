@@ -1,18 +1,34 @@
 {
     "iAmEmployee" : {
-        "ban" : "চাকরি গ্রহীতা",
+        "ban" : "চাকরি খুঁজছি",
         "eng" : "I am Employee"
     },
     "iAmEmployer":{
         "ban":"চাকরি দাতা",
         "eng":"I am Employer"
     } ,
+    "iAmPar":{
+        "ban":"আমি সার্ভিস প্রোভাইডার",
+        "eng":"Service Provider"
+    },
+    "iAmCLi":{
+        "ban":"আমি সার্ভিস চাচ্ছি",
+        "eng":"I want Service"
+    },
     "openAsEmployee":{
         "ban":"আপনি চাকরি গ্রহীতা হিসেবে এপ টি ওপেন করেছেন",
         "eng":"You Opend the App As Employee"
     },
     "openAsEmployer":{
         "ban":"আপনি চাকরি দাতা হিসেবে এপ টি ওপেন করেছেন",
+        "eng":"You Opend the App As Employer"
+    },
+    "openAsCli":{
+        "ban":"আপনি কাস্টমার হিসেবে এপ টি ওপেন করেছেন",
+        "eng":"You Opend the App As Employee"
+    },
+    "openAsPar":{
+        "ban":"আপনি সার্ভিস প্রোভাইডার হিসেবে এপ টি ওপেন করেছেন",
         "eng":"You Opend the App As Employer"
     },
     "change":{
@@ -121,7 +137,7 @@
     },
     "jobDate":{
         "ban":"জব ডেট",
-        "eng":"Job Date"
+        "eng":"Join Date"
     },
     "eduQua":{
         "ban":"শিক্ষাগত যোগ্যতা",
@@ -299,4 +315,40 @@
         "ban":"ফুলটটাইম",
         "eng":"Full Time"
     },
+    "house":{
+        "ban":"হাউস",
+        "eng":"House"
+    },
+    "salaryDate":{
+        "ban":"বেতন দেয়ার তারিখ",
+        "eng":"Salary Date"
+    },
+    "employeeNumber":{
+        "ban":"কতজন লোক লাগবে",
+        "eng":"Number of Employee"
+    },
+    "yes":{
+        "ban":"হা",
+        "eng":"Yes"
+    },
+    "no":{
+        "ban":"না",
+        "eng":"No"
+    },
+    "serYouReq":{
+        "ban":"আপনি যে সার্ভিস চেয়েছিলেন",
+        "eng":"Service You Requested"
+    },
+    "serYouPost":{
+        "ban":"আপনার সার্ভিস সমূহ",
+        "eng":"Service You Requested"
+    },
+    "mySer":{
+        "ban":"আমার সার্ভিস",
+        "eng":"My Service"
+    },
+    "pin":{
+        "ban":"পিন কোড",
+        "eng":"Pin Code"
+    }
 }

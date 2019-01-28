@@ -180,7 +180,7 @@ export default class AddServices extends Component<Props> {
                 style={styles.inputForm}
             />
 
-            <Text style={styles.inputForm}>Parmament Address</Text>
+            <Text style={[styles.inputForm, {marginTop:10}]}>Parmament Address</Text>
 
             <TextInput
                 placeholder="Area"

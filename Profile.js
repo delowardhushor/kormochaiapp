@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, TextInput,CheckBox, View,ScrollView,Modal,FlatList,ToastAndroid,ActivityIndicator, TouchableOpacity} from 'react-native';
+import {Platform, StyleSheet, Text, TextInput,CheckBox,Picker, View,ScrollView,Modal,FlatList,ToastAndroid,ActivityIndicator, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import language from './lan.json';
 
@@ -7,6 +7,8 @@ import { Button, Toolbar } from 'react-native-material-ui';
 
 import Addededucation from './Addeducation';
 import axios from 'axios';
+
+educations = ['PSC','JSC','SSC','HSC','Honors', 'Masters' ]
 
 type Props = {};
 export default class Profile extends Component<Props> {
@@ -23,13 +25,17 @@ export default class Profile extends Component<Props> {
                 name:'',
                 address:'',
                 area:'',
-                education:[],
+                education:'',
                 thana:'',
                 post:'',
                 district:'',
                 age:'',
                 gender:'Male',
                 watchChange:false,
+                perarea:'',
+                perthana:'',
+                perdistrict:'',
+                perpost:'',
             }
         };
         this.focusNextField = this.focusNextField.bind(this);
@@ -53,14 +59,18 @@ export default class Profile extends Component<Props> {
         profileData.name = userdata.name;
         profileData.address = userdata.address;
         profileData.area = userdata.area;
-        if(userdata.education){
-            profileData.education = userdata.education;
-        }
+        profileData.education = userdata.education;
         profileData.post = userdata.post;
         profileData.district = userdata.district;
         profileData.age = userdata.age;
         profileData.gender = userdata.gender;
         profileData.thana = userdata.thana;
+
+        profileData.perthana = userdata.perthana,
+        profileData.perpost = userdata.perpost,
+        profileData.perdistrict = userdata.perdistrict,
+        profileData.perarea = userdata.perarea,
+
         this.setState({profileData:profileData});
     }
   }
@@ -73,7 +83,7 @@ export default class Profile extends Component<Props> {
 
   addEducation = (value) => {
     var profileData = this.state.profileData;
-    profileData.education.push(value);
+    profileData.education = value;
     this.setState({profileData:profileData});
     this.setState({watchChange:!this.state.watchChange});
   }
@@ -89,12 +99,17 @@ export default class Profile extends Component<Props> {
         name:this.state.profileData.name,
         address:this.state.profileData.address,
         area:this.state.profileData.area,
-        education:JSON.stringify(this.state.profileData.education),
+        education:this.state.profileData.education,
         thana:this.state.profileData.thana,
         post:this.state.profileData.post,
         district:this.state.profileData.district,
         age:this.state.profileData.age,
         gender:this.state.profileData.gender,
+        perarea:this.state.profileData.perarea,
+        perthana:this.state.profileData.perthana,
+        perpost:this.state.profileData.perpost,
+        perdistrict:this.state.profileData.perdistrict,
+
       }).then((res)=>{
         console.log(res);
         if(res.data.success === true){
@@ -110,6 +125,12 @@ export default class Profile extends Component<Props> {
             appStore.userdata.post = this.state.profileData.post;
             appStore.userdata.gender = this.state.profileData.gender;
             appStore.userdata.district = this.state.profileData.district;
+
+            appStore.userdata.perarea = this.state.profileData.perarea;
+            appStore.userdata.perpost = this.state.profileData.perpost;
+            appStore.userdata.pergender = this.state.profileData.pergender;
+            appStore.userdata.perdistrict = this.state.profileData.perdistrict;
+
             this.props.updateAppstore(appStore);
         }else{
             this.setState({refreshing:false});
@@ -152,12 +173,17 @@ export default class Profile extends Component<Props> {
 
   render() {
     let {userdata, lan} = this.props.appStore;
+
+    const Educations = educations.map((item, index) => {
+        return <Picker.Item key={index} label={item} value={item} />
+    });
+
     return (
       <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
         <Toolbar
           style={{ container: {'backgroundColor':'#4CAF50'}}}
           // leftElement="menu"
-          centerElement={userdata.name !== '' ? userdata.name : 'Your Profile'}
+          centerElement={'Your Profile'}
         />
         <Text style={{textAlign:'center',fontWeight:'900', fontSize:16, color:'#000', marginVertical:10}}>{language.refCode[lan]}: {userdata.refer_code}</Text>
         <ScrollView style={{width:'90%'}} keyboardShouldPersistTaps={'always'} >
@@ -204,11 +230,12 @@ export default class Profile extends Component<Props> {
                 <CheckBox onValueChange={() => this.cngProfileData('gender', 'Other')} value={this.state.profileData.gender === 'Other' ? true : false} /> 
                 <Text>{language.other[lan]}</Text>
             </View>
-            <View style={{flexDirection:'row', height:40, marginTop:10,marginBottom:10, alignItems:'center', justifyContent:'space-between'}}>
+
+            {/* <View style={{flexDirection:'row', height:40, marginTop:10,marginBottom:10, alignItems:'center', justifyContent:'space-between'}}>
                 <Text style={{marginRight:15}}>{language.eduQua[lan]}</Text>
                 <Button raised primary text="Add" onPress={() => this.setAddEdu()} />
-            </View>
-            <FlatList
+            </View> */}
+            {/* <FlatList
                 data={this.state.profileData.education}
                 extraData={this.state.watchChange}
                 keyExtractor={(item, index) => 'key'+index}
@@ -233,29 +260,21 @@ export default class Profile extends Component<Props> {
                     </View>
                 </View>
             }
-            />
-            {(this.state.profileData.education.length == 0) &&
-            <View style={{height:40, alignItems:'center'}}>
-                <Text style={{fontSize:10, textAlign:'center', color: '#000'}}>No Education History</Text>
+            /> */}
+
+            <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', height:40,marginBottom:10, alignItems:'center', marginTop:20}}>
+                <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>{language.eduQua[lan]}:</Text>
+                <Picker
+                    selectedValue={this.state.profileData.education}
+                    style={{ height: 50, width: 200 }}
+                    onValueChange={(itemValue, itemIndex) => this.cngProfileData('education', itemValue)}>
+                    <Picker.Item label="Select Education" value="" />
+                    {Educations}
+                </Picker>
             </View>
-            }
-            <TextInput 
-                placeholder={language.address[lan]} 
-                underlineColorAndroid="#ddd"
-                ref={ input => {
-                    this.inputs['address'] = input;
-                }}
-                onSubmitEditing={() => {
-                    this.focusNextField('area');
-                }}
-                value={this.state.profileData.address}
-                onChangeText={(address) => this.cngProfileData('address', address)}
-                returnKeyType='next'
-                selectTextOnFocus={true}
-                autoCapitalize="none"
-                blurOnSubmit={false}
-                style={styles.inputForm}
-            />
+
+            <Text style={[styles.inputForm, {marginVertical:10}]}>Present Address</Text>
+
             <TextInput 
                 placeholder={language.area[lan]} 
                 underlineColorAndroid="#ddd"
@@ -324,6 +343,54 @@ export default class Profile extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
+
+            <Text style={[styles.inputForm, {marginVertical:10}]}>Permanent Address</Text>
+            
+            <TextInput 
+                placeholder={language.area[lan]} 
+                underlineColorAndroid="#ddd"
+                value={this.state.profileData.perarea}
+                onChangeText={(perarea) => this.cngProfileData('perarea', perarea)}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
+            <TextInput 
+                placeholder={language.post[lan]}
+                underlineColorAndroid="#ddd"
+                value={this.state.profileData.perpost}
+                onChangeText={(perpost) => this.cngProfileData('perpost', perpost)}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
+            <TextInput 
+                placeholder={language.thana[lan]}
+                underlineColorAndroid="#ddd"
+                value={this.state.profileData.perthana}
+                onChangeText={(perthana) => this.cngProfileData('perthana', perthana)}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
+            <TextInput 
+                placeholder={language.district[lan]} 
+                underlineColorAndroid="#ddd"
+                value={this.state.profileData.perdistrict}
+                onChangeText={(perdistrict) => this.cngProfileData('perdistrict', perdistrict)}
+                returnKeyType='done'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
+
             <View style={{flexDirection:'row', marginTop:10}}>
                 <Button raised primary text={language.save[lan]} onPress={() => this.save()} />
             </View>
