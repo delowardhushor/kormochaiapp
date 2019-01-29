@@ -43,6 +43,14 @@ export default class JobDetails extends Component<Props> {
       ToastAndroid.show(language.applied[this.props.appStore.lan], 3000);
     }else if(this.props.appStore.userdata.length == 0){
       ToastAndroid.show('Please Signin For Apply', 3000);
+      var appStore = this.props.appStore;
+      appStore.activeTab = 'Login';
+      this.props.updateAppstore(appStore);
+    }else if(!this.props.appStore.userdata.name || !this.props.appStore.userdata.age || !this.props.appStore.userdata.gender || !this.props.appStore.userdata.education || !this.props.appStore.userdata.district){
+      ToastAndroid.show('Please Fill Your Info', 3000);
+      var appStore = this.props.appStore;
+      appStore.activeTab = 'Profile';
+      this.props.updateAppstore(appStore);
     }else{
       axios.post(this.props.appStore.baseUrl+'applications',{
         job_id:this.props.appStore.JobDetails.id,
@@ -63,7 +71,7 @@ export default class JobDetails extends Component<Props> {
     return (
       <View style={{alignItems:'center', justifyContent:'center', height:'100%'}}>
         <Toolbar
-          style={{ container: {'backgroundColor':'#4CAF50'}}}
+          style={{ container: {'backgroundColor':'#ca0000'}}}
           leftElement="chevron-left"
           onLeftElementPress={ () => { this.props.clsJobDetails() }}
           centerElement={JobDetails.job_title+" "+language.details[lan]}

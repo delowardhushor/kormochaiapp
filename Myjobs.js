@@ -20,14 +20,21 @@ export default class Myjobs extends Component<Props> {
         watchChange:false,
         modelVisible:false,
         addModelVisible:false,
+        update:false,
+        updateData:[],
       };
     }
 
   componentWillMount(){
     if(this.props.appStore.userdata.length  === 0 ){
-        appStore = this.props.appStore;
-        appStore.activeTab = 'Login';
-        this.props.updateAppstore(appStore);
+      appStore = this.props.appStore;
+      appStore.activeTab = 'Login';
+      this.props.updateAppstore(appStore);
+    }else if(this.props.appStore.loginNow == true && this.props.appStore.usertype !== 'employees'){
+      this.setState({addModelVisible:true});
+      appStore = this.props.appStore;
+      appStore.loginNow = false;
+      this.props.updateAppstore(appStore);
     }
   }
 
@@ -50,10 +57,12 @@ export default class Myjobs extends Component<Props> {
 
   clsJobDetails = () => {
     this.setState({modelVisible:false});
+    this.setState({update:false});
   }
 
   clsAddJobs = () => {
     this.setState({addModelVisible:false});
+    this.setState({update:false});
   }
 
   addOrProfile = () => {
@@ -76,12 +85,18 @@ export default class Myjobs extends Component<Props> {
     }
   }
 
+  setUpdateData(data){
+    this.setState({updateData:data});
+    this.setState({update:true});
+    this.setState({addModelVisible:true});
+  }
+
   render() {
     let {usertype, userdata, lan} = this.props.appStore;
     return (
       <View>
         <Toolbar
-          style={{ container: {'backgroundColor':'#4CAF50'}}}
+          style={{ container: {'backgroundColor':'#ca0000'}}}
           // leftElement="menu"
           centerElement={this.renderUserMsg()}
           rightElement={usertype !== 'employees' ? 'add-circle' : 'account-box'}
@@ -110,7 +125,7 @@ export default class Myjobs extends Component<Props> {
                   <Text style={{fontSize:12, color:'#000'}}>{item.location}</Text>
                   <Text style={{fontSize:12, color:'#000'}}>{item.education}</Text>
                 </View>
-                <TouchableOpacity style={{backgroundColor:'#4CAF50', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
+                <TouchableOpacity style={{backgroundColor:'#ca0000', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
                   <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' /> {language.details[lan]}</Text>
                 </TouchableOpacity>
               </View>
@@ -138,9 +153,9 @@ export default class Myjobs extends Component<Props> {
                     <Text style={{fontSize:12, color:'#000'}}>{item.thana}</Text>
                     <Text style={{fontSize:12, color:'#000'}}>{item.district}</Text>
                   </View>
-                  {/* <TouchableOpacity style={{backgroundColor:'#4CAF50', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
+                  <TouchableOpacity style={{backgroundColor:'#ca0000', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.setUpdateData(item)} >
                     <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' /> {language.details[lan]}</Text>
-                  </TouchableOpacity> */}
+                  </TouchableOpacity>
                 </View>
               </View>
             )
@@ -167,9 +182,9 @@ export default class Myjobs extends Component<Props> {
                     <Text style={{fontSize:12, color:'#000'}}>{item.pre_thana}</Text>
                     <Text style={{fontSize:12, color:'#000'}}>{item.pre_district}</Text>
                   </View>
-                  {/* <TouchableOpacity style={{backgroundColor:'#4CAF50', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
+                  <TouchableOpacity style={{backgroundColor:'#ca0000', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.setUpdateData(item)} >
                     <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' /> {language.details[lan]}</Text>
-                  </TouchableOpacity> */}
+                  </TouchableOpacity>
                 </View>
               </View>
             )
@@ -197,10 +212,10 @@ export default class Myjobs extends Component<Props> {
           <AddJobs clsAddJobs={this.clsAddJobs} appStore={this.props.appStore} updateAppstore={this.props.updateAppstore} />
           }
           {(this.props.appStore.usertype == 'partners') &&
-          <AddServices clsAddJobs={this.clsAddJobs} appStore={this.props.appStore} updateAppstore={this.props.updateAppstore} />
+          <AddServices  update={this.state.update} updateData={this.state.updateData} clsAddJobs={this.clsAddJobs} appStore={this.props.appStore} updateAppstore={this.props.updateAppstore} />
           }
           {(this.props.appStore.usertype == 'clients') &&
-          <AddClientServices clsAddJobs={this.clsAddJobs} appStore={this.props.appStore} updateAppstore={this.props.updateAppstore} />
+          <AddClientServices update={this.state.update} updateData={this.state.updateData} clsAddJobs={this.clsAddJobs} appStore={this.props.appStore} updateAppstore={this.props.updateAppstore} />
           }
           </Modal>
       </View>

@@ -181,7 +181,7 @@ export default class Profile extends Component<Props> {
     return (
       <View style={{flex:1, alignItems:'center', justifyContent:'center'}}>
         <Toolbar
-          style={{ container: {'backgroundColor':'#4CAF50'}}}
+          style={{ container: {'backgroundColor':'#ca0000'}}}
           // leftElement="menu"
           centerElement={'Your Profile'}
         />

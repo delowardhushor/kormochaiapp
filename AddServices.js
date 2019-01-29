@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity, TextInput,Switch,ActivityIndicator,Picker,FlatList, ScrollView, CheckBox, ToastAndroid, Modal} from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableOpacity,Dimensions, TextInput,Switch,ActivityIndicator,Picker,FlatList, ScrollView, CheckBox, ToastAndroid, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import language from './lan.json';
 import DatePicker from 'react-native-datepicker'
@@ -20,6 +20,7 @@ export default class AddServices extends Component<Props> {
             area:'',
             thana:'',
             district:'',
+            house:'',
             perarea:'',
             perthana:'',
             perdistrict:'',
@@ -39,9 +40,26 @@ export default class AddServices extends Component<Props> {
     }
   
 
-  componentWillMount(){
+    componentWillMount(){
+        if(this.props.update == true){
+            let {updateData} = this.props;
+            this.setState({name:updateData.name});
+            this.setState({phone:updateData.phone});
+            this.setState({companyName:updateData.compnay_name});
+            this.setState({area:updateData.pre_area});
+            this.setState({thana:updateData.pre_thana});
+            this.setState({district:updateData.pre_district});
+            this.setState({house:updateData.pre_house});
 
-}
+            this.setState({perarea:updateData.per_area});
+            this.setState({perthana:updateData.per_thana});
+            this.setState({perdistrict:updateData.per_district});
+            this.setState({perhouse:updateData.per_house});
+
+            var profession = JSON.parse(updateData.profession);
+            this.setState({selectedCats:profession});
+        }
+    }
 
   addJob(){
       this.setState({refreshing:true});
@@ -53,11 +71,11 @@ export default class AddServices extends Component<Props> {
         per_area:this.state.area,
         per_thana:this.state.thana,
         per_district:this.state.district,
-        per_house:"n/a",
+        per_house:this.state.house,
         pre_area:this.state.perarea,
         pre_thana:this.state.perthana,
         pre_district:this.state.perdistrict,
-        pre_house:"n/a",
+        pre_house:this.state.perhouse,
         profession:JSON.stringify(this.state.selectedCats)
       })
       .then((res)=>{
@@ -92,7 +110,6 @@ export default class AddServices extends Component<Props> {
     }
 
     setCat(index){
-        console.log(index)
         selectedCats = this.props.appStore.parcats[index];
         this.setState({cat:selectedCats.cat});
         this.setState({selectedCats:selectedCats});
@@ -118,32 +135,41 @@ export default class AddServices extends Component<Props> {
 
     const Question = JSON.parse(this.state.selectedCats.question).map((item, index) => {
         return (
-            <TextInput
-                placeholder={item.qus}
-                underlineColorAndroid="#ddd"
-                onChangeText={(text) => this.cngCatInput(text, index)}
-                returnKeyType='next'
-                selectTextOnFocus={true}
-                autoCapitalize="none"
-                blurOnSubmit={false}
-                style={styles.inputForm}
-            />
+            <View key={index}>
+                {(this.props.update == true) &&
+                <Text style={[styles.inputForm,{marginTop:10, color:'#ca0000'}]}>{item.qus}</Text>
+                }
+                <TextInput
+                    
+                    placeholder={item.qus}
+                    underlineColorAndroid="#ddd"
+                    value={item.ans}
+                    onChangeText={(text) => this.cngCatInput(text, index)}
+                    returnKeyType='next'
+                    selectTextOnFocus={true}
+                    autoCapitalize="none"
+                    blurOnSubmit={false}
+                    style={styles.inputForm}
+                />
+            </View>
         );
     });
 
-    console.log(this.state.selectedCats.question)
 
     return (
       <View style={{flex:1, alignItems:'center', justifyContent:'center', height:'100%'}}>
         <Toolbar
-            style={{ container: {'backgroundColor':'#4CAF50'}}}
+            style={{ container: {'backgroundColor':'#ca0000'}}}
             leftElement="chevron-left"
-            centerElement="Add Service"
+            centerElement={this.props.update == true ? language.service[lan] :language.addSer[lan]}
             onLeftElementPress={ () => { this.props.clsAddJobs() }}
           />
           <ScrollView style={{width:'90%', paddingTop:20}}>
+            {(this.props.update == true) &&
+                <Text style={[styles.inputForm, {marginTop:10, color:'#ca0000'}]}>{language.name[lan]} : </Text>
+            }
             <TextInput
-                placeholder="Name"
+                placeholder={language.name[lan]}
                 underlineColorAndroid="#ddd" 
                 value={this.state.name}
                 onChangeText={(name) => this.setState({name})}
@@ -153,9 +179,11 @@ export default class AddServices extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
-
+            {(this.props.update == true) &&
+                <Text style={[styles.inputForm, {marginTop:10, color:'#ca0000'}]}>{language.phone[lan]} : </Text>
+            }
             <TextInput
-                placeholder="Phone"
+                placeholder={language.phone[lan]}
                 underlineColorAndroid="#ddd" 
                 
                 value={this.state.phone}
@@ -166,9 +194,11 @@ export default class AddServices extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
-
+            {(this.props.update == true) &&
+                <Text style={[styles.inputForm, {marginTop:10, color:'#ca0000'}]}>{language.comName[lan]} : </Text>
+            }
             <TextInput
-                placeholder="Company Name"
+                placeholder={language.comName[lan]}
                 underlineColorAndroid="#ddd" 
                 
                 value={this.state.companyName}
@@ -180,10 +210,12 @@ export default class AddServices extends Component<Props> {
                 style={styles.inputForm}
             />
 
-            <Text style={[styles.inputForm, {marginTop:10}]}>Parmament Address</Text>
-
+            <Text style={[styles.inputForm, {marginTop:10, color:'#000', fontSize:16}]}>{language.perAdd[lan]} : </Text>
+            {(this.props.update == true) &&
+                <Text style={[styles.inputForm, {marginTop:10, color:'#ca0000'}]}>{language.area[lan]} : </Text>
+            }
             <TextInput
-                placeholder="Area"
+                placeholder={language.area[lan]}
                 underlineColorAndroid="#ddd" 
                 value={this.state.area}
                 onChangeText={(area) => this.setState({area})}
@@ -193,8 +225,11 @@ export default class AddServices extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
+            {(this.props.update == true) &&
+                <Text style={[styles.inputForm, {marginTop:10, color:'#ca0000'}]}>{language.thana[lan]} : </Text>
+            }
             <TextInput
-                placeholder="Thana"
+                placeholder={language.thana[lan]}
                 underlineColorAndroid="#ddd" 
                 value={this.state.thana}
                 onChangeText={(thana) => this.setState({thana})}
@@ -204,8 +239,11 @@ export default class AddServices extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
+            {(this.props.update == true) &&
+                <Text style={[styles.inputForm, {marginTop:10, color:'#ca0000'}]}>{language.district[lan]} : </Text>
+            }
             <TextInput
-                placeholder="District"
+                placeholder={language.district[lan]}
                 underlineColorAndroid="#ddd" 
                 value={this.state.district}
                 onChangeText={(district) => this.setState({district})}
@@ -215,11 +253,27 @@ export default class AddServices extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
-
-            <Text style={styles.inputForm}>Office Address</Text>
-
+            {(this.props.update == true) &&
+                <Text style={[styles.inputForm, {marginTop:10, color:'#ca0000'}]}>{language.district[lan]} : </Text>
+            }
             <TextInput
-                placeholder="Area"
+                placeholder={language.house[lan]}
+                underlineColorAndroid="#ddd" 
+                value={this.state.house}
+                onChangeText={(house) => this.setState({house})}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
+
+            <Text style={[styles.inputForm, {marginTop:10, color:'#000', fontSize:16}]}>{language.preAdd[lan]} : </Text>
+            {(this.props.update == true) &&
+                <Text style={[styles.inputForm, {marginTop:10, color:'#ca0000'}]}>{language.area[lan]} : </Text>
+            }
+            <TextInput
+                placeholder={language.area[lan]}
                 underlineColorAndroid="#ddd" 
                 value={this.state.perarea}
                 onChangeText={(perarea) => this.setState({perarea})}
@@ -229,8 +283,11 @@ export default class AddServices extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
+            {(this.props.update == true) &&
+                <Text style={[styles.inputForm, {marginTop:10, color:'#ca0000'}]}>{language.thana[lan]} : </Text>
+            }
             <TextInput
-                placeholder="Thana"
+                placeholder={language.thana[lan]}
                 underlineColorAndroid="#ddd" 
                 value={this.state.perthana}
                 onChangeText={(perthana) => this.setState({perthana})}
@@ -240,8 +297,11 @@ export default class AddServices extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
+            {(this.props.update == true) &&
+                <Text style={[styles.inputForm, {marginTop:10, color:'#ca0000'}]}>{language.district[lan]} : </Text>
+            }
             <TextInput
-                placeholder="District"
+                placeholder={language.district[lan]}
                 underlineColorAndroid="#ddd" 
                 value={this.state.perdistrict}
                 onChangeText={(perdistrict) => this.setState({perdistrict})}
@@ -251,22 +311,37 @@ export default class AddServices extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
+            {(this.props.update == true) &&
+                <Text style={[styles.inputForm, {marginTop:10, color:'#ca0000'}]}>{language.house[lan]} : </Text>
+            }
+            <TextInput
+                placeholder={language.house[lan]}
+                underlineColorAndroid="#ddd" 
+                value={this.state.perhouse}
+                onChangeText={(perhouse) => this.setState({perhouse})}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={styles.inputForm}
+            />
             
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', height:40, alignItems:'center', marginTop:10}}>
-                <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>Select Service / Profession</Text>
+                <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>{this.props.update == true ? language.service[lan] :language.selSer[lan]}</Text>
                 <Picker
                     selectedValue={this.state.cat}
-                    style={{ height: 50, width: 100 }}
+                    style={{ height: 50, width:  Dimensions.get('window').width/2 }}
                     onValueChange={(itemValue, itemIndex) => this.setCat(itemIndex)}>
                     {Cats}
                 </Picker>
             </View>
 
             {Question}
-        
+            {(this.props.update !== true) &&
             <View style={{flexDirection:'row', marginTop:10,justifyContent:'flex-end'}}>
                 <Button raised primary text={language.add[lan]} onPress={() => {this.addJob()}} />
             </View>
+            }
             <View style={{height:100}}></View>
             </ScrollView>
             <Modal

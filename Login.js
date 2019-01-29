@@ -89,6 +89,7 @@ export default class Login extends Component<Props> {
             // }
             var appStore = this.props.appStore;
             appStore.userdata = userdata;
+            appStore.loginNow = true;
             if(appStore.usertype === 'employees'){
                 appStore.activeTab = 'Profile';
             }else{
@@ -108,9 +109,32 @@ export default class Login extends Component<Props> {
     })
   }
 
+  sentPin(pin){
+    this.setState({refreshing:true});
+    axios.get('https://delowarhossaintb.000webhostapp.com/kormosms.php?kormophone='+this.state.phone+'&kormopin='+pin)
+    .then((res) => {
+        console.log(res)
+        if(res.data.success === true){
+            this.setState({refreshing:false});
+            ToastAndroid.show('Pin Sent To Your Mobile', 3000);
+        }else{
+            this.setState({refreshing:false});
+            ToastAndroid.show('Can Not Send Pin Now', 3000);
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+        this.setState({refreshing:false});
+        ToastAndroid.show("No Netwocvcvcvrk Connection", 3000);
+    })
+  }
+
   signup(){
-    
-    if(this.state.pin == ''){
+    this.setState({refreshing:true});
+    if(this.state.phone.length < 11){
+        this.setState({refreshing:false});
+        ToastAndroid.show('Invalid Phone Number', 3000);
+    }else if(this.state.pin == ''){
         this.setState({refreshing:false});
         axios.post(this.props.appStore.baseUrl+this.props.appStore.usertype+"/exist", {
             'phone':this.state.phone,
@@ -118,8 +142,9 @@ export default class Login extends Component<Props> {
         .then((res) => {
             if(res.data.success === true){
                 this.setState({refreshing:false});
-                this.setState({pin:121212});
-                ToastAndroid.show('Pin Sent To Your Mobile', 3000);
+                var pin = Math.floor(100000 + Math.random() * 900000);
+                this.setState({pin:pin});
+                this.sentPin(pin);
             }else{
                 this.setState({refreshing:false});
                 ToastAndroid.show("Account Exist", 3000);
@@ -131,10 +156,10 @@ export default class Login extends Component<Props> {
             ToastAndroid.show("No Network Connection", 3000);
         })
     }else if(this.state.pin != this.state.conPin){
-        console.log(this.state.pin, this.state.conPin);
-        alert(this.state.pin+"dfdfdf"+this.state.conPin)
+        this.setState({refreshing:false});
         ToastAndroid.show('Invalid Pin', 3000);
     }else{
+        this.setState({refreshing:false});
         this.confirmedSignup();
     }
   }
@@ -154,7 +179,11 @@ export default class Login extends Component<Props> {
             userdata.password = this.state.password;
             var appStore = this.props.appStore;
             appStore.userdata = userdata;
-            appStore.activeTab = 'Home';
+            if(appStore.usertype === 'employees'){
+                appStore.activeTab = 'Profile';
+            }else{
+                appStore.activeTab = 'Myjobs';
+            }
             this.props.updateAppstore(appStore);
         }else{
             this.setState({refreshing:false});
@@ -279,8 +308,8 @@ export default class Login extends Component<Props> {
             <View style={{height:40}}></View>
             <Button raised text={this.state.activeSubPage === 'Signin' ? language.signup[lan] : language.signin[lan]} onPress={() => this.cngPage()} />
             <View style={{height:40}}></View>
-            <Button accent text={language.conGus[lan]} onPress={() => this.skipLogin()} />
-            <View style={{height:50}}></View>
+            {/* <Button accent text={language.conGus[lan]} onPress={() => this.skipLogin()} /> */}
+            {/* <View style={{height:50}}></View> */}
         </ScrollView>
         <Modal
           transparent={true}

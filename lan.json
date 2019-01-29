@@ -73,7 +73,7 @@
     },
     "anycat":{
         "ban":"যেকোনো ক্যাটাগরি",
-        "eng":"Any Category",
+        "eng":"Any Category"
     },
     "anyloc":{
         "ban":"যেকোনো লোকেশন",
@@ -81,7 +81,7 @@
     },
     "cat":{
         "ban":"ক্যাটাগরি",
-        "eng":"Category",
+        "eng":"Category"
     },
     "loc":{
         "ban":"লোকেশন",
@@ -212,7 +212,7 @@
         "eng":"Female"
     },
     "other":{
-        "ban":"অন্নান্ন",
+        "ban":"অন্যন্য",
         "eng":"Others"
     },
     "update":{
@@ -228,11 +228,11 @@
         "eng":"Address"
     },
     "area":{
-        "ban":"আমি একজন গেস্ট",
+        "ban":"এরিয়া",
         "eng":"Area"
     },
     "district":{
-        "ban":"আমি একজন গেস্ট",
+        "ban":"জেলা",
         "eng":"District"
     },
     "thana":{
@@ -350,5 +350,49 @@
     "pin":{
         "ban":"পিন কোড",
         "eng":"Pin Code"
+    },
+    "addSer":{
+        "ban":"সার্ভিস অ্যাড করুন",
+        "eng":"Add Service"
+    },
+    "selSer":{
+        "ban":"পেশা / সার্ভিস নির্বাচন করুন",
+        "eng":"Select Service / Profession"
+    },
+    "perAdd":{
+        "ban":"স্থায়ী ঠিকানা",
+        "eng":"Parmanent Address"
+    },
+    "preAdd":{
+        "ban":"বর্তমান ঠিকানা",
+        "eng":"Present Address"
+    },
+    "serDate":{
+        "ban":"সার্ভিস দিন ও সময় নির্বাচন করুন",
+        "eng":"Select Service Date"
+    },
+    "serDay":{
+        "ban":"সার্ভিস দিন ও সময়",
+        "eng":"Service Date & Time"
+    },
+    "hour":{
+        "ban":"ঘন্টা",
+        "eng":"Hour"
+    },
+    "min":{
+        "ban":"মিনিট",
+        "eng":"Minutes"
+    },
+    "reqSer":{
+        "ban":"সার্ভিস আবেদন করুন",
+        "eng":"Request Service"
+    },
+    "selReqSer":{
+        "ban":"সার্ভিস নির্বাচন করুন",
+        "eng":"Select Service"
+    },
+    "service":{
+        "ban":"সার্ভিস",
+        "eng":"Service"
     }
 }

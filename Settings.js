@@ -80,7 +80,7 @@ export default class Settings extends Component<Props> {
     return (
       <View>
         <Toolbar
-          style={{ container: {'backgroundColor':'#4CAF50'}}}
+          style={{ container: {'backgroundColor':'#ca0000'}}}
           centerElement={language.settings[lan]}
           rightElement={this.props.appStore.usertype == 'employees' ? "account-box" : "" }
           onRightElementPress={ () => { this.toProfile() }}

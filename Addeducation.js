@@ -82,7 +82,7 @@ export default class Addeducation extends Component<Props> {
     return (
       <View style={{flex:1, alignItems:'center', justifyContent:'center', height:'100%'}}>
         <Toolbar
-            style={{ container: {'backgroundColor':'#4CAF50'}}}
+            style={{ container: {'backgroundColor':'#ca0000'}}}
             leftElement="chevron-left"
             centerElement={this.state.update === true ? language.upEdu[lan] : language.addEdu[lan] }
             onLeftElementPress={ () => { this.props.modelCls() }}

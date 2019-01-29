@@ -45,6 +45,7 @@ export default class App extends Component<Props> {
         myJobs:[],
         JobDetails:[],
         activeSlide:0,
+        loginNow:false,
       },
       modelVisible:true,
     };
@@ -144,39 +145,69 @@ export default class App extends Component<Props> {
     this.setState({modelVisible:true});
   }
 
+  returnTab = () => {
+    let{lan} = this.state.appStore;
+    if(this.state.appStore.usertype == 'employees'){
+      return [
+        {
+          key: 'Home',
+          icon: 'home',
+          label: language.home[lan],
+          barColor: '#ca0000',
+          pressColor: 'rgba(255, 255, 255, 0.16)'
+        },
+        {
+          key: 'Myjobs',
+          icon: 'briefcase',
+          label: this.state.appStore.usertype == 'employees' || this.state.appStore.usertype == 'employers' ?  language.myJobs[lan] : language.mySer[lan],
+          barColor: '#B71C1C',
+          pressColor: 'rgba(255, 255, 255, 0.16)'
+        },
+        {
+          key: 'Educative',
+          icon: 'university',
+          label: language.educative[lan],
+          barColor: '#B71C1C',
+          pressColor: 'rgba(255, 255, 255, 0.16)'
+        },
+        {
+          key: 'Settings',
+          icon: 'cogs',
+          label: language.settings[lan],
+          barColor: '#F06292',
+          pressColor: 'rgba(255, 255, 255, 0.16)'
+        }
+      ];
+    }else{
+      return [
+        {
+          key: 'Myjobs',
+          icon: 'briefcase',
+          label: this.state.appStore.usertype == 'employees' || this.state.appStore.usertype == 'employers' ?  language.myJobs[lan] : language.mySer[lan],
+          barColor: '#B71C1C',
+          pressColor: 'rgba(255, 255, 255, 0.16)'
+        },
+        {
+          key: 'Educative',
+          icon: 'university',
+          label: language.educative[lan],
+          barColor: '#B71C1C',
+          pressColor: 'rgba(255, 255, 255, 0.16)'
+        },
+        {
+          key: 'Settings',
+          icon: 'cogs',
+          label: language.settings[lan],
+          barColor: '#F06292',
+          pressColor: 'rgba(255, 255, 255, 0.16)'
+        }
+      ];
+    }
+  }
+
   render() {
     let{lan} = this.state.appStore;
-    tabs = [
-      {
-        key: 'Home',
-        icon: 'home',
-        label: language.home[lan],
-        barColor: '#4CAF50',
-        pressColor: 'rgba(255, 255, 255, 0.16)'
-      },
-      {
-        key: 'Myjobs',
-        icon: 'briefcase',
-        label: this.state.appStore.usertype == 'employees' || this.state.appStore.usertype == 'employers' ?  language.myJobs[lan] : language.mySer[lan],
-        barColor: '#B71C1C',
-        pressColor: 'rgba(255, 255, 255, 0.16)'
-      },
-      {
-        key: 'Educative',
-        icon: 'university',
-        label: language.educative[lan],
-        barColor: '#B71C1C',
-        pressColor: 'rgba(255, 255, 255, 0.16)'
-      },
-      {
-        key: 'Settings',
-        icon: 'cogs',
-        label: language.settings[lan],
-        barColor: '#F06292',
-        pressColor: 'rgba(255, 255, 255, 0.16)'
-      }
-    ];
-
+    
     console.log(this.state.activeSlide)
 
     return (
@@ -193,7 +224,7 @@ export default class App extends Component<Props> {
         <BottomNavigation
           onTabPress={newTab => this.changeActiveTab(newTab.key)}
           renderTab={this.renderTab}
-          tabs={tabs}
+          tabs={this.returnTab()}
         />
         <Modal
           animationType="slide"

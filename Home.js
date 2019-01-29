@@ -87,7 +87,7 @@ export default class Home extends Component<Props> {
     return (
       <View>
         <Toolbar
-          style={{ container: {'backgroundColor':'#4CAF50'}}}
+          style={{ container: {'backgroundColor':'#ca0000'}}}
           // leftElement="menu"
           centerElement={language.kormochai[lan]}
           rightElement={this.props.appStore.usertype == 'employees' ? "account-box" : "" }
@@ -99,14 +99,14 @@ export default class Home extends Component<Props> {
               style={{ height: 40, width: '45%' }}
               onValueChange={(itemValue, itemIndex) => this.search(this.state.location ,itemValue)}>
               <Picker.Item label={language.anyloc[lan]} value='' />
-              {Cats}
+              {Locations}
           </Picker>
           <Picker
               selectedValue={this.state.location}
               style={{ height: 40, width: "45%" }}
               onValueChange={(itemValue, itemIndex) => this.search(itemValue, this.state.category)}>
               <Picker.Item label={language.anycat[lan]} value='' />
-              {Locations}
+              {Cats}              
           </Picker>
         </View>
         <View style={{alignItems:'center'}}>
@@ -127,7 +127,7 @@ export default class Home extends Component<Props> {
                   <Text style={{fontSize:12, color:'#000'}}>{item.location}</Text>
                   <Text style={{fontSize:12, color:'#000'}}>{item.education}</Text>
                 </View>
-                <TouchableOpacity style={{backgroundColor:'#4CAF50', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
+                <TouchableOpacity style={{backgroundColor:'#ca0000', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
                   <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' /> {language.details[lan]}</Text>
                 </TouchableOpacity>
               </View>

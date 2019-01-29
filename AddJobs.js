@@ -136,7 +136,7 @@ export default class AddJobs extends Component<Props> {
     return (
       <View style={{flex:1, alignItems:'center', justifyContent:'center', height:'100%'}}>
         <Toolbar
-            style={{ container: {'backgroundColor':'#4CAF50'}}}
+            style={{ container: {'backgroundColor':'#ca0000'}}}
             leftElement="chevron-left"
             centerElement={language.addJob[lan]}
             onLeftElementPress={ () => { this.props.clsAddJobs() }}

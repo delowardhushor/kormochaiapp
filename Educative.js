@@ -35,7 +35,7 @@ export default class Educative extends Component {
       <View>
         <View>
           <Toolbar
-            style={{ container: {'backgroundColor':'#4CAF50'}}}
+            style={{ container: {'backgroundColor':'#ca0000'}}}
             centerElement={language.educative[lan]}
             rightElement={this.props.appStore.usertype == 'employees' ? "account-box" : "" }
             onRightElementPress={ () => { this.toProfile() }}
