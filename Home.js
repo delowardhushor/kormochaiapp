@@ -116,7 +116,7 @@ export default class Home extends Component<Props> {
             style={{width:'90%'}}
             keyExtractor={(item, index) => 'key'+index}
             renderItem={({item, index}) => 
-            <View style={{borderBottomColor:'#ddd', borderBottomWidth:1, paddingVertical:15}}>
+            <View style={{borderBottomColor:'#ddd', borderBottomWidth:1, paddingVertical:15, paddingBottom:this.props.appStore.jobs.length == index+1 ? 300 : 15}}>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
                 <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.job_title}</Text>
                 <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.salary}/{item.salary_type}</Text>

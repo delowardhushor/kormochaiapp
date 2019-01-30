@@ -21,6 +21,11 @@ export default class Login extends Component<Props> {
           refer : '',
           pin:'',
           conPin:'',
+          frogetPass:false,
+          forgetPin:'',
+          conForgetPin:'',
+          forgetPhone:'',
+          forgetPinConfirmed:false,
         };
         this.focusNextField = this.focusNextField.bind(this);
         this.inputs = {};
@@ -109,7 +114,7 @@ export default class Login extends Component<Props> {
     })
   }
 
-  sentPin(pin){
+  sentPin(pin, mobile){
     this.setState({refreshing:true});
     axios.get('https://delowarhossaintb.000webhostapp.com/kormosms.php?kormophone='+this.state.phone+'&kormopin='+pin)
     .then((res) => {
@@ -144,10 +149,10 @@ export default class Login extends Component<Props> {
                 this.setState({refreshing:false});
                 var pin = Math.floor(100000 + Math.random() * 900000);
                 this.setState({pin:pin});
-                this.sentPin(pin);
+                this.sentPin(pin, this.state.phone);
             }else{
                 this.setState({refreshing:false});
-                ToastAndroid.show("Account Exist", 3000);
+                ToastAndroid.show("Account Doesn't Exist", 3000);
             }
         })
         .catch((err) => {
@@ -188,6 +193,32 @@ export default class Login extends Component<Props> {
         }else{
             this.setState({refreshing:false});
             ToastAndroid.show(res.data.msg, 3000);
+        }
+    })
+    .catch((err) => {
+        console.log(err)
+        this.setState({refreshing:false});
+        ToastAndroid.show("No Network Connection", 3000);
+    })
+  }
+
+  openForPass(){
+      this.setState({frogetPass:true});
+  }
+
+  sendForgetPin(){
+    axios.post(this.props.appStore.baseUrl+this.props.appStore.usertype+"/exist", {
+        'phone':this.state.forgetPhone,
+    })
+    .then((res) => {
+        if(res.data.success === true){
+            this.setState({refreshing:false});
+            var forgetPin = Math.floor(100000 + Math.random() * 900000);
+            this.setState({forgetPin:forgetPin});
+            this.sentPin(forgetPin, this.state.forgetPhone);
+        }else{
+            this.setState({refreshing:false});
+            ToastAndroid.show("Account Doesn't Exist", 3000);
         }
     })
     .catch((err) => {
@@ -309,8 +340,105 @@ export default class Login extends Component<Props> {
             <Button raised text={this.state.activeSubPage === 'Signin' ? language.signup[lan] : language.signin[lan]} onPress={() => this.cngPage()} />
             <View style={{height:40}}></View>
             {/* <Button accent text={language.conGus[lan]} onPress={() => this.skipLogin()} /> */}
+            <Button accent text={language.forPas[lan]} onPress={() => this.openForPass()} />
             {/* <View style={{height:50}}></View> */}
         </ScrollView>
+        <Modal
+          transparent={false}
+          visible={this.state.frogetPass}
+          onRequestClose={() => {
+            console.log('Model Closed')
+          }}>
+          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+            <ScrollView style={{width:'60%'}} keyboardShouldPersistTaps={'always'}>
+                <View style={{height:100}}></View>
+                {(this.state.forgetPin == '') &&
+                <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
+                    <View style={{flex:1, justifyContent:'center'}}>
+                        <Text><Icon name='phone' color='#000' size={22} /></Text>
+                    </View>
+                    <View style={{flex:9}}>
+                        <TextInput 
+                            placeholder={language.phone[lan]} 
+                            underlineColorAndroid="#ddd"
+                            onChangeText={(forgetPhone) => this.setState({forgetPhone:forgetPhone})}
+                            value={this.state.forgetPhone}
+                            returnKeyType='next'
+                            selectTextOnFocus={true}
+                            autoCapitalize="none"
+                            blurOnSubmit={false}
+                            style={styles.inputForm}
+                        />
+                    </View>
+                </View>
+                }
+                {(this.state.forgetPin !== '') &&
+                <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
+                    <View style={{flex:1, justifyContent:'center'}}>
+                        <Text><Icon name='lock' color='#000' size={22} /></Text>
+                    </View>
+                    <View style={{flex:9}}>
+                        <TextInput 
+                            placeholder={language.pin[lan]}  
+                            underlineColorAndroid="#ddd"
+                            value={this.state.conForgetPin}
+                            onChangeText={(conForgetPin) => this.setState({conForgetPin:conForgetPin})}
+                            returnKeyType='done'
+                            selectTextOnFocus={true}
+                            autoCapitalize="none"
+                            blurOnSubmit={true}
+                            style={styles.inputForm}
+                        />
+                    </View>
+                </View>
+                }
+                {(this.state.forgetPinConfirmed == true) &&
+                <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
+                    <View style={{flex:1, justifyContent:'center'}}>
+                        <Text><Icon name='lock' color='#000' size={22} /></Text>
+                    </View>
+                    <View style={{flex:9}}>
+                        <TextInput 
+                            placeholder={language.pin[lan]}  
+                            underlineColorAndroid="#ddd"
+                            value={this.state.conForgetPin}
+                            onChangeText={(conForgetPin) => this.setState({conForgetPin:conForgetPin})}
+                            returnKeyType='done'
+                            selectTextOnFocus={true}
+                            autoCapitalize="none"
+                            blurOnSubmit={true}
+                            style={styles.inputForm}
+                        />
+                    </View>
+                </View>
+                }
+                {(this.state.forgetPinConfirmed == true) &&
+                <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
+                    <View style={{flex:1, justifyContent:'center'}}>
+                        <Text><Icon name='lock' color='#000' size={22} /></Text>
+                    </View>
+                    <View style={{flex:9}}>
+                        <TextInput 
+                            placeholder={language.pin[lan]}  
+                            underlineColorAndroid="#ddd"
+                            value={this.state.conForgetPin}
+                            onChangeText={(conForgetPin) => this.setState({conForgetPin:conForgetPin})}
+                            returnKeyType='done'
+                            selectTextOnFocus={true}
+                            autoCapitalize="none"
+                            blurOnSubmit={true}
+                            style={styles.inputForm}
+                        />
+                    </View>
+                </View>
+                }
+                <View style={{height:50}}></View>
+                <Button raised primary text={language.confirm[lan]} onPress={() => this.sendForgetPin()} />
+                <View style={{height:50}}></View>
+                <Button accent text={language.back[lan]} onPress={() => this.setState({frogetPass:false})} />
+            </ScrollView>
+          </View>
+        </Modal>
         <Modal
           transparent={true}
           visible={this.state.refreshing}

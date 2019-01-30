@@ -75,6 +75,12 @@ export default class Settings extends Component<Props> {
     }
   }
 
+  toAboutConUs(page){
+    var appStore = this.props.appStore;
+    appStore.activeTab = page;
+    this.props.updateAppstore(appStore);
+  }
+  
   render() {
     let {lan} = this.props.appStore;
     return (
@@ -88,6 +94,10 @@ export default class Settings extends Component<Props> {
         <View>
         <View style={{alignItems:'center', marginTop:10}}>
           <ScrollView style={{width:'90%'}}>
+            <View style={{height:20}}></View>
+            <Button raised text={language.aboUs[lan]} onPress={() => this.toAboutConUs("About")} />
+            <View style={{height:20}}></View>
+            <Button raised primary text={language.conUs[lan]} onPress={() => this.toAboutConUs("Contact")} />
             <View style={{flex:1, alignItems:'center', flexDirection:'row', justifyContent:'space-between', marginBottom:30}}>
               <Text style={styles.cngLanText}>{language.changeLan[lan]}</Text>
               <Switch

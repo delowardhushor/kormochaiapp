@@ -179,10 +179,10 @@ export default class AddJobs extends Component<Props> {
                 style={styles.inputForm}
             />
 
-            <Text style={[styles.inputForm, {marginTop:15, marginBottom:10}]}>Institution Address</Text>
+            <Text style={[styles.inputForm, {marginTop:15, marginBottom:10}]}>{language.insAdd[lan]}</Text>
 
             <TextInput
-                placeholder="Area"
+                placeholder={language.area[lan]}
                 underlineColorAndroid="#ddd" 
                 value={this.state.area}
                 onChangeText={(area) => this.setState({area})}
@@ -194,7 +194,7 @@ export default class AddJobs extends Component<Props> {
             />
 
             <TextInput
-                placeholder="Thana"
+                placeholder={language.thana[lan]}
                 underlineColorAndroid="#ddd" 
                 value={this.state.thana}
                 onChangeText={(thana) => this.setState({thana})}

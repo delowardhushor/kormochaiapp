@@ -23,7 +23,7 @@ export default class AddClientServices extends Component<Props> {
             cat:'',
             selectedCats:this.props.appStore.clicats[0],
             serviceDate:'',
-            hour:'12',
+            hour:'01',
             min:'00',
             ampm:'PM',
         };
@@ -68,7 +68,7 @@ export default class AddClientServices extends Component<Props> {
         thana:this.state.thana,
         district:this.state.district,
         house:this.state.house,
-        service_date:this.state.service_date,
+        service_date:this.state.serviceDate,
         min:this.state.min,
         hour:this.state.hour,
         ampm:this.state.ampm,
@@ -86,7 +86,7 @@ export default class AddClientServices extends Component<Props> {
       .catch((err)=>{
           console.log(err)
         this.setState({refreshing:false});
-        ToastAndroid.show("No Network Connection", 3000)
+        ToastAndroid.show("Fill Empty or No Network Connection", 3000)
       })
   }
 

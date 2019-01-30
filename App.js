@@ -14,6 +14,8 @@ import Myjobs from './Myjobs';
 import Settings from './Settings';
 import Login from './Login';
 import Educative from './Educative';
+import About from './About';
+import Contact from './Contact';
 
 type Props = {};
 
@@ -160,14 +162,14 @@ export default class App extends Component<Props> {
           key: 'Myjobs',
           icon: 'briefcase',
           label: this.state.appStore.usertype == 'employees' || this.state.appStore.usertype == 'employers' ?  language.myJobs[lan] : language.mySer[lan],
-          barColor: '#B71C1C',
+          barColor: '#9400D3',
           pressColor: 'rgba(255, 255, 255, 0.16)'
         },
         {
           key: 'Educative',
           icon: 'university',
           label: language.educative[lan],
-          barColor: '#B71C1C',
+          barColor: '#8B008B',
           pressColor: 'rgba(255, 255, 255, 0.16)'
         },
         {
@@ -184,14 +186,14 @@ export default class App extends Component<Props> {
           key: 'Myjobs',
           icon: 'briefcase',
           label: this.state.appStore.usertype == 'employees' || this.state.appStore.usertype == 'employers' ?  language.myJobs[lan] : language.mySer[lan],
-          barColor: '#B71C1C',
+          barColor: '#9400D3',
           pressColor: 'rgba(255, 255, 255, 0.16)'
         },
         {
           key: 'Educative',
           icon: 'university',
           label: language.educative[lan],
-          barColor: '#B71C1C',
+          barColor: '#8B008B',
           pressColor: 'rgba(255, 255, 255, 0.16)'
         },
         {
@@ -219,6 +221,8 @@ export default class App extends Component<Props> {
           {(this.state.appStore.activeTab === 'Settings') && <Settings appStore={this.state.appStore} updateAppstore={this.updateAppstore} setmodelVisible={this.setmodelVisible} />}
           {(this.state.appStore.activeTab === 'Login') && <Login appStore={this.state.appStore} updateAppstore={this.updateAppstore}  />}
           {(this.state.appStore.activeTab === 'Educative') && <Educative appStore={this.state.appStore} updateAppstore={this.updateAppstore}  />}
+          {(this.state.appStore.activeTab === 'About') && <About appStore={this.state.appStore} updateAppstore={this.updateAppstore}  />}
+          {(this.state.appStore.activeTab === 'Contact') && <Contact appStore={this.state.appStore} updateAppstore={this.updateAppstore}  />}
 
         </View>
         <BottomNavigation

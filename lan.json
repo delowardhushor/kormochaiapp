@@ -1,18 +1,18 @@
 {
     "iAmEmployee" : {
-        "ban" : "চাকরি খুঁজছি",
+        "ban" : "চাকরি খুজুন",
         "eng" : "I am Employee"
     },
     "iAmEmployer":{
-        "ban":"চাকরি দাতা",
+        "ban":"নিয়োগকর্তা",
         "eng":"I am Employer"
     } ,
     "iAmPar":{
-        "ban":"আমি সার্ভিস প্রোভাইডার",
+        "ban":"সার্ভিস প্রভাইডার",
         "eng":"Service Provider"
     },
     "iAmCLi":{
-        "ban":"আমি সার্ভিস চাচ্ছি",
+        "ban":"গ্রাহক সার্ভিস",
         "eng":"I want Service"
     },
     "openAsEmployee":{
@@ -132,11 +132,11 @@
         "eng":"Job Type"
     },
     "intDate":{
-        "ban":"ইন্টারভিউ ডেট",
+        "ban":"ইন্টারভিউ তারিখ",
         "eng":"Interview Date"
     },
     "jobDate":{
-        "ban":"জব ডেট",
+        "ban":"নিয়োগ তারিখ",
         "eng":"Join Date"
     },
     "eduQua":{
@@ -275,6 +275,10 @@
         "ban":"প্রতিষ্ঠানের নাম",
         "eng":"Institution Name"
     },
+    "insAdd":{
+        "ban":"প্রতিষ্ঠানের ঠিকানা",
+        "eng":"Institution Address"
+    },
     "sub":{
         "ban":"বিষয়",
         "eng":"Subject"
@@ -394,5 +398,25 @@
     "service":{
         "ban":"সার্ভিস",
         "eng":"Service"
+    },
+    "forPas":{
+        "ban":"পাসওয়ার্ড ভুলে গেছেন",
+        "eng":"Forget Password"
+    },
+    "back":{
+        "ban":"পিছনে ফিরে যান",
+        "eng":"Back"
+    },
+    "confirm":{
+        "ban":"কনফার্ম",
+        "eng":"Confirm"
+    },
+    "conUs":{
+        "ban":"যোগাযোগ করুন",
+        "eng":"Contact Us"
+    },
+    "aboUs":{
+        "ban":"আমাদের সম্পর্কে জানুন",
+        "eng":"About US"
     }
 }
