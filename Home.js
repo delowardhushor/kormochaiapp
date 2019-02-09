@@ -54,11 +54,9 @@ export default class Home extends Component<Props> {
     console.log(location, category)
     var jobs = JSON.parse(JSON.stringify(this.props.appStore.jobs));
     if(location !== '' && category !== ''){
-      alert("sdsdsds")
       for(var i = 0; jobs.length > i; i++){
         var storelocation = jobs[i].location;
         var storecategory = jobs[i].category;
-        //console.log(storecategory, category);
         if(location == storelocation || category == storecategory){
           searchedJobs.push(jobs[i]);
         }
