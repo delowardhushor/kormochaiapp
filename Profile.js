@@ -114,8 +114,10 @@ export default class Profile extends Component<Props> {
         console.log(res);
         if(res.data.success === true){
             this.setState({refreshing:false});
-            ToastAndroid.show("Profile Updated", 3000);
             appStore = this.props.appStore;
+            if(appStore.pendingApply == false){
+                ToastAndroid.show("Profile Updated", 3000);
+            }
             appStore.userdata.name = this.state.profileData.name;
             appStore.userdata.address = this.state.profileData.address;
             appStore.userdata.age = this.state.profileData.age;
@@ -131,17 +133,52 @@ export default class Profile extends Component<Props> {
             appStore.userdata.pergender = this.state.profileData.pergender;
             appStore.userdata.perdistrict = this.state.profileData.perdistrict;
 
+            if(appStore.pendingApply == true){
+                if(!this.state.profileData.name || !this.state.profileData.age || !this.state.profileData.gender || !this.state.profileData.education || !this.state.profileData.district){
+                    ToastAndroid.show('Please Fill All Your Info', 3000);
+                }else{
+                    axios.post(appStore.baseUrl+'applications',{
+                        job_id:appStore.JobDetails.id,
+                        employees_id:appStore.userdata.id,
+                    })
+                    .then((res)=>{
+                        appStore.pendingApply = false;
+                        ToastAndroid.show(language.applySuc[appStore.lan], 3000);
+                    })
+                    .catch((err)=>{
+                        ToastAndroid.show(language.noNet[appStore.lan], 3000);
+                    })
+                }
+            }
+            
             this.props.updateAppstore(appStore);
         }else{
             this.setState({refreshing:false});
+            ToastAndroid.show("No Network Connection", 3000);
         }
       })
       .catch((err)=>{
         console.log(err)
         this.setState({refreshing:false});
         ToastAndroid.show("No Network Connection", 3000);
-        
       });
+  }
+
+  apply(){
+    if(!this.state.profileData.name || !this.state.profileData.age || !this.state.profileData.gender || !this.state.profileData.education || !this.state.profileData.district){
+        ToastAndroid.show('Please Fill All Your Info', 3000);
+      }else{
+        axios.post(this.props.appStore.baseUrl+'applications',{
+          job_id:this.props.appStore.JobDetails.id,
+          employees_id:this.props.appStore.userdata.id,
+        })
+        .then((res)=>{
+            ToastAndroid.show(language.applySuc[this.props.appStore.lan], 3000);
+        })
+        .catch((err)=>{
+          ToastAndroid.show(language.noNet[this.props.appStore.lan], 3000);
+        })
+      }
   }
 
   setAddEdu = () => {

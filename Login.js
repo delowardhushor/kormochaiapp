@@ -143,11 +143,31 @@ export default class Login extends Component<Props> {
         this.setState({refreshing:false});
         ToastAndroid.show('Invalid Phone Number', 3000);
     }else if(this.state.pin == ''){   
-         this.setState({refreshing:false});
+          this.setState({refreshing:true});
 
-        var pin = Math.floor(100000 + Math.random() * 900000);
+        // var pin = Math.floor(100000 + Math.random() * 900000);
+        //         this.setState({pin:pin});
+        //         this.sentPin(pin, this.state.phone);
+
+        axios.post(this.props.appStore.baseUrl+this.props.appStore.usertype+"/exist", {
+            'phone':this.state.phone,
+        })
+        .then((res) => {
+            this.setState({refreshing:false});
+            if(res.data.success === false){
+                this.setState({refreshing:true});
+                var pin = Math.floor(100000 + Math.random() * 900000);
                 this.setState({pin:pin});
                 this.sentPin(pin, this.state.phone);
+            }else{
+                this.setState({refreshing:false});
+                ToastAndroid.show("Account All Ready Exist", 3000);
+            }
+        })
+        .catch((err) => {
+            this.setState({refreshing:false});
+            ToastAndroid.show("No Network Connection", 3000);
+        })
     }else if(this.state.pin != this.state.conPin){
         this.setState({refreshing:false});
         ToastAndroid.show('Invalid Pin', 3000);
@@ -212,18 +232,18 @@ export default class Login extends Component<Props> {
             'phone':this.state.forgetPhone,
         })
         .then((res) => {
+            this.setState({refreshing:false});
             if(res.data.success === true){
                 this.setState({refreshing:false});
                 var forgetPin = Math.floor(100000 + Math.random() * 900000);
                 this.setState({forgetPin:forgetPin});
                 this.sentPin(forgetPin, this.state.forgetPhone);
             }else{
-                this.setState({refreshing:false});
                 ToastAndroid.show("Account Doesn't Exist", 3000);
             }
         })
         .catch((err) => {
-            console.log(err)
+
             this.setState({refreshing:false});
             ToastAndroid.show("No Network Connection", 3000);
         })

@@ -49,6 +49,7 @@ export default class App extends Component<Props> {
         JobDetails:[],
         activeSlide:0,
         loginNow:false,
+        pendingApply:false,
       },
       modelVisible:true,
     };

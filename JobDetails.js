@@ -49,6 +49,7 @@ export default class JobDetails extends Component<Props> {
     }else if(!this.props.appStore.userdata.name || !this.props.appStore.userdata.age || !this.props.appStore.userdata.gender || !this.props.appStore.userdata.education || !this.props.appStore.userdata.district){
       ToastAndroid.show('Please Fill Your Info', 3000);
       var appStore = this.props.appStore;
+      appStore.pendingApply = true;
       appStore.activeTab = 'Profile';
       this.props.updateAppstore(appStore);
     }else{

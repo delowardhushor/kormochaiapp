@@ -270,6 +270,9 @@ export default class AddClientServices extends Component<Props> {
                         onDateChange={(date) => this.setState({serviceDate:date})}
                     />
                 </View>
+            </View>
+
+            <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:"flex-start"}}>
                 <Picker
                     selectedValue={this.state.hour}
                     style={{ height: 50, width: 50 }}

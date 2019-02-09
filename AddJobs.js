@@ -379,7 +379,6 @@ export default class AddJobs extends Component<Props> {
             }
             {(this.state.interview == 1) &&
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:"flex-start"}}>
-                <View>
                     <DatePicker
                         date={this.state.interviewDate}
                         mode="date"
@@ -388,8 +387,11 @@ export default class AddJobs extends Component<Props> {
                         confirmBtnText="Confirm"
                         cancelBtnText="Cancel"
                         onDateChange={(date) => this.setState({interviewDate:date})}
-                    />
-                </View>
+                    />                
+            </View>
+            }
+            {(this.state.interview == 1) &&
+            <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:"flex-start"}}>
                 <Picker
                     selectedValue={this.state.hour}
                     style={{ height: 50, width: 50 }}
