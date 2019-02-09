@@ -30,6 +30,11 @@ export default class Contact extends Component<Props> {
     this.props.updateAppstore(appStore);
   }
 
+  toSettings(){
+    var appStore = this.props.appStore;
+    appStore.activeTab = 'Settings';
+    this.props.updateAppstore(appStore);
+  }
 
   render() {
     let {lan} = this.props.appStore;
@@ -40,11 +45,22 @@ export default class Contact extends Component<Props> {
           centerElement={language.conUs[lan]}
           rightElement={this.props.appStore.usertype == 'employees' ? "account-box" : "" }
           onRightElementPress={ () => { this.toProfile() }}
+          leftElement="chevron-left"
+          onLeftElementPress={ () => { this.toSettings() }}
         />
         <View>
         <View style={{alignItems:'center', marginTop:10}}>
-          <ScrollView style={{width:'90%'}}>
-            <Text>Contact Us Will BE there</Text>
+        <ScrollView style={{width:'90%'}}>
+            <Text style={styles.inputForm} >
+              Office: sector 4,road:14,uttara,Dhaka-1203
+            </Text>
+            <Text style={styles.inputForm} >
+              Phone: 01999957611
+            </Text>
+            <Text style={styles.inputForm} >
+              Email: kormochaibd@gmail.com
+            </Text>
+            <View style={{height:200}}></View>
           </ScrollView>
         </View>
         </View>
@@ -59,5 +75,12 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
     color:'#000',
     marginTop:20,
-  }
+  },
+  inputForm:{
+    textAlign:'justify',
+    color:'#000',
+    marginTop:20,
+    fontWeight:'bold',
+    textAlign:'center'
+  },
 });

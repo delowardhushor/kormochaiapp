@@ -51,17 +51,20 @@ export default class Home extends Component<Props> {
     this.setState({location:location});
     this.setState({category:category});
     var searchedJobs = [];
+    console.log(location, category)
     var jobs = JSON.parse(JSON.stringify(this.props.appStore.jobs));
-    if(location === ''){
-      searchedJobs = jobs;
-    }else{
+    if(location !== '' && category !== ''){
+      alert("sdsdsds")
       for(var i = 0; jobs.length > i; i++){
-        var storelocation = jobs[i].location.toLowerCase();
-        var storecategory = jobs[i].category.toLowerCase();
-        if(storelocation.indexOf(location.toLowerCase()) !== -1 && storecategory.indexOf(category.toLowerCase()) !== -1){
+        var storelocation = jobs[i].location;
+        var storecategory = jobs[i].category;
+        //console.log(storecategory, category);
+        if(location == storelocation || category == storecategory){
           searchedJobs.push(jobs[i]);
         }
       }
+    }else{
+      searchedJobs = jobs;
     }
     this.setState({searchedJobs:searchedJobs});
     this.setState({search:true});
@@ -99,14 +102,14 @@ export default class Home extends Component<Props> {
               style={{ height: 40, width: '45%' }}
               onValueChange={(itemValue, itemIndex) => this.search(this.state.location ,itemValue)}>
               <Picker.Item label={language.anyloc[lan]} value='' />
-              {Locations}
+              {Cats}              
           </Picker>
           <Picker
               selectedValue={this.state.location}
               style={{ height: 40, width: "45%" }}
               onValueChange={(itemValue, itemIndex) => this.search(itemValue, this.state.category)}>
               <Picker.Item label={language.anycat[lan]} value='' />
-              {Cats}              
+              {Locations}
           </Picker>
         </View>
         <View style={{alignItems:'center'}}>
@@ -116,10 +119,10 @@ export default class Home extends Component<Props> {
             style={{width:'90%'}}
             keyExtractor={(item, index) => 'key'+index}
             renderItem={({item, index}) => 
-            <View style={{borderBottomColor:'#ddd', borderBottomWidth:1, paddingVertical:15, paddingBottom:this.props.appStore.jobs.length == index+1 ? 300 : 15}}>
+            <View style={{borderBottomColor:'#ddd', display:item.active > 0 ? 'flex' : 'none', borderBottomWidth:1, paddingVertical:15, paddingBottom:this.props.appStore.jobs.length == index+1 ? 300 : 15}}>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
                 <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.job_title}</Text>
-                <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.salary}/{item.salary_type}</Text>
+                <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.admin_salary}/{item.salary_type}</Text>
               </View>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
                 <View>

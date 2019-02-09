@@ -7,6 +7,7 @@ import JobDetails from './JobDetails';
 import AddJobs from './AddJobs';
 import AddClientServices from './AddClientServices';
 import AddServices from './AddServices';
+import _ from 'lodash';
 
 import { Button, Toolbar } from 'react-native-material-ui';
 
@@ -110,12 +111,12 @@ export default class Myjobs extends Component<Props> {
           {(this.props.appStore.usertype == 'employees' || this.props.appStore.usertype == 'employers' ) &&
           <FlatList
             style={{height:300}}
-            data={this.props.appStore.myJobs}
+            data={ _.orderBy(this.props.appStore.myJobs, ['id'],['desc'])}
             extraData={this.state.watchChange}
             style={{width:'90%'}}
             keyExtractor={(item, index) => 'key'+index}
             renderItem={({item, index}) => 
-            <View style={{borderBottomColor:'#ddd', borderBottomWidth:1, paddingVertical:20, paddingBottom:this.props.appStore.myJobs.length == index+1 ? 300 : 20}}>
+            <View style={{display:item.active > 0 ? 'flex' : 'none', borderBottomColor:'#ddd', borderBottomWidth:1, paddingVertical:20, paddingBottom:this.props.appStore.myJobs.length == index+1 ? 300 : 20}}>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
                 <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.job_title}</Text>
                 <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.salary}/{item.salary_type}</Text>
@@ -137,7 +138,7 @@ export default class Myjobs extends Component<Props> {
 
           {(this.props.appStore.usertype == 'clients' ) &&
           <FlatList
-            data={this.props.appStore.myJobs}
+            data={ _.orderBy(this.props.appStore.myJobs, ['id'],['desc'])}
             extraData={this.state.watchChange}
             style={{width:'90%'}}
             keyExtractor={(item, index) => 'key'+index}
@@ -167,7 +168,7 @@ export default class Myjobs extends Component<Props> {
           {(this.props.appStore.usertype == 'partners') &&
           <FlatList
             style={{height:100}}
-            data={this.props.appStore.myJobs}
+            data={_.orderBy(this.props.appStore.myJobs, ['id'],['desc'])}
             extraData={this.state.watchChange}
             style={{width:'90%'}}
             keyExtractor={(item, index) => 'key'+index}

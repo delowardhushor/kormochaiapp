@@ -46,7 +46,7 @@ export default class Educative extends Component {
                 extraData={this.state.watchChange}
                 keyExtractor={(item, index) => 'key'+index}
                 renderItem={({item, index}) => 
-                <TouchableOpacity style={{marginBottom:30, alignItems:'center', justifyContent:'center', width:'100%'}} onPress={()=> this.setActiveEducatives(item)}>
+                <TouchableOpacity style={{marginBottom:this.props.appStore.educatives.length == index+1 ? 300 : 30, alignItems:'center', justifyContent:'center', width:'100%'}} onPress={()=> this.setActiveEducatives(item)}>
                   <Image
                     style={{width: Dimensions.get('window').width-20, height: 150, marginVertical:10, borderRadius:10}}
                     source={{uri: "https://delowarhossaintb.000webhostapp.com/img/"+item.thumble}}
@@ -65,7 +65,7 @@ export default class Educative extends Component {
             console.log('Model Closed');
           }}>
           <Toolbar
-            style={{ container: {'backgroundColor':'#4CAF50'}}}
+            style={{ container: {'backgroundColor':'#ca0000'}}}
             leftElement="chevron-left"
             centerElement={this.state.activeEducatives.title}
             onLeftElementPress={ () => { this.clsModel() }}

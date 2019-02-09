@@ -79,56 +79,96 @@ export default class JobDetails extends Component<Props> {
         <ScrollView style={{width:'90%'}}>
           <View style={{flexDirection:"column",alignItems:'center', justifyContent:'space-between'}}>
             <Text style={[styles.text, {fontSize:22,marginTop:20, }]} >{JobDetails.job_title}</Text>
-            <Text style={[styles.text, {fontSize:18,marginTop:10, }]} >{JobDetails.salary} / {JobDetails.salary_type}</Text>
+            <Text style={[styles.text, {fontSize:18,marginTop:10, }]} >{this.props.usertype == 'employers' ? JobDetails.admin_salary : JobDetails.salary} / {JobDetails.salary_type}</Text>
           </View>
           <Text style={[styles.text, {fontSize:14, marginTop:10}]}>({JobDetails.interview == true ? language.needInt[lan] : language.noneedInt[lan]})</Text>
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
+            <Text style={styles.label}>{language.name[lan]}:</Text>
+            <Text style={styles.value}>{JobDetails.name}</Text>
+          </View>
+
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
+            <Text style={styles.label}>{language.phone[lan]}:</Text>
+            <Text style={styles.value}>{JobDetails.mobile}</Text>
+          </View>
+
           <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
             <Text style={styles.label}>{language.comName[lan]}:</Text>
             <Text style={styles.value}>{JobDetails.company_name}</Text>
           </View>
-          <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
+
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
+            <Text style={styles.label}>{language.insAdd[lan]}:</Text>
+          </View>
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
+            <Text style={styles.label}>{language.area[lan]}:</Text>
+            <Text style={styles.value}>{JobDetails.area}</Text>
+          </View>
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
+            <Text style={styles.label}>{language.thana[lan]}:</Text>
+            <Text style={styles.value}>{JobDetails.thana}</Text>
+          </View>
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
+            <Text style={styles.label}>{language.district[lan]}:</Text>
+            <Text style={styles.value}>{JobDetails.zila}</Text>
+          </View>
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
+            <Text style={styles.label}>{language.house[lan]}:</Text>
+            <Text style={styles.value}>{JobDetails.house}</Text>
+          </View>
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
             <Text style={styles.label}>{language.location[lan]}:</Text>
             <Text style={styles.value}>{JobDetails.location}</Text>
           </View>
-          <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
             <Text style={styles.label}>{language.employeeNumber[lan]}:</Text>
             <Text style={styles.value}>{JobDetails.employee_number}</Text>
           </View>
-          <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
+
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
+            <Text style={styles.label}>{language.genNed[lan]}:</Text>
+            <Text style={styles.value}>{JobDetails.employee_type}</Text>
+          </View>
+
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
             <Text style={styles.label}>{language.salaryDate[lan]}:</Text>
             <Text style={styles.value}>{JobDetails.salary_date}</Text>
           </View>
-          <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
             <Text style={styles.label}>{language.jobHour[lan]}:</Text>
             <Text style={styles.value}>{JobDetails.office_hour}</Text>
           </View>
-          <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
             <Text style={styles.label}>{language.jobType[lan]}:</Text>
             <Text style={styles.value}>{JobDetails.job_type}</Text>
           </View>
           {(JobDetails.interview == true) &&
-          <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
             <Text style={styles.label}>{language.intDate[lan]}:</Text>
-            <Text style={styles.value}>{JobDetails.interview_date}</Text>
+            <Text style={styles.value}>{JobDetails.interview_date} - {JobDetails.hour}:{JobDetails.min} {JobDetails.ampm}</Text>
           </View>
           }
-          <View style={{flexDirection:"row",alignItems:'center', marginTop:10}}>
+          <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>
             <Text style={styles.label}>{language.jobDate[lan]}:</Text>
             <Text style={styles.value}>{JobDetails.job_date}</Text>
           </View>
 
           <View style={styles.hr}></View>
 
-          <View style={{width:'100%', marginTop:10}}>
+          <View style={{width:'100%', marginTop:20}}>
             <Text style={[styles.label, {width:'100%', fontSize:16, color:'grey'}]}>{language.eduQua[lan]}:</Text>
-            <Text style={[styles.value, {width:"100%", marginTop:10}]}>{JobDetails.education}</Text>
+            <Text style={[styles.value, {width:"100%", marginTop:20}]}>{JobDetails.education}</Text>
           </View>
 
           <View style={styles.hr}></View>
 
-          <View style={{width:'100%', marginTop:10}}>
+          <View style={{width:'100%', marginTop:20}}>
             <Text style={[styles.label, {width:'100%', fontSize:16, color:'grey'}]}>{language.jobRes[lan]}:</Text>
-            <Text style={[styles.value, {width:"100%", marginTop:10}]}>{JobDetails.job_responsibility}</Text>
+            <Text style={[styles.value, {width:"100%", marginTop:20}]}>{JobDetails.job_responsibility}</Text>
+          </View>
+          <View style={{width:'100%', marginTop:20}}>
+            <Text style={[styles.label, {width:'100%', fontSize:16, color:'grey'}]}>{language.details[lan]}:</Text>
+            <Text style={[styles.value, {width:"100%", marginTop:20}]}>{JobDetails.details}</Text>
           </View>
           {(this.props.appStore.usertype === 'employees') &&
           <View style={{width:'100%', marginTop:20}}>

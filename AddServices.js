@@ -45,7 +45,7 @@ export default class AddServices extends Component<Props> {
             let {updateData} = this.props;
             this.setState({name:updateData.name});
             this.setState({phone:updateData.phone});
-            this.setState({companyName:updateData.compnay_name});
+            this.setState({companyName:updateData.company_name});
             this.setState({area:updateData.pre_area});
             this.setState({thana:updateData.pre_thana});
             this.setState({district:updateData.pre_district});

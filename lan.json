@@ -132,8 +132,8 @@
         "eng":"Job Type"
     },
     "intDate":{
-        "ban":"ইন্টারভিউ তারিখ",
-        "eng":"Interview Date"
+        "ban":"ইন্টারভিউ তারিখ ও সময়",
+        "eng":"Interview Date & Time"
     },
     "jobDate":{
         "ban":"নিয়োগ তারিখ",
@@ -256,11 +256,11 @@
         "eng":"Job you Posted"
     },
     "nojobYouApplied":{
-        "ban":"আবেদনকৃত কোনো জব নাই ",
+        "ban":"আবেদনকৃত কোনো জব বা সার্ভিস নাই ",
         "eng":"No Job Applied"
     },
     "nojobYouPost":{
-        "ban":"পোস্টকৃত কোনো জব নাই ",
+        "ban":"পোস্টকৃত কোনো জব বা সার্ভিস নাই ",
         "eng":"Job you Posted"
     },
     "addEdu":{
@@ -320,8 +320,8 @@
         "eng":"Full Time"
     },
     "house":{
-        "ban":"হাউস",
-        "eng":"House"
+        "ban":"হাউস নং",
+        "eng":"House No"
     },
     "salaryDate":{
         "ban":"বেতন দেয়ার তারিখ",
@@ -418,5 +418,13 @@
     "aboUs":{
         "ban":"আমাদের সম্পর্কে জানুন",
         "eng":"About US"
+    },
+    "any":{
+        "ban":"যেকোনো",
+        "eng":"Any"
+    },
+    "genNed":{
+        "ban":"কর্মীর ধরণ",
+        "eng":"Employee Type"
     }
 }

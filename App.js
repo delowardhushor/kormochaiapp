@@ -26,6 +26,7 @@ export default class App extends Component<Props> {
     "https://delowarhossaintb.000webhostapp.com/img/slide1.jpg",
     "https://delowarhossaintb.000webhostapp.com/img/slide2.jpg",
     "https://delowarhossaintb.000webhostapp.com/img/slide3.jpg",
+    "https://delowarhossaintb.000webhostapp.com/img/slide4.jpg",
   ];
 
   constructor(props) {

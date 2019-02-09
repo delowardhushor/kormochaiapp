@@ -28,6 +28,7 @@ export default class Settings extends Component<Props> {
     ToastAndroid.show("Signning Out", 3000);
     this.props.setmodelVisible();
     var appStore = this.props.appStore;
+    appStore.myJobs = [];
     appStore.userdata = [];
     appStore.usertype = '';
     appStore.activeTab = 'Home';

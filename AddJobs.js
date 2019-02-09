@@ -17,7 +17,7 @@ export default class AddJobs extends Component<Props> {
             jobTitle:'',
             companyName:'',
             education:'',
-            interview:true,
+            interview:1,
             interviewDate:'',
             jobDate:'',
             location:this.props.appStore.locations[0].location,
@@ -36,6 +36,11 @@ export default class AddJobs extends Component<Props> {
             house:'',
             salaryDate:'',
             employeeNumber:'',
+            employeeType:'any',
+            details:'',
+            hour:'01',
+            min:'00',
+            ampm:'PM',
         };
         this.focusNextField = this.focusNextField.bind(this);
         this.inputs = {};
@@ -70,7 +75,7 @@ export default class AddJobs extends Component<Props> {
         employers_id:this.props.appStore.userdata.id,
         company_name:this.state.companyName,
         education:this.state.education,
-        interview:true,
+        interview:this.state.interview,
         interview_date:this.state.interviewDate,
         job_date:this.state.jobDate,
         location:this.state.location,
@@ -89,6 +94,12 @@ export default class AddJobs extends Component<Props> {
         house:this.state.house,
         salary_date:this.state.salaryDate,
         employee_number:this.state.employeeNumber,
+        admin_salary:"",
+        employee_type: this.state.employeeType,
+        hour: this.state.hour,
+        min: this.state.min,
+        ampm: this.state.ampm,
+        details: this.state.details,
       })
       .then((res)=>{
         if(res.data.success === true){
@@ -272,6 +283,16 @@ export default class AddJobs extends Component<Props> {
                 style={[styles.inputForm, {minHeight:50}]}
                 multiline={true}
             />
+
+            <View style={{flexDirection:'row', height:40, alignItems:'center'}}>
+                <Text style={{marginRight:15}}>{language.genNed[lan]}</Text>
+                <CheckBox onValueChange={() => this.setState({employeeType:'male'})} value={this.state.employeeType === 'male' ? true : false} />
+                <Text style={{marginRight:15}}>{language.male[lan]}</Text> 
+                <CheckBox onValueChange={() => this.setState({employeeType:'female'})} value={this.state.employeeType === 'female' ? true : false} /> 
+                <Text style={{marginRight:15}}>{language.female[lan]}</Text> 
+                <CheckBox onValueChange={() => this.setState({employeeType:'any'})} value={this.state.employeeType === 'any' ? true : false} /> 
+                <Text>{language.any[lan]}</Text>
+            </View>
             
             <View style={{flexDirection:'row', height:40, alignItems:'center', marginTop:10}}>
                 <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>{language.jobType[lan]}</Text>
@@ -342,17 +363,22 @@ export default class AddJobs extends Component<Props> {
 
             <View style={{flexDirection:'row', height:40, alignItems:'center', marginTop:10}}>
                 <Text style={[styles.inputForm, {marginRight:15, width:'auto'}]}>{language.needInt[lan]}</Text>
-                <CheckBox onValueChange={() => this.setState({interview:true})} value={this.state.interview} />
+                <CheckBox onValueChange={() => this.setState({interview:1})} value={this.state.interview == 1 ? true : false} />
                 <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>{language.yes[lan]}</Text>
-                <CheckBox onValueChange={() => this.setState({interview:false})} value={!this.state.interview} />
+                <CheckBox onValueChange={() => this.setState({interview:0})} value={this.state.interview == 0 ? true : false} />
                 <Text style={[styles.inputForm, {width:'auto', marginRight:15}]}>{language.no[lan]}</Text>
             </View>
 
-            {(this.state.interview) &&
+            
+            {(this.state.interview == 1) &&
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:'space-between'}}>
                 <View>
-                    <Text style={[styles.inputForm, {width:'auto'}]} >{language.intDate[lan]}</Text>
+                    <Text style={[styles.inputForm, {width:'auto'}]} >{ language.intDate[lan] }</Text>
                 </View>
+            </View>
+            }
+            {(this.state.interview == 1) &&
+            <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:"flex-start"}}>
                 <View>
                     <DatePicker
                         date={this.state.interviewDate}
@@ -364,6 +390,40 @@ export default class AddJobs extends Component<Props> {
                         onDateChange={(date) => this.setState({interviewDate:date})}
                     />
                 </View>
+                <Picker
+                    selectedValue={this.state.hour}
+                    style={{ height: 50, width: 50 }}
+                    onValueChange={(hour, itemIndex) => this.setState({hour:hour})}>
+                    <Picker.Item label="01" value="01" />
+                    <Picker.Item label="02" value="02" />
+                    <Picker.Item label="03" value="03" />
+                    <Picker.Item label="04" value="04" />
+                    <Picker.Item label="05" value="05" />
+                    <Picker.Item label="06" value="06" />
+                    <Picker.Item label="07" value="07" />
+                    <Picker.Item label="08" value="08" />
+                    <Picker.Item label="09" value="09" />
+                    <Picker.Item label="10" value="10" />
+                    <Picker.Item label="11" value="11" />
+                    <Picker.Item label="12" value="12" />
+                </Picker>
+                <Text>:</Text>
+                <Picker
+                    selectedValue={this.state.min}
+                    style={{ height: 50, width: 50 }}
+                    onValueChange={(min, itemIndex) => this.setState({min:min})}>
+                    <Picker.Item label="00" value="00" />
+                    <Picker.Item label="15" value="15" />
+                    <Picker.Item label="30" value="30" />
+                    <Picker.Item label="45" value="45" />
+                </Picker>
+                <Picker
+                    selectedValue={this.state.ampm}
+                    style={{ height: 50, width: 60 }}
+                    onValueChange={(ampm) => this.setState({ampm:ampm})}>
+                    <Picker.Item label="AM" value="AM" />
+                    <Picker.Item label="PM" value="PM" />
+                </Picker>
             </View>
             }
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:'space-between'}}>
@@ -399,6 +459,7 @@ export default class AddJobs extends Component<Props> {
                 blurOnSubmit={false}
                 style={styles.inputForm}
             />
+
             <TextInput
                 placeholder={language.jobRes[lan]} 
                 underlineColorAndroid="#ddd" 
@@ -411,7 +472,23 @@ export default class AddJobs extends Component<Props> {
                 selectTextOnFocus={true}
                 autoCapitalize="none"
                 blurOnSubmit={false}
-                style={[styles.inputForm, {minHeight:50}]}
+                style={[styles.inputForm, {minHeight:50, lineHeight:25}]}
+                multiline={true}
+            />
+
+            <TextInput
+                placeholder={language.details[lan]} 
+                underlineColorAndroid="#ddd" 
+                ref={ input => {
+                    this.inputs['details'] = input;
+                }}
+                value={this.state.details}
+                onChangeText={(details) => this.setState({details:details})}
+                returnKeyType='next'
+                selectTextOnFocus={true}
+                autoCapitalize="none"
+                blurOnSubmit={false}
+                style={[styles.inputForm, {minHeight:50, lineHeight:25}]}
                 multiline={true}
             />
             <View style={{flexDirection:'row', marginTop:10,justifyContent:'flex-end'}}>
