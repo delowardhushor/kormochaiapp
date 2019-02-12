@@ -71,7 +71,7 @@ export default class Educative extends Component {
             onLeftElementPress={ () => { this.clsModel() }}
           />
           <WebView
-              source={{uri: 'https://www.youtube.com/watch?v=9ZhkYyPxRjE'}}
+              source={{uri: this.state.activeEducatives.link}}
           />
         </Modal>
         }

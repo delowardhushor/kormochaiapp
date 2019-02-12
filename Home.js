@@ -99,14 +99,14 @@ export default class Home extends Component<Props> {
               selectedValue={this.state.category}
               style={{ height: 40, width: '45%' }}
               onValueChange={(itemValue, itemIndex) => this.search(this.state.location ,itemValue)}>
-              <Picker.Item label={language.anyloc[lan]} value='' />
+              <Picker.Item label={language.anycat[lan]} value='' />
               {Cats}              
           </Picker>
           <Picker
               selectedValue={this.state.location}
               style={{ height: 40, width: "45%" }}
               onValueChange={(itemValue, itemIndex) => this.search(itemValue, this.state.category)}>
-              <Picker.Item label={language.anycat[lan]} value='' />
+              <Picker.Item label={language.anyloc[lan]} value='' />
               {Locations}
           </Picker>
         </View>

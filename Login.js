@@ -463,6 +463,7 @@ export default class Login extends Component<Props> {
                             onChangeText={(cngpass) => this.setState({cngpass:cngpass})}
                             returnKeyType='done'
                             selectTextOnFocus={true}
+                            secureTextEntry={true}
                             autoCapitalize="none"
                             blurOnSubmit={true}
                             style={styles.inputForm}
@@ -482,6 +483,7 @@ export default class Login extends Component<Props> {
                             value={this.state.concngpass}
                             onChangeText={(concngpass) => this.setState({concngpass:concngpass})}
                             returnKeyType='done'
+                            secureTextEntry={true}
                             selectTextOnFocus={true}
                             autoCapitalize="none"
                             blurOnSubmit={true}
