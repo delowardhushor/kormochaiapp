@@ -80,7 +80,7 @@ export default class JobDetails extends Component<Props> {
         <ScrollView style={{width:'90%'}}>
           <View style={{flexDirection:"column",alignItems:'center', justifyContent:'space-between'}}>
             <Text style={[styles.text, {fontSize:22,marginTop:20, }]} >{JobDetails.job_title}</Text>
-            <Text style={[styles.text, {fontSize:18,marginTop:10, }]} >{this.props.usertype == 'employers' ? JobDetails.admin_salary : JobDetails.salary} / {JobDetails.salary_type}</Text>
+            <Text style={[styles.text, {fontSize:18,marginTop:10, }]} >{this.props.usertype == 'employers' ? JobDetails.salary : JobDetails.admin_salary} / {JobDetails.salary_type}</Text>
           </View>
           <Text style={[styles.text, {fontSize:14, marginTop:10}]}>({JobDetails.interview == true ? language.needInt[lan] : language.noneedInt[lan]})</Text>
           <View style={{flexDirection:"row",alignItems:'center', marginTop:20}}>

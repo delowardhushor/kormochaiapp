@@ -57,7 +57,7 @@ export default class Home extends Component<Props> {
       for(var i = 0; jobs.length > i; i++){
         var storelocation = jobs[i].location;
         var storecategory = jobs[i].category;
-        if(location == storelocation || category == storecategory){
+        if(location == storelocation && category == storecategory){
           searchedJobs.push(jobs[i]);
         }
       }

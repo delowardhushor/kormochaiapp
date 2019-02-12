@@ -426,5 +426,9 @@
     "genNed":{
         "ban":"কর্মীর ধরণ",
         "eng":"Employee Type"
+    },
+    "yourPro":{
+        "ban":"আপনার প্রোফাইল",
+        "eng":"Your Profile"
     }
 }

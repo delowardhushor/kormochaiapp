@@ -220,7 +220,7 @@ export default class Profile extends Component<Props> {
         <Toolbar
           style={{ container: {'backgroundColor':'#ca0000'}}}
           // leftElement="menu"
-          centerElement={'Your Profile'}
+          centerElement={language.yourPro[lan]}
         />
         <Text style={{textAlign:'center',fontWeight:'900', fontSize:16, color:'#000', marginVertical:10}}>{language.refCode[lan]}: {userdata.refer_code}</Text>
         <ScrollView style={{width:'90%'}} keyboardShouldPersistTaps={'always'} >
