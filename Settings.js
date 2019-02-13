@@ -31,6 +31,8 @@ export default class Settings extends Component<Props> {
     appStore.myJobs = [];
     appStore.userdata = [];
     appStore.usertype = '';
+    appStore.clicats = [];
+    appStore.parcats = [];
     appStore.activeTab = 'Home';
     this.props.updateAppstore(appStore);
   }
