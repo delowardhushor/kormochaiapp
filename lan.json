@@ -72,11 +72,11 @@
         "eng":"KORMOCHAI"
     },
     "anycat":{
-        "ban":"যেকোনো ক্যাটাগরি",
+        "ban":"ক্যাটাগরি",
         "eng":"Any Category"
     },
     "anyloc":{
-        "ban":"যেকোনো লোকেশন",
+        "ban":"লোকেশন",
         "eng":"Any Location"
     },
     "cat":{
@@ -215,6 +215,10 @@
         "ban":"অন্যন্য",
         "eng":"Others"
     },
+    "serPlace":{
+        "ban":"যেখানে সাভিসটি নিতে চাচ্ছেন সেখানের ঠিকানা",
+        "eng":"Service Palce"
+    },
     "update":{
         "ban":"আপডেট ",
         "eng":"Update"
@@ -308,7 +312,7 @@
         "eng":"Add"
     },
     "addJob":{
-        "ban":"জব পোস্ট করুন",
+        "ban":"নিয়োগ পোস্ট করুন",
         "eng":"Post Job"
     },
     "part":{
@@ -344,8 +348,8 @@
         "eng":"Service You Requested"
     },
     "serYouPost":{
-        "ban":"আপনার সার্ভিস সমূহ",
-        "eng":"Service You Requested"
+        "ban":"আমার সার্ভিস সমূহ",
+        "eng":"Service You Posted"
     },
     "mySer":{
         "ban":"আমার সার্ভিস",
@@ -371,9 +375,13 @@
         "ban":"বর্তমান ঠিকানা",
         "eng":"Present Address"
     },
+    "serAdd":{
+        "ban":"ব্যাবসায়িক ঠিকানা",
+        "eng":"Business Address"
+    },
     "serDate":{
-        "ban":"সার্ভিস দিন ও সময় নির্বাচন করুন",
-        "eng":"Select Service Date"
+        "ban":"সার্ভিস টি কখন করাতে চাচ্ছেন দিন ও সময় নির্বাচন করুন",
+        "eng":"Select Service Date & Time"
     },
     "serDay":{
         "ban":"সার্ভিস দিন ও সময়",
@@ -430,5 +438,9 @@
     "yourPro":{
         "ban":"আপনার প্রোফাইল",
         "eng":"Your Profile"
+    },
+    "cngPass":{
+        "ban":"পাসওয়ার্ড পরিবর্তন করুন",
+        "eng":"Change Password"
     }
 }

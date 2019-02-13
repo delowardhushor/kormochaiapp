@@ -16,6 +16,7 @@ import Login from './Login';
 import Educative from './Educative';
 import About from './About';
 import Contact from './Contact';
+import CngPass from './CngPass';
 
 type Props = {};
 
@@ -23,10 +24,10 @@ type Props = {};
 export default class App extends Component<Props> {
 
   Slide = [
-    "https://delowarhossaintb.000webhostapp.com/img/slide1.jpg",
-    "https://delowarhossaintb.000webhostapp.com/img/slide2.jpg",
-    "https://delowarhossaintb.000webhostapp.com/img/slide3.jpg",
-    "https://delowarhossaintb.000webhostapp.com/img/slide4.jpg",
+    "https://kormochai.com/kormochaiapp/img/slide1.jpg",
+    "https://kormochai.com/kormochaiapp/img/slide2.jpg",
+    "https://kormochai.com/kormochaiapp/img/slide3.jpg",
+    "https://kormochai.com/kormochaiapp/img/slide4.jpg",
   ];
 
   constructor(props) {
@@ -34,7 +35,7 @@ export default class App extends Component<Props> {
     this.state = {
       appStore : {
         activeTab : 'Home',
-        baseUrl : 'https://delowarhossaintb.000webhostapp.com/api/',
+        baseUrl : 'https://kormochai.com/kormochaiapp/api/',
         usertype :'',
         userdata:[],
         settings:[],
@@ -105,7 +106,6 @@ export default class App extends Component<Props> {
       id:this.state.appStore.userdata.length == 0 ? '' : this.state.appStore.userdata.id,
     })
     .then((res) => {
-      console.log(res);
       if(res.data.success === true){
         var appStore = JSON.parse(JSON.stringify(this.state.appStore));
         appStore.jobs = res.data.jobs;
@@ -225,6 +225,7 @@ export default class App extends Component<Props> {
           {(this.state.appStore.activeTab === 'Educative') && <Educative appStore={this.state.appStore} updateAppstore={this.updateAppstore}  />}
           {(this.state.appStore.activeTab === 'About') && <About appStore={this.state.appStore} updateAppstore={this.updateAppstore}  />}
           {(this.state.appStore.activeTab === 'Contact') && <Contact appStore={this.state.appStore} updateAppstore={this.updateAppstore}  />}
+          {(this.state.appStore.activeTab === 'CngPass') && <CngPass appStore={this.state.appStore} updateAppstore={this.updateAppstore}  />}
 
         </View>
         <BottomNavigation

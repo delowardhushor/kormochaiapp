@@ -99,7 +99,7 @@ export default class Login extends Component<Props> {
             appStore.userdata = userdata;
             appStore.loginNow = true;
             if(appStore.usertype === 'employees'){
-                appStore.activeTab = 'Profile';
+                appStore.activeTab = 'Home';
             }else{
                 appStore.activeTab = 'Myjobs';
             }
@@ -193,7 +193,7 @@ export default class Login extends Component<Props> {
             var appStore = this.props.appStore;
             appStore.userdata = userdata;
             if(appStore.usertype === 'employees'){
-                appStore.activeTab = 'Profile';
+                appStore.activeTab = 'Home';
             }else{
                 appStore.activeTab = 'Myjobs';
             }
@@ -270,9 +270,6 @@ export default class Login extends Component<Props> {
     })
     .then((res) => {
         this.setState({refreshing:false});
-        console.log(res);
-        console.log(this.state.forgetPhone);
-        console.log(this.state.cngpass);
         if(res.data.success === true){
             this.signin(this.state.forgetPhone, this.state.cngpass);
         }

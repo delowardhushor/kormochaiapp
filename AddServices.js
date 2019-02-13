@@ -150,6 +150,7 @@ export default class AddServices extends Component<Props> {
                     autoCapitalize="none"
                     blurOnSubmit={false}
                     style={styles.inputForm}
+                    multiline={true}
                 />
             </View>
         );
@@ -268,7 +269,7 @@ export default class AddServices extends Component<Props> {
                 style={styles.inputForm}
             />
 
-            <Text style={[styles.inputForm, {marginTop:10, color:'#000', fontSize:16}]}>{language.preAdd[lan]} : </Text>
+            <Text style={[styles.inputForm, {marginTop:10, color:'#000', fontSize:16}]}>{language.serAdd[lan]} : </Text>
             {(this.props.update == true) &&
                 <Text style={[styles.inputForm, {marginTop:10, color:'#ca0000'}]}>{language.area[lan]} : </Text>
             }
@@ -328,15 +329,17 @@ export default class AddServices extends Component<Props> {
             
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', height:40, alignItems:'center', marginTop:10}}>
                 <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>{this.props.update == true ? language.service[lan] :language.selSer[lan]}</Text>
-                <Picker
-                    selectedValue={this.state.cat}
-                    style={{ height: 50, width:  Dimensions.get('window').width/2 }}
-                    onValueChange={(itemValue, itemIndex) => this.setCat(itemIndex)}>
-                    {Cats}
-                </Picker>
             </View>
 
+            <Picker
+                selectedValue={this.state.cat}
+                style={{ height: 50 }}
+                onValueChange={(itemValue, itemIndex) => this.setCat(itemIndex)}>
+                {Cats}
+            </Picker>
+
             {Question}
+            
             {(this.props.update !== true) &&
             <View style={{flexDirection:'row', marginTop:10,justifyContent:'flex-end'}}>
                 <Button raised primary text={language.add[lan]} onPress={() => {this.addJob()}} />

@@ -120,6 +120,10 @@ export default class Settings extends Component<Props> {
             {(this.props.appStore.userdata.length !== 0) &&
             <Button raised text={language.signout[lan]} onPress={() => this.logout()} />
             }
+            <View style={{height:20}}></View>
+            {(this.props.appStore.userdata.length !== 0) &&
+            <Button accent text={language.cngPass[lan]} onPress={() => this.toAboutConUs('CngPass')} />
+            }
           </ScrollView>
         </View>
         </View>

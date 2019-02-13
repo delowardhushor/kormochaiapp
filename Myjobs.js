@@ -119,15 +119,15 @@ export default class Myjobs extends Component<Props> {
             <View style={{display:item.active > 0 ? 'flex' : 'none', borderBottomColor:'#ddd', borderBottomWidth:1, paddingVertical:20, paddingBottom:this.props.appStore.myJobs.length == index+1 ? 300 : 20}}>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
                 <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.job_title}</Text>
-                <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.salary}/{item.salary_type}</Text>
+                <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{this.props.usertype == 'employers' ? item.salary : item.admin_salary}/{item.salary_type}</Text>
               </View>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
-                <View>
+                <View style={{width:'60%'}}>
                   <Text style={{fontSize:12, color:'#000'}}>{item.company_name}</Text>
                   <Text style={{fontSize:12, color:'#000'}}>{item.location}</Text>
                   <Text style={{fontSize:12, color:'#000'}}>{item.education}</Text>
                 </View>
-                <TouchableOpacity style={{backgroundColor:'#ca0000', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
+                <TouchableOpacity style={{maxWidth:'40%', backgroundColor:'#ca0000', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
                   <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' /> {language.details[lan]}</Text>
                 </TouchableOpacity>
               </View>

@@ -61,6 +61,20 @@ export default class Home extends Component<Props> {
           searchedJobs.push(jobs[i]);
         }
       }
+    }else if(location !== ''){
+      for(var i = 0; jobs.length > i; i++){
+        var storelocation = jobs[i].location;
+        if(location == storelocation){
+          searchedJobs.push(jobs[i]);
+        }
+      }
+    }else if(category !== ''){
+      for(var i = 0; jobs.length > i; i++){
+        var storecategory = jobs[i].category;
+        if(category == storecategory){
+          searchedJobs.push(jobs[i]);
+        }
+      }
     }else{
       searchedJobs = jobs;
     }
@@ -120,15 +134,15 @@ export default class Home extends Component<Props> {
             <View style={{borderBottomColor:'#ddd', display:item.active > 0 ? 'flex' : 'none', borderBottomWidth:1, paddingVertical:15, paddingBottom:this.props.appStore.jobs.length == index+1 ? 300 : 15}}>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
                 <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.job_title}</Text>
-                <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{item.admin_salary}/{item.salary_type}</Text>
+                <Text style={{fontSize:16, color:'#000', fontWeight:'900'}}>{this.props.usertype == 'employers' ? item.salary : item.admin_salary} /{item.salary_type}</Text>
               </View>
               <View style={{flexDirection:"row", justifyContent:"space-between", alignItems:'center'}}>
-                <View>
+                <View style={{width:'60%'}}>
                   <Text style={{fontSize:12, color:'#000'}}>{item.company_name}</Text>
                   <Text style={{fontSize:12, color:'#000'}}>{item.location}</Text>
                   <Text style={{fontSize:12, color:'#000'}}>{item.education}</Text>
                 </View>
-                <TouchableOpacity style={{backgroundColor:'#ca0000', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
+                <TouchableOpacity style={{maxWidth:'40%', backgroundColor:'#ca0000', borderRadius:20, paddingVertical:5, paddingHorizontal:20}} onPress={() => this.openJobDetails(item)} >
                   <Text style={{color:'#fff', fontSize:12}}><Icon name='eye' /> {language.details[lan]}</Text>
                 </TouchableOpacity>
               </View>

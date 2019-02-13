@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View, TouchableOpacity, TextInput,Switch,ActivityIndicator,Picker,FlatList, ScrollView, CheckBox, ToastAndroid, Modal} from 'react-native';
+import {Platform, StyleSheet, Text, View, TouchableOpacity,Dimensions, TextInput,Switch,ActivityIndicator,Picker,FlatList, ScrollView, CheckBox, ToastAndroid, Modal} from 'react-native';
 import Icon from 'react-native-vector-icons/dist/FontAwesome';
 import language from './lan.json';
 import DatePicker from 'react-native-datepicker'
@@ -256,7 +256,7 @@ export default class AddJobs extends Component<Props> {
                 <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>{language.cat[lan]}:</Text>
                 <Picker
                     selectedValue={this.state.cat}
-                    style={{ height: 50, width: 100 }}
+                    style={{ height: 50, width: Dimensions.get('window').width/2 }}
                     onValueChange={(itemValue, itemIndex) => this.setState({cat: itemValue})}>
                     {Cats}
                 </Picker>
@@ -265,7 +265,7 @@ export default class AddJobs extends Component<Props> {
                 <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>{language.location[lan]}:</Text>
                 <Picker
                     selectedValue={this.state.location}
-                    style={{ height: 50, width: 100 }}
+                    style={{ height: 50, width: Dimensions.get('window').width/2 }}
                     onValueChange={(itemValue, itemIndex) => this.setState({location: itemValue})}>
                     {Locations}
                 </Picker>
@@ -285,7 +285,9 @@ export default class AddJobs extends Component<Props> {
             />
 
             <View style={{flexDirection:'row', height:40, alignItems:'center'}}>
-                <Text style={{marginRight:15}}>{language.genNed[lan]}</Text>
+                <Text style={{marginRight:15}}>{language.genNed[lan]} : </Text>
+            </View>
+            <View style={{flexDirection:'row', alignItems:'center'}}>
                 <CheckBox onValueChange={() => this.setState({employeeType:'male'})} value={this.state.employeeType === 'male' ? true : false} />
                 <Text style={{marginRight:15}}>{language.male[lan]}</Text> 
                 <CheckBox onValueChange={() => this.setState({employeeType:'female'})} value={this.state.employeeType === 'female' ? true : false} /> 
@@ -394,7 +396,7 @@ export default class AddJobs extends Component<Props> {
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:"flex-start"}}>
                 <Picker
                     selectedValue={this.state.hour}
-                    style={{ height: 50, width: 50 }}
+                    style={{ height: 50, width: Dimensions.get('window').width*0.9/3 }}
                     onValueChange={(hour, itemIndex) => this.setState({hour:hour})}>
                     <Picker.Item label="01" value="01" />
                     <Picker.Item label="02" value="02" />
@@ -412,7 +414,7 @@ export default class AddJobs extends Component<Props> {
                 <Text>:</Text>
                 <Picker
                     selectedValue={this.state.min}
-                    style={{ height: 50, width: 50 }}
+                    style={{ height: 50, width: Dimensions.get('window').width*0.9/3 }}
                     onValueChange={(min, itemIndex) => this.setState({min:min})}>
                     <Picker.Item label="00" value="00" />
                     <Picker.Item label="15" value="15" />
@@ -421,7 +423,7 @@ export default class AddJobs extends Component<Props> {
                 </Picker>
                 <Picker
                     selectedValue={this.state.ampm}
-                    style={{ height: 50, width: 60 }}
+                    style={{ height: 50, width: Dimensions.get('window').width*0.9/3 }}
                     onValueChange={(ampm) => this.setState({ampm:ampm})}>
                     <Picker.Item label="AM" value="AM" />
                     <Picker.Item label="PM" value="PM" />

@@ -147,6 +147,7 @@ export default class AddClientServices extends Component<Props> {
                     autoCapitalize="none"
                     blurOnSubmit={false}
                     style={styles.inputForm}
+                    multiline={true}
                 />
             </View>
         );
@@ -193,7 +194,7 @@ export default class AddClientServices extends Component<Props> {
                 style={styles.inputForm}
             />
 
-            <Text style={[styles.inputForm,{marginTop:10, color:'#000', fontSize:16}]}>{language.address[lan]}</Text>
+            <Text style={[styles.inputForm,{marginTop:10, color:'#000'}]}>{language.serPlace[lan]}</Text>
             {(this.props.update == true) &&
                 <Text style={[styles.inputForm,{marginTop:10, color:'#ca0000'}]}>{language.area[lan]}</Text>
             }
@@ -275,7 +276,7 @@ export default class AddClientServices extends Component<Props> {
             <View style={{flexDirection:'row', height:40,marginTop:10,alignItems:'center', justifyContent:"flex-start"}}>
                 <Picker
                     selectedValue={this.state.hour}
-                    style={{ height: 50, width: 50 }}
+                    style={{ height: 50, width: Dimensions.get('window').width*0.3 }}
                     onValueChange={(hour, itemIndex) => this.setState({hour:hour})}>
                     <Picker.Item label="01" value="01" />
                     <Picker.Item label="02" value="02" />
@@ -293,7 +294,7 @@ export default class AddClientServices extends Component<Props> {
                 <Text>:</Text>
                 <Picker
                     selectedValue={this.state.min}
-                    style={{ height: 50, width: 50 }}
+                    style={{ height: 50, width: Dimensions.get('window').width*0.3 }}
                     onValueChange={(min, itemIndex) => this.setState({min:min})}>
                     <Picker.Item label="00" value="00" />
                     <Picker.Item label="15" value="15" />
@@ -302,7 +303,7 @@ export default class AddClientServices extends Component<Props> {
                 </Picker>
                 <Picker
                     selectedValue={this.state.ampm}
-                    style={{ height: 50, width: 60 }}
+                    style={{ height: 50, width: Dimensions.get('window').width*0.3 }}
                     onValueChange={(ampm) => this.setState({ampm:ampm})}>
                     <Picker.Item label="AM" value="AM" />
                     <Picker.Item label="PM" value="PM" />
@@ -311,13 +312,15 @@ export default class AddClientServices extends Component<Props> {
             
             <View style={{flexDirection:'row', alignItems:'center', justifyContent:'space-between', height:40, alignItems:'center', marginTop:10}}>
                 <Text style={[styles.inputForm, {marginRight:15, width:'auto', fontSize:16}]}>{this.props.update == true ? language.service[lan] : language.selReqSer[lan]}</Text>
-                <Picker
-                    selectedValue={this.state.cat}
-                    style={{ height: 50, width: Dimensions.get('window').width/2 }}
-                    onValueChange={(itemValue, itemIndex) => this.setCat(itemIndex)}>
-                    {Cats}
-                </Picker>
+                
             </View>
+
+            <Picker
+                selectedValue={this.state.cat}
+                style={{ height: 50 }}
+                onValueChange={(itemValue, itemIndex) => this.setCat(itemIndex)}>
+                {Cats}
+            </Picker>
 
             {Question}
         
