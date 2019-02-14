@@ -16,6 +16,7 @@ export default class CngPass extends Component<Props> {
     constructor(props) {
         super(props);
         this.state = {
+            prePass:'',
             pass:'',
             conPass:'',
             refreshing:false,
@@ -41,9 +42,10 @@ export default class CngPass extends Component<Props> {
         ToastAndroid.show("Confirm Password Didn't Matched", 3000);
       }else{
         this.setState({refreshing:true});
-        axios.post(this.props.appStore.baseUrl+this.props.appStore.usertype+"/cngpass", {
+        axios.post(this.props.appStore.baseUrl+this.props.appStore.usertype+"/cngnewpass", {
                 'phone':this.props.appStore.userdata.phone,
                 'password':this.state.pass,
+                'oldpass':this.state.prePass,
             })
             .then((res) => {
                 if(res.data.success === true){
@@ -52,6 +54,7 @@ export default class CngPass extends Component<Props> {
                     this.toSettings();
                 }else{
                     this.setState({refreshing:false});
+                    ToastAndroid.show("Wrong Password", 3000);
                 }
             })
             .catch((err) => {
@@ -76,6 +79,25 @@ export default class CngPass extends Component<Props> {
         <View style={{alignItems:'center', justifyContent:'center', marginTop:10}}>
           <ScrollView style={{width:'60%'}} keyboardShouldPersistTaps={'always'}>
             <View style={{flexDirection:'row', justifyContent:"center",marginTop:50, alignItems:'center'}}>
+                <View style={{flex:1, justifyContent:'center', paddingTop:20}}>
+                    <Text><Icon name='lock' color='#000' size={22} /></Text>
+                </View>
+                <View style={{flex:9}}>
+                    <TextInput 
+                        placeholder={language.prePass[lan]} 
+                        underlineColorAndroid="#ddd"
+                        onChangeText={(prePass) => this.setState({prePass:prePass})}
+                        value={this.state.prePass}
+                        returnKeyType='next'
+                        selectTextOnFocus={true}
+                        secureTextEntry={true}
+                        autoCapitalize="none"
+                        blurOnSubmit={false}
+                        style={styles.inputForm}
+                    />
+                </View>
+            </View>
+            <View style={{flexDirection:'row', justifyContent:"center", alignItems:'center'}}>
                 <View style={{flex:1, justifyContent:'center', paddingTop:20}}>
                     <Text><Icon name='lock' color='#000' size={22} /></Text>
                 </View>

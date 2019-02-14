@@ -82,7 +82,7 @@ export default class App extends Component<Props> {
     this.getJobs();
     setInterval(() =>{
       this.getJobs();
-    }, 10000);
+    }, 5000);
 
     this.slide();
     setInterval(() =>{

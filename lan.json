@@ -212,11 +212,11 @@
         "eng":"Female"
     },
     "other":{
-        "ban":"অন্যন্য",
+        "ban":"অন্যান্য",
         "eng":"Others"
     },
     "serPlace":{
-        "ban":"যেখানে সাভিসটি নিতে চাচ্ছেন সেখানের ঠিকানা",
+        "ban":"যেখানে সার্ভিসটি নিতে চাচ্ছেন সেখানের ঠিকানা",
         "eng":"Service Palce"
     },
     "update":{
@@ -380,7 +380,7 @@
         "eng":"Business Address"
     },
     "serDate":{
-        "ban":"সার্ভিস টি কখন করাতে চাচ্ছেন দিন ও সময় নির্বাচন করুন",
+        "ban":"সার্ভিসটি কখন করাতে চাচ্ছেন দিন ও সময় নির্বাচন করুন",
         "eng":"Select Service Date & Time"
     },
     "serDay":{
@@ -442,5 +442,9 @@
     "cngPass":{
         "ban":"পাসওয়ার্ড পরিবর্তন করুন",
         "eng":"Change Password"
+    },
+    "prePass":{
+        "ban":"বর্তমান পাসওয়ার্ড",
+        "eng":"Present Password"
     }
 }
